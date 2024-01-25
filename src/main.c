@@ -103,7 +103,7 @@ int main( int argc, char** argv )
         while ( 1 )
         {
             printf( "\033[0m\033[1;34mlua-cad\033[0m \033[0m\033[1;33m>>>\033[0m" );
-            char* line = ( char* )malloc( sizeof( char ) * 64 );
+            char line[64];
             gets( line );
             if ( !strcmp( line, "quit" ) || !strcmp( line, "\\q" ) )
             {

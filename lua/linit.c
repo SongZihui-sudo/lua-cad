@@ -52,6 +52,7 @@ static const luaL_Reg loadedlibs[] = {
   {LUA_DBLIBNAME, luaopen_debug},
   {LUA_CUBELIBNAME, luaopen_cube},
   {LUA_BOOLEANLIBNAME, luaopen_boolean},
+  {LUA_USERDEFINEOBJLIBNAME, luaopen_user_define_obj},
   {NULL, NULL}
 };
 

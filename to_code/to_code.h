@@ -2,22 +2,13 @@
 
 #include <obj_type.h>
 #include <cube.h>
-#include <union.h>
-#include <difference.h>
-#include <intersection.h>
 #include <lua.h>
 
 // 输出立方体
 void cube_to_code( lua_State* L, struct cube* self );
 
-// 输出 difference
-void difference_to_code( lua_State* L, struct difference* self );
-
-// 输出 union
-void union_to_code(lua_State* L, struct Union* self);
-
-// 输出 intersection
-void intersection_to_code(lua_State* L, struct intersection* self);
+// 输出 boolean
+void boolean_to_code(lua_State* L, OBJ_TYPE* self);
 
 // 递归输出 layout
 void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp );

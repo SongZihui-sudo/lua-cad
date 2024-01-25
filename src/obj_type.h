@@ -1,17 +1,56 @@
 #pragma once
 
+#include <stdbool.h>
+
+#include <vec3.h>
+
 #define OBJ_TYPE unsigned short
 
-#define OBJECT_BEGIN 0
-#define CUBE 1
-#define OBJECT_END 2
-#define LAYOUT_BEGIN 3
-#define DIFFERENCE 4
-#define UNION 5
-#define INTERSECTION 6
-#define LAYOUT_END 7
+/*
+ * TYPE
+*/
+enum TYPES
+{
+    OBJECT_BEGIN = 0,
+    USER_DEFINE,
+    CUBE,
+    OBJECT_END,
+    BOOLEAN_BEGIN,
+    DIFFERENCE,
+    UNION,
+    INTERSECTION,
+    BOOLEAN_END
+};
 
-#define OBJECT_CODE_LENGTH 100
-#define LAYOUT_CODE_LENGTH 2048
+#define CODE_LENGTH 3000
 
-#define dynast_cast( DEST, base, pointer ) struct DEST* pointer = ( struct DEST* )( base )
+#define dynast_cast( DEST, base) ( DEST* )( base )
+
+/*
+ *  OBJECY BASE
+ */
+typedef struct OBJ_BASE
+{
+    OBJ_TYPE m_type;
+    char* m_code;
+}OBJ_BASE;
+
+/*
+ *  boolean base struct
+ */
+typedef struct BOOLEAN_BASE 
+{
+    OBJ_BASE m_obj_base;
+    OBJ_TYPE* m_children[10];
+    unsigned int m_count;
+}BOOLEAN_BASE;
+
+/*
+ *  3D OBJECT base
+ */
+typedef struct D3OBJECT_BASE
+{
+    OBJ_BASE m_obj_base;
+    bool m_center;
+    vec3* m_offset;
+}D3OBJECT_BASE;
