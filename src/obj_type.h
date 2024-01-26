@@ -1,3 +1,14 @@
+/*
+ * @Author: SongZihui-sudo 1751122876@qq.com
+ * @Date: 2024-01-26 20:22:32
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-26 20:31:00
+ * @FilePath: /lua-cad/src/obj_type.h
+ * @Description: 对象种类与基类的定义
+ *
+ * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
+ */
+
 #pragma once
 
 #include <stdbool.h>
@@ -8,7 +19,7 @@
 
 /*
  * TYPE
-*/
+ */
 enum TYPES
 {
     OBJECT_BEGIN = 0,
@@ -24,33 +35,36 @@ enum TYPES
 
 #define CODE_LENGTH 3000
 
-#define dynast_cast( DEST, base) ( DEST* )( base )
+#define dynast_cast( DEST, base ) ( DEST* )( base )
 
-/*
- *  OBJECY BASE
+/**
+ * @description: 对象基类
+ * @return {*}
  */
 typedef struct OBJ_BASE
 {
     OBJ_TYPE m_type;
     char* m_code;
-}OBJ_BASE;
+} OBJ_BASE;
 
-/*
- *  boolean base struct
+/**
+ * @description: bool 对象基类
+ * @return {*}
  */
-typedef struct BOOLEAN_BASE 
+typedef struct BOOLEAN_BASE
 {
     OBJ_BASE m_obj_base;
     OBJ_TYPE* m_children[10];
     unsigned int m_count;
-}BOOLEAN_BASE;
+} BOOLEAN_BASE;
 
-/*
- *  3D OBJECT base
+/**
+ * @description: 3d 对象基类
+ * @return {*}
  */
 typedef struct D3OBJECT_BASE
 {
     OBJ_BASE m_obj_base;
     bool m_center;
     vec3* m_offset;
-}D3OBJECT_BASE;
+} D3OBJECT_BASE;

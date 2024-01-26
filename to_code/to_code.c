@@ -1,3 +1,13 @@
+/*
+ * @Author: SongZihui-sudo 1751122876@qq.com
+ * @Date: 2024-01-26 20:22:34
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-26 20:53:48
+ * @FilePath: /lua-cad/to_code/to_code.c
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved. 
+ */
 #include <lauxlib.h>
 #include <obj_type.h>
 #include <stdlib.h>
@@ -11,7 +21,11 @@ void cube_to_code( lua_State* L, struct cube* self )
 {
     char temp[CODE_LENGTH] = " ";
     const char* rule       = CUBE_EXPORT_RULE;
-    char center[10];
+    char center[6];
+    if ( !self->base.m_offset || !self->m_w_l_h )
+    {
+        luaL_error( L, "The pointer is empty and an error has occurred!" );
+    }
     if ( self->base.m_center )
     {
         strcpy( center, "true" );
@@ -19,10 +33,6 @@ void cube_to_code( lua_State* L, struct cube* self )
     else
     {
         strcpy( center, "false" );
-    }
-    if ( !self->base.m_offset || !self->m_w_l_h )
-    {
-        luaL_error( L, "The pointer is empty and an error has occurred!" );
     }
     sprintf( temp, rule, CUBE_EXPORT_ARGS );
     self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );

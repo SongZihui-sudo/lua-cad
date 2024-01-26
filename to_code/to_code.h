@@ -4,13 +4,29 @@
 #include <cube.h>
 #include <lua.h>
 
-// 输出立方体
+/**
+ * @description: 输出立方体
+ * @param {lua_State*} L
+ * @param {cube*} self
+ * @return {*}
+ */
 void cube_to_code( lua_State* L, struct cube* self );
 
-// 输出 boolean
+/**
+ * @description: 输出 boolean
+ * @param {lua_State*} L
+ * @param {OBJ_TYPE*} self
+ * @return {*}
+ */
 void boolean_to_code(lua_State* L, OBJ_TYPE* self);
 
-// 递归输出 layout
+/**
+ * @description: 递归输出 layout
+ * @param {lua_State*} L
+ * @param {OBJ_TYPE*} self
+ * @param {char*} temp
+ * @return {*}
+ */
 void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp );
 
 extern char* LAYOUT_EXPORT_RULE[];

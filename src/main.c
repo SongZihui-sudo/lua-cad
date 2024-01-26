@@ -1,3 +1,14 @@
+/*
+ * @Author: SongZihui-sudo 1751122876@qq.com
+ * @Date: 2024-01-26 20:10:42
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-26 20:55:31
+ * @FilePath: /lua-cad/src/main.c
+ * @Description: main.c
+ *
+ * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
+ */
+
 #include <lauxlib.h>
 #include <lua.h>
 #include <lualib.h>
@@ -14,8 +25,11 @@
 
 static const char* progname = LUA_PROGNAME;
 
-/*
- *  @brief: 加载 lua 文件
+/**
+ * @description: 加载 lua 文件
+ * @param {lua_State*} luaEnv
+ * @param {char*} fileName
+ * @return {*}
  */
 bool loadLuaFile( lua_State* luaEnv, const char* fileName )
 {
@@ -29,8 +43,11 @@ bool loadLuaFile( lua_State* luaEnv, const char* fileName )
     return result;
 }
 
-/*
- *  打印错误信息
+/**
+ * @description: 打印错误信息
+ * @param {char*} pname
+ * @param {char*} msg
+ * @return {*}
  */
 static void l_message( const char* pname, const char* msg )
 {
@@ -39,8 +56,11 @@ static void l_message( const char* pname, const char* msg )
     lua_writestringerror( "%s\n", msg );
 }
 
-/*
- *  读错误信息
+/**
+ * @description: 读错误信息
+ * @param {lua_State*} L
+ * @param {int} status
+ * @return {*}
  */
 static int report( lua_State* L, int status )
 {
@@ -53,8 +73,11 @@ static int report( lua_State* L, int status )
     return status;
 }
 
-/*
- * 运行一行 lua
+/**
+ * @description: 运行一行 lua
+ * @param {lua_State*} luaEnv
+ * @param {char*} line
+ * @return {*}
  */
 static int loadluaLine( lua_State* luaEnv, const char* line )
 {
@@ -74,6 +97,10 @@ static int loadluaLine( lua_State* luaEnv, const char* line )
 #define LUA_CAD_COPYRIGHT "Copyright (C) 2024 lua-cad"
 #define LUA_CAD_AUTHORS "SongZihui-sudo"
 
+/**
+ * @description: 打印版本信息
+ * @return {*}
+ */
 static void print_version( void )
 {
     lua_writestring( LUA_COPYRIGHT, strlen( LUA_COPYRIGHT ) );
@@ -86,6 +113,12 @@ static void print_version( void )
     lua_writeline( );
 }
 
+/**
+ * @description: main
+ * @param {int} argc
+ * @param {char**} argv
+ * @return {*}
+ */
 int main( int argc, char** argv )
 {
     lua_State* L = luaL_newstate( );
