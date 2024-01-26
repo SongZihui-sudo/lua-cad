@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:42:43
+ * @LastEditTime: 2024-01-26 21:30:10
  * @FilePath: /lua-cad/src/cube.c
  * @Description: 立方体对象
  *
@@ -90,7 +90,6 @@ int cube_postion( lua_State* L )
     cube* current = dynast_cast( cube, lua_touserdata( L, 1 ) );
     // 读输入的参数
     const int count = 3;
-    vec3* temp_vec  = dynast_cast( vec3, malloc( sizeof( vec3 ) ) );
     for ( int i = 0; i < count; i++ )
     {
         lua_pushnumber( L, i + 1 );
