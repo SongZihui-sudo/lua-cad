@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-27 22:42:44
+ * @LastEditTime: 2024-01-27 23:44:33
  * @FilePath: /lua-cad/src/user_define_obj.h
  * @Description: 用户自定义对象
  *
@@ -30,3 +30,5 @@ extern user_define_objects userobjects;
  * @return {*}
  */
 int user_code_info(struct lua_State* L);
+
+int user_code_postion( lua_State* L );
