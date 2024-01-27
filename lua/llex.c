@@ -27,6 +27,7 @@
 #include "ltable.h"
 #include "lzio.h"
 
+#include "user_define_obj.h"
 
 
 #define next(ls)	(ls->current = zgetc(ls->z))

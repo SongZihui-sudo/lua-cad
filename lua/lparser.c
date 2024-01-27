@@ -28,6 +28,7 @@
 #include "lstring.h"
 #include "ltable.h"
 
+#include "user_define_obj.h"
 
 
 /* maximum number of local variables per function (must be smaller
@@ -460,8 +461,14 @@ static void singlevaraux (FuncState *fs, TString *n, expdesc *var, int base) {
 ** Find a variable with the given name 'n', handling global variables
 ** too.
 */
-static void singlevar (LexState *ls, expdesc *var) {
-  TString *varname = str_checkname(ls);
+static void singlevar (LexState *ls, expdesc *var, TString* name) {
+  TString *varname;
+  if (name) {
+    varname = name;
+  }
+  else {
+    varname   = str_checkname(ls);
+  }
   FuncState *fs = ls->fs;
   singlevaraux(fs, varname, var, 1);
   if (var->k == VVOID) {  /* global name? */
@@ -921,7 +928,6 @@ static void field (LexState *ls, ConsControl *cc) {
   }
 }
 
-
 static void constructor (LexState *ls, expdesc *t) {
   /* constructor -> '{' [ field { sep field } [sep] ] '}'
      sep -> ',' | ';' */
@@ -935,14 +941,47 @@ static void constructor (LexState *ls, expdesc *t) {
   init_exp(t, VNONRELOC, fs->freereg);  /* table will be at stack top */
   luaK_reserveregs(fs, 1);
   init_exp(&cc.v, VVOID, 0);  /* no value (yet) */
-  checknext(ls, '{');
-  do {
-    lua_assert(cc.v.k == VVOID || cc.tostore > 0);
-    if (ls->t.token == '}') break;
-    closelistfield(fs, &cc);
-    field(ls, &cc);
-  } while (testnext(ls, ',') || testnext(ls, ';'));
-  check_match(ls, '}', '{', line);
+  if (ls->t.token == '$') {
+    checknext(ls, '$');
+    char temp[100];
+    /* 解析用户输出代码为一个 table */
+    int i = 0;
+    /* 读用户自定义代码 */
+    while (ls->current != ';') {
+      lua_assert(cc.v.k == VVOID || cc.tostore > 0);
+      luaX_next(ls);
+    }
+    cc.nh++;
+    int reg = ls->fs->freereg;
+    expdesc key;
+    expdesc value;
+    expdesc tab;
+    TString key_str = *luaS_newlstr(ls->L, "key", strlen("key"));
+    TString value_str = *luaS_newlstr(ls->L, "value", strlen("value"));
+    key.u.strval = &key_str;
+    value.u.strval = &value_str;
+    int vidx = new_localvar(ls, &key_str);
+    int vidx2 = new_localvar(ls, &value_str);
+    singlevar(ls, &key, &key_str);
+    singlevar(ls, &value, &value_str);
+    codestring(&key, &key_str);
+    codestring(&value, &value_str);
+    tab = *cc.t;
+    luaK_indexed(fs, &tab, &key);
+    luaK_storevar(fs, &tab, &value);
+    fs->freereg = reg;  /* free registers */
+    temp[i] = '\0';
+  }
+  else {
+    checknext(ls, '{');
+    do {
+      lua_assert(cc.v.k == VVOID || cc.tostore > 0);
+      if (ls->t.token == '}') break;
+      closelistfield(fs, &cc);
+      field(ls, &cc);
+    } while (testnext(ls, ',') || testnext(ls, ';'));
+    check_match(ls, '}', '{', line);
+  }
   lastlistfield(fs, &cc);
   luaK_settablesize(fs, pc, t->u.info, cc.na, cc.nh);
 }
@@ -1090,7 +1129,7 @@ static void primaryexp (LexState *ls, expdesc *v) {
       return;
     }
     case TK_NAME: {
-      singlevar(ls, v);
+      singlevar(ls, v, NULL);
       return;
     }
     default: {
@@ -1177,6 +1216,10 @@ static void simpleexp (LexState *ls, expdesc *v) {
     case '{': {  /* constructor */
       constructor(ls, v);
       return;
+    }
+    case '$': {  /* constructor */
+      constructor(ls, v);
+      break;
     }
     case TK_FUNCTION: {
       luaX_next(ls);
@@ -1768,7 +1811,7 @@ static void localstat (LexState *ls) {
 static int funcname (LexState *ls, expdesc *v) {
   /* funcname -> NAME {fieldsel} [':' NAME] */
   int ismethod = 0;
-  singlevar(ls, v);
+  singlevar(ls, v, NULL);
   while (ls->t.token == '.')
     fieldsel(ls, v);
   if (ls->t.token == ':') {

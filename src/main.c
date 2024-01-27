@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:55:31
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-27 18:41:39
  * @FilePath: /lua-cad/src/main.c
  * @Description: main.c
  *
@@ -34,11 +34,6 @@ static const char* progname = LUA_PROGNAME;
 bool loadLuaFile( lua_State* luaEnv, const char* fileName )
 {
     int result = luaL_loadfile( luaEnv, fileName );
-    if ( result )
-    {
-        return false;
-    }
-
     result = lua_pcall( luaEnv, 0, 0, 0 );
     return result;
 }
