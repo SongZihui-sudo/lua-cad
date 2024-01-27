@@ -30,6 +30,7 @@
 
 #include "user_define_obj.h"
 
+user_define_objects userobjects;
 
 /* maximum number of local variables per function (must be smaller
    than 250, due to the bytecode format) */
@@ -928,6 +929,8 @@ static void field (LexState *ls, ConsControl *cc) {
   }
 }
 
+#define next(ls)	(ls->current = zgetc(ls->z))
+
 static void constructor (LexState *ls, expdesc *t) {
   /* constructor -> '{' [ field { sep field } [sep] ] '}'
      sep -> ',' | ';' */
@@ -942,35 +945,31 @@ static void constructor (LexState *ls, expdesc *t) {
   luaK_reserveregs(fs, 1);
   init_exp(&cc.v, VVOID, 0);  /* no value (yet) */
   if (ls->t.token == '$') {
-    checknext(ls, '$');
     char temp[100];
     /* 解析用户输出代码为一个 table */
     int i = 0;
     /* 读用户自定义代码 */
+    while (ls->current != '(') {
+      temp[i] = ls->current;
+      lua_assert(cc.v.k == VVOID || cc.tostore > 0);
+      next(ls);
+      i++;
+    }
+    temp[i] = '\0';
+    strcpy(userobjects.m_names[userobjects.counts], temp);
+    userobjects.counts++;
+    luaX_next(ls);luaX_next(ls);
+    ls->t.token = TK_NAME;
+    do {
+      lua_assert(cc.v.k == VVOID || cc.tostore > 0);
+      if (ls->t.token == ')') break;
+      closelistfield(fs, &cc);
+      field(ls, &cc);
+    } while (testnext(ls, ',') || testnext(ls, '$'));
     while (ls->current != ';') {
       lua_assert(cc.v.k == VVOID || cc.tostore > 0);
-      luaX_next(ls);
+      next(ls);
     }
-    cc.nh++;
-    int reg = ls->fs->freereg;
-    expdesc key;
-    expdesc value;
-    expdesc tab;
-    TString key_str = *luaS_newlstr(ls->L, "key", strlen("key"));
-    TString value_str = *luaS_newlstr(ls->L, "value", strlen("value"));
-    key.u.strval = &key_str;
-    value.u.strval = &value_str;
-    int vidx = new_localvar(ls, &key_str);
-    int vidx2 = new_localvar(ls, &value_str);
-    singlevar(ls, &key, &key_str);
-    singlevar(ls, &value, &value_str);
-    codestring(&key, &key_str);
-    codestring(&value, &value_str);
-    tab = *cc.t;
-    luaK_indexed(fs, &tab, &key);
-    luaK_storevar(fs, &tab, &value);
-    fs->freereg = reg;  /* free registers */
-    temp[i] = '\0';
   }
   else {
     checknext(ls, '{');
