@@ -30,7 +30,7 @@
 
 #include "user_define_obj.h"
 
-user_define_objects userobjects;
+
 
 /* maximum number of local variables per function (must be smaller
    than 250, due to the bytecode format) */
@@ -945,27 +945,15 @@ static void constructor (LexState *ls, expdesc *t) {
   luaK_reserveregs(fs, 1);
   init_exp(&cc.v, VVOID, 0);  /* no value (yet) */
   if (ls->t.token == '$') {
-    char temp[100];
     /* 解析用户输出代码为一个 table */
-    int i = 0;
     /* 读用户自定义代码 */
-    while (ls->current != '(') {
-      temp[i] = ls->current;
-      lua_assert(cc.v.k == VVOID || cc.tostore > 0);
-      next(ls);
-      i++;
-    }
-    temp[i] = '\0';
-    strcpy(userobjects.m_names[userobjects.counts], temp);
-    userobjects.counts++;
-    luaX_next(ls);luaX_next(ls);
-    ls->t.token = TK_NAME;
+    ls->t.token = TK_USER_DEFINE;
     do {
       lua_assert(cc.v.k == VVOID || cc.tostore > 0);
       if (ls->t.token == ')') break;
       closelistfield(fs, &cc);
       field(ls, &cc);
-    } while (testnext(ls, ',') || testnext(ls, '$'));
+    } while (testnext(ls, ',') || testnext(ls, '$') || testnext(ls, '('));
     while (ls->current != ';') {
       lua_assert(cc.v.k == VVOID || cc.tostore > 0);
       next(ls);
@@ -1174,6 +1162,19 @@ static void suffixedexp (LexState *ls, expdesc *v) {
   }
 }
 
+static void codeusername(LexState *ls, expdesc *v) {
+  char temp[100];
+  int i = 0;
+  while (ls->current != '(') {
+    temp[i] = ls->current;
+    next(ls);
+    i++;
+  }
+  temp[i] = '\0';
+  v->f = v->t = NO_JUMP;
+  v->k = VKSTR;
+  v->u.strval = luaS_newlstr(ls->L, temp, sizeof(char) * i);
+}
 
 static void simpleexp (LexState *ls, expdesc *v) {
   /* simpleexp -> FLT | INT | STRING | NIL | TRUE | FALSE | ... |
@@ -1189,6 +1190,9 @@ static void simpleexp (LexState *ls, expdesc *v) {
       v->u.ival = ls->t.seminfo.i;
       break;
     }
+    case TK_USER_DEFINE:
+      codeusername(ls, v);
+      break;
     case TK_STRING: {
       codestring(v, ls->t.seminfo.ts);
       break;

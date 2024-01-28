@@ -383,6 +383,12 @@ static int readdecesc (LexState *ls) {
 static void read_string (LexState *ls, int del, SemInfo *seminfo) {
   save_and_next(ls);  /* keep delimiter (for error messages) */
   while (ls->current != del) {
+    if (ls->t.token == TK_USER_DEFINE && ls->current == '(') {
+      seminfo->ts = luaX_newstring(ls, luaZ_buffer(ls->buff) + 1,
+                                   luaZ_bufflen(ls->buff) - 2);
+      next(ls);
+      return;
+    }
     switch (ls->current) {
       case EOZ:
         lexerror(ls, "unfinished string", TK_EOS);
@@ -536,6 +542,11 @@ static int llex (LexState *ls, SemInfo *seminfo) {
       }
       case EOZ: {
         return TK_EOS;
+      }
+      case TK_USER_DEFINE: {
+        read_string(ls, ls->current, seminfo);
+        ls->current = "\"";
+        return TK_STRING;
       }
       default: {
         if (lislalpha(ls->current)) {  /* identifier or reserved word? */

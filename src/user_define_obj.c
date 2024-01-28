@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-28 00:06:27
+ * @LastEditTime: 2024-01-28 12:39:48
  * @FilePath: /lua-cad/src/user_define_obj.c
  * @Description: 用户自定义对象
  *
@@ -14,14 +14,7 @@
 #include <lua.h>
 
 static const luaL_Reg userdefineobjlib[]
-= { { "obj_name", user_code_info }, { "postion", user_code_postion }, { NULL, NULL } };
-
-int user_code_info( lua_State* L )
-{
-    int index = luaL_checkinteger( L, 1 );
-    lua_pushstring( L, userobjects.m_names[index] );
-    return 1;
-}
+= { { "postion", user_code_postion }, { NULL, NULL } };
 
 int user_code_postion( lua_State* L )
 {
@@ -37,16 +30,12 @@ int user_code_postion( lua_State* L )
         lua_pop( L, 1 );
     }
     // 读 user_define 对象表
-    lua_newtable( L );
-    lua_pushstring( L, "x" );
     lua_pushnumber( L, pos.m_xyz[0] );
-    lua_settable( L, -3 );
-    lua_pushstring( L, "y" );
+    lua_setfield(L, -2, "x");
     lua_pushnumber( L, pos.m_xyz[1] );
-    lua_settable( L, -3 );
-    lua_pushstring( L, "z" );
+    lua_setfield(L, -2, "y");
     lua_pushnumber( L, pos.m_xyz[2] );
-    lua_settable( L, -3 );
+    lua_setfield(L, -2, "z");
     lua_setfield(L, -2, "offset");
     return 1;
 }
