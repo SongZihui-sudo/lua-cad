@@ -1,8 +1,19 @@
+/*
+ * @Author: SongZihui-sudo 1751122876@qq.com
+ * @Date: 2024-01-26 20:22:34
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-28 22:32:15
+ * @FilePath: /lua-cad/to_code/to_code.h
+ * @Description: 对象导出
+ * 
+ * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved. 
+ */
+
 #pragma once
 
-#include <obj_type.h>
 #include <cube.h>
 #include <lua.h>
+#include <obj_type.h>
 
 /**
  * @description: 输出立方体
@@ -18,7 +29,7 @@ void cube_to_code( lua_State* L, struct cube* self );
  * @param {OBJ_TYPE*} self
  * @return {*}
  */
-void boolean_to_code(lua_State* L, OBJ_TYPE* self);
+void boolean_to_code( lua_State* L, OBJ_TYPE* self );
 
 /**
  * @description: 递归输出 layout
@@ -36,5 +47,7 @@ extern char* LAYOUT_EXPORT_RULE[];
  *  默认的输出规则
  *  规则类似于 printf 的格式
  */
-#define CUBE_EXPORT_RULE "translate([%f, %f, %f]);\ncube([%f, %f, %f], center = %d);\n"
-#define CUBE_EXPORT_ARGS CUBE_WIDTH(self), CUBE_LENGTH(self), CUBE_HEIGHT(self), CUBE_X(self), CUBE_Y(self), CUBE_Z(self), CUBE_CENTER(self)
+#define CUBE_EXPORT_RULE "translate([%f, %f, %f])\ncube([%f, %f, %f], center = %d);\n"
+#define CUBE_EXPORT_ARGS                                                                   \
+    CUBE_WIDTH( self ), CUBE_LENGTH( self ), CUBE_HEIGHT( self ), CUBE_X( self ),          \
+    CUBE_Y( self ), CUBE_Z( self ), CUBE_CENTER( self )

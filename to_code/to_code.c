@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:53:48
+ * @LastEditTime: 2024-01-28 22:18:48
  * @FilePath: /lua-cad/to_code/to_code.c
  * @Description: 
  * 
@@ -45,7 +45,7 @@ void boolean_to_code( lua_State* L, OBJ_TYPE* self )
 {
     char temp[CODE_LENGTH];
     temp[0] = ' ';
-    memset( temp, ' ', 1 );
+    memset( temp, ' ', 20 );
     if ( !self )
     {
         return;
@@ -96,6 +96,7 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
                 }
             }
             break;
+        case USER_DEFINE:
         case CUBE:
             temp2 = dynast_cast( D3OBJECT_BASE, self );
             sprintf( temp, "%s", temp2->m_obj_base.m_code );

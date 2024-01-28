@@ -11,6 +11,7 @@
 #include "lobject.h"
 #include "lzio.h"
 
+#include "user_define_obj.h"
 
 /*
 ** Expression and variable descriptor.

@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-27 23:44:33
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-28 21:38:58
  * @FilePath: /lua-cad/src/user_define_obj.h
  * @Description: 用户自定义对象
  *
@@ -18,17 +18,21 @@
 
 
 typedef struct user_define_objects {
-  char m_names[32][100];
+  char m_names[128][100];
   int counts;
 }user_define_objects;
 
-extern user_define_objects userobjects;
+extern user_define_objects user_objs;
 
 /**
- * @description: 把用户的外部代码解释为lua中的一个table对象
- * @param {LexState*} ls
+ * @description: 用户自定义对象设置位置
+ * @param {lua_State*} L
  * @return {*}
  */
-int user_code_info(struct lua_State* L);
-
 int user_code_postion( lua_State* L );
+
+/**
+ * @description: 用户自定义对象输出
+ * @return {*}
+ */
+int user_define_to_code( lua_State* L );

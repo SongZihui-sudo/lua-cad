@@ -28,8 +28,8 @@
 #include "lstring.h"
 #include "ltable.h"
 
-#include "user_define_obj.h"
 
+user_define_objects user_objs;
 
 
 /* maximum number of local variables per function (must be smaller
@@ -945,6 +945,19 @@ static void constructor (LexState *ls, expdesc *t) {
   luaK_reserveregs(fs, 1);
   init_exp(&cc.v, VVOID, 0);  /* no value (yet) */
   if (ls->t.token == '$') {
+    char temp[128]; temp[0] = ls->current;
+     /* 获取这行代码的内容给保存下来 */
+    int i = 0;
+    while ( ls->z->p[i] != '$') {
+      temp[i + 1] = ls->z->p[i];
+      i++;
+    }
+    temp[i + 1] = ';';
+    temp[i + 2] = '\0';
+    int buff_len = luaZ_bufflen(ls->buff);
+    strcpy(user_objs.m_names[user_objs.counts], ls->buff->buffer);
+    strcpy(user_objs.m_names[user_objs.counts + 1], temp);
+    user_objs.counts++;
     /* 解析用户输出代码为一个 table */
     /* 读用户自定义代码 */
     ls->t.token = TK_USER_DEFINE;

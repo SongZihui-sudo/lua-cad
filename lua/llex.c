@@ -65,6 +65,7 @@ static void save (LexState *ls, int c) {
     luaZ_resizebuffer(ls->L, b, newsize);
   }
   b->buffer[luaZ_bufflen(b)++] = cast_char(c);
+  b->buffer[luaZ_bufflen(b) + 1] = '\0'; 
 }
 
 

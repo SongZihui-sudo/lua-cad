@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:45:40
+ * @LastEditTime: 2024-01-28 22:22:18
  * @FilePath: /lua-cad/src/boolean.c
  * @Description: bool 操作
  *
@@ -54,9 +54,24 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
     {
         lua_pushnumber( L, i + 1 );
         lua_gettable( L, 1 );
-        unsigned short* temp   = lua_touserdata( L, -1 );
-        current->m_children[i] = temp;
+        OBJ_TYPE* temp = NULL;
+        if (!lua_istable(L, -1)) {
+            // 标准对象可以直接读
+            temp   = lua_touserdata( L, -1 );
+        }
+        else {
+            // 读自定义对象表
+            D3OBJECT_BASE user_define;
+            user_define.m_obj_base.m_type = USER_DEFINE;
+            lua_pushstring(L, "code");
+            lua_gettable( L, -2 );
+            const char* code = lua_tostring(L, -1);
+            user_define.m_obj_base.m_code = code;
+            temp = dynast_cast(OBJ_TYPE, &user_define);
+            lua_pop( L, 1 );
+        }
         lua_pop( L, 1 );
+        current->m_children[i] = temp;
         current->m_count++;
     }
     boolean_to_code( L, ( OBJ_TYPE* )current );
