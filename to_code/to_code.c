@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 12:03:32
+ * @LastEditTime: 2024-01-29 13:29:20
  * @FilePath: /lua-cad/to_code/to_code.c
  * @Description: 
  * 
@@ -108,6 +108,21 @@ void cylinder_to_code(lua_State* L, cylinder* self)
         luaL_error( L, "The pointer is empty and an error has occurred!" );
     }
     sprintf( temp, rule, CYLINDER_EXPORT_ARGS );
+    self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
+    strcpy( self->base.m_obj_base.m_code, temp );
+    temp[0] = ' ';
+    temp[1] = '\0';
+}
+
+void sphere_to_code( lua_State* L, sphere* self )
+{
+    char temp[CODE_LENGTH] = "  ";
+    const char* rule       = SPHERE_ALL_EXPORT_RULE;
+    if ( !self->base.m_offset )
+    {
+        luaL_error( L, "The pointer is empty and an error has occurred!" );
+    }
+    sprintf( temp, rule, SPHERE_EXPORT_ARGS );
     self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
     strcpy( self->base.m_obj_base.m_code, temp );
     temp[0] = ' ';

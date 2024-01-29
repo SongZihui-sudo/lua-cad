@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 12:03:03
+ * @LastEditTime: 2024-01-29 14:07:27
  * @FilePath: /lua-cad/to_code/to_code.h
  * @Description: 对象导出
  *
@@ -15,6 +15,7 @@
 #include <cylinder.h>
 #include <lua.h>
 #include <obj_type.h>
+#include <sphere.h>
 
 /**
  * @description: 输出立方体
@@ -31,6 +32,14 @@ void cube_to_code( lua_State* L, cube* self );
  * @return {*}
  */
 void cylinder_to_code( lua_State* L, cylinder* self );
+
+/**
+ * @description: 输出球体
+ * @param {lua_State*} L
+ * @param {sphere*} self
+ * @return {*}
+ */
+void sphere_to_code( lua_State* L, sphere* self );
 
 /**
  * @description: 输出 boolean
@@ -68,10 +77,20 @@ extern char* LAYOUT_EXPORT_RULE[];
  * @description: 圆柱体的输出规则
  * @return {*}
  */
+extern const char* CYLINDER_ARG1;
+extern const char* CYLINDER_ARG2;
 #define CYLINDER_EXPORT_RULE                                                               \
-    "cylinder([h = %f, r = %f, d1 = %f, d2 = %f, r1 = %f, r2 = %f, center = %d]);\n"
+    "cylinder([h = %f, %s = %f, %s center = %d]);\n"
 #define CYLINDER_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE CYLINDER_EXPORT_RULE
 #define CYLINDER_EXPORT_ARGS                                                               \
     CYLINDER_X( self ), CYLINDER_Y( self ), CYLINDER_Z( self ), CYLINDER_H( self ),        \
-    CYLINDER_R( self ), CYLINDER_D1( self ), CYLINDER_D2( self ), CYLINDER_R1( self ),     \
-    CYLINDER_R2( self ), CYLINDER_CENTER(self)
+    CYLINDER_ARG1, CYLINDER_R_D_1(self), CYLINDER_ARG2, CYLINDER_CENTER(self)
+
+/**
+ * @description: 球体输出规则
+ * @return {*}
+ */
+extern const char* SPHERER_ARG1;
+#define SPHERE_EXPORT_RULE "sphere(%s = %f);\n"
+#define SPHERE_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE SPHERE_EXPORT_RULE
+#define SPHERE_EXPORT_ARGS SPHERE_X( self ), SPHERE_Y( self ), SPHERE_Z( self ), SPHERER_ARG1, SPHERE_R_OR_D(self)

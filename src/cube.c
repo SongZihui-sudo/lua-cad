@@ -41,6 +41,7 @@ int cube_init( lua_State* L )
     {
         current->base.m_offset->m_xyz[i] = 0.0f;
     }
+    current->base.m_obj_base.m_code = NULL;
     cube_to_code( L, current );
     return 1;
 }

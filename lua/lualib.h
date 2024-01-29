@@ -56,6 +56,9 @@ LUAMOD_API int (luaopen_user_define_obj) (lua_State *L);
 #define LUA_CYLINDERLIBNAME "cylinder"
 LUAMOD_API int (luaopen_cylinder) (lua_State *L);
 
+#define LUA_SPHERELIBNAME "sphere"
+LUAMOD_API int (luaopen_sphere) (lua_State *L);
+
 /* open all previous libraries */
 LUALIB_API void (luaL_openlibs) (lua_State *L);
 

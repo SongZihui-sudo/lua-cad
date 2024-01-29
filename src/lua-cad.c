@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:48:51
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 12:47:14
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -24,6 +24,10 @@ int code( lua_State* L )
     }
 
     const char* code = obj->m_code;
+    if ( !code )
+    {
+        luaL_error( L, "The code field is empty!" );
+    }
     lua_pushstring( L, code );
     return 1;
 }

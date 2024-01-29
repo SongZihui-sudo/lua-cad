@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:31:00
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 13:32:23
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *
@@ -26,6 +26,7 @@ enum TYPES
     USER_DEFINE,
     CUBE,
     CYLINDER,
+    SPHERE,
     OBJECT_END,
     BOOLEAN_BEGIN,
     DIFFERENCE,
