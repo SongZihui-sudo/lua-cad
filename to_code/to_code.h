@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-28 22:32:15
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 10:54:50
  * @FilePath: /lua-cad/to_code/to_code.h
  * @Description: 对象导出
  * 
@@ -42,12 +42,15 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp );
 
 extern char* LAYOUT_EXPORT_RULE[];
 
+#define TRANSLATE_EXPORT_RULE "translate([%f, %f, %f])\n"
+
 /*
  *  CUBE
  *  默认的输出规则
  *  规则类似于 printf 的格式
  */
-#define CUBE_EXPORT_RULE "translate([%f, %f, %f])\ncube([%f, %f, %f], center = %d);\n"
+#define CUBE_EXPORT_RULE "cube([%f, %f, %f], center = %d);\n"
+#define CUBE_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE CUBE_EXPORT_RULE
 #define CUBE_EXPORT_ARGS                                                                   \
     CUBE_WIDTH( self ), CUBE_LENGTH( self ), CUBE_HEIGHT( self ), CUBE_X( self ),          \
     CUBE_Y( self ), CUBE_Z( self ), CUBE_CENTER( self )

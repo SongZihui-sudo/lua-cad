@@ -29,8 +29,6 @@
 #include "ltable.h"
 
 
-user_define_objects user_objs;
-
 
 /* maximum number of local variables per function (must be smaller
    than 250, due to the bytecode format) */
@@ -952,12 +950,14 @@ static void constructor (LexState *ls, expdesc *t) {
       temp[i + 1] = ls->z->p[i];
       i++;
     }
-    temp[i + 1] = ';';
-    temp[i + 2] = '\0';
-    int buff_len = luaZ_bufflen(ls->buff);
-    strcpy(user_objs.m_names[user_objs.counts], ls->buff->buffer);
-    strcpy(user_objs.m_names[user_objs.counts + 1], temp);
-    user_objs.counts++;
+    int reg = ls->fs->freereg;
+    temp[i++] = ')';
+    temp[i++] = ';';
+    temp[i++] = '\0';
+    cc.v.f = cc.v.t = NO_JUMP;
+    cc.v.k = VKSTR;
+    cc.v.u.strval = luaS_newlstr(ls->L, temp, sizeof(char) * i);
+    cc.tostore++;
     /* 解析用户输出代码为一个 table */
     /* 读用户自定义代码 */
     ls->t.token = TK_USER_DEFINE;

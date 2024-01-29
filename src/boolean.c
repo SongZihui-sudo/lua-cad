@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-28 22:22:18
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 10:44:43
  * @FilePath: /lua-cad/src/boolean.c
  * @Description: bool 操作
  *
@@ -63,7 +63,7 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
             // 读自定义对象表
             D3OBJECT_BASE user_define;
             user_define.m_obj_base.m_type = USER_DEFINE;
-            lua_pushstring(L, "code");
+            lua_pushnumber(L, 1);
             lua_gettable( L, -2 );
             const char* code = lua_tostring(L, -1);
             user_define.m_obj_base.m_code = code;

@@ -20,7 +20,7 @@ char* LAYOUT_EXPORT_RULE[]
 void cube_to_code( lua_State* L, struct cube* self )
 {
     char temp[CODE_LENGTH] = " ";
-    const char* rule       = CUBE_EXPORT_RULE;
+    const char* rule       = CUBE_ALL_EXPORT_RULE;
     char center[6];
     if ( !self->base.m_offset || !self->m_w_l_h )
     {
