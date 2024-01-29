@@ -50,9 +50,8 @@ static int cylinder_init( lua_State* L )
     if ( !lua_isnil( L, -1 ) )
     {
         char buf[32];
-        const char* temp_key = "d2 = %f,";
         temp->m_r_d_2        = lua_tonumber( L, -1 );
-        sprintf( buf, temp_key, temp->m_r_d_2 );
+        sprintf( buf, SINGLE_ARG_RULE1, "d2", temp->m_r_d_2 );
         CYLINDER_ARG2 = buf;
         if ( temp->m_r_d_1 != -1 )
         {
@@ -83,9 +82,8 @@ static int cylinder_init( lua_State* L )
             luaL_error( L, "r2 or d2 cannot be configured at the same time!" );
         }
         char buf[32];
-        const char* temp_key = "r2 = %f,";
         temp->m_r_d_2        = lua_tonumber( L, -1 );
-        sprintf( buf, temp_key, temp->m_r_d_2 );
+        sprintf( buf, SINGLE_ARG_RULE1, "r2", temp->m_r_d_2 );
         CYLINDER_ARG2 = buf;
         if ( temp->m_r_d_1 != -1 )
         {
@@ -95,6 +93,7 @@ static int cylinder_init( lua_State* L )
 finish:
     temp->base.m_offset          = dynast_cast( vec3, malloc( sizeof( vec3 ) ) );
     temp->base.m_obj_base.m_code = NULL;
+    temp->base.m_obj_base.m_type = CYLINDER;
     cylinder_to_code( L, temp );
     unsigned int i_bytes = sizeof( cylinder );
     cylinder* current;

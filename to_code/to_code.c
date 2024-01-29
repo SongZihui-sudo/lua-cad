@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 13:29:20
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 21:33:22
  * @FilePath: /lua-cad/to_code/to_code.c
  * @Description: 
  * 
@@ -19,15 +19,43 @@ char* LAYOUT_EXPORT_RULE[]
 
 void cube_to_code( lua_State* L, struct cube* self )
 {
-    char temp[CODE_LENGTH] = " ";
-    const char* rule       = CUBE_ALL_EXPORT_RULE;
-    if ( !self->base.m_offset || !self->m_w_l_h )
+    d3obj_to_code(L, &self->base);
+}
+
+void d3obj_to_code(lua_State* L, D3OBJECT_BASE* base)
+{
+    if ( !base->m_offset  )
     {
         luaL_error( L, "The pointer is empty and an error has occurred!" );
     }
-    sprintf( temp, rule, CUBE_EXPORT_ARGS );
-    self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
-    strcpy( self->base.m_obj_base.m_code, temp );
+    char temp[CODE_LENGTH] = " ";
+    cube* self1;
+    cylinder* self2;
+    sphere* self3;
+    polyhedron* self4;
+    switch (base->m_obj_base.m_type) 
+    {
+        case CUBE:
+            self1 = dynast_cast(cube, base);
+            sprintf( temp, CUBE_ALL_EXPORT_RULE, CUBE_EXPORT_ARGS(self1) );
+            break;
+        case CYLINDER:
+            self2 = dynast_cast(cylinder, base);
+            sprintf( temp, CYLINDER_ALL_EXPORT_RULE, CYLINDER_EXPORT_ARGS(self2) );
+            break;
+        case SPHERE:
+            self3 = dynast_cast(sphere, base);
+            sprintf( temp, SPHERE_ALL_EXPORT_RULE, SPHERE_EXPORT_ARGS(self3) );
+            break;
+        case POLYHEDRON:
+            self4 = dynast_cast(polyhedron, base);
+            sprintf( temp, POLYHEDRON_ALL_EXPORT_RULE, POLYHEDRON_EXPORT_ARGS(self4) );
+            break;
+        default:
+            luaL_error(L, "");
+    }
+    base->m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
+    strcpy( base->m_obj_base.m_code, temp );
     temp[0] = ' ';
     temp[1] = '\0';
 }
@@ -36,7 +64,7 @@ void boolean_to_code( lua_State* L, OBJ_TYPE* self )
 {
     char temp[CODE_LENGTH];
     temp[0] = ' ';
-    memset( temp, ' ', 20 );
+    memset( temp, 0, 5 );
     if ( !self )
     {
         return;
@@ -87,6 +115,8 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
                 }
             }
             break;
+        case POLYHEDRON:
+        case SPHERE:
         case CYLINDER:
         case USER_DEFINE:
         case CUBE:
@@ -101,30 +131,15 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
 
 void cylinder_to_code(lua_State* L, cylinder* self)
 {
-    char temp[CODE_LENGTH] = " ";
-    const char* rule       = CYLINDER_ALL_EXPORT_RULE;
-    if ( !self->base.m_offset )
-    {
-        luaL_error( L, "The pointer is empty and an error has occurred!" );
-    }
-    sprintf( temp, rule, CYLINDER_EXPORT_ARGS );
-    self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
-    strcpy( self->base.m_obj_base.m_code, temp );
-    temp[0] = ' ';
-    temp[1] = '\0';
+    d3obj_to_code(L, &self->base);
 }
 
 void sphere_to_code( lua_State* L, sphere* self )
 {
-    char temp[CODE_LENGTH] = "  ";
-    const char* rule       = SPHERE_ALL_EXPORT_RULE;
-    if ( !self->base.m_offset )
-    {
-        luaL_error( L, "The pointer is empty and an error has occurred!" );
-    }
-    sprintf( temp, rule, SPHERE_EXPORT_ARGS );
-    self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
-    strcpy( self->base.m_obj_base.m_code, temp );
-    temp[0] = ' ';
-    temp[1] = '\0';
+    d3obj_to_code(L, &self->base);
+}
+
+void polyhedron_to_code( lua_State* L, polyhedron* self )
+{
+    d3obj_to_code(L, &self->base);
 }

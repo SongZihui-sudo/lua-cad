@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 14:07:27
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 21:00:43
  * @FilePath: /lua-cad/to_code/to_code.h
  * @Description: 对象导出
  *
@@ -15,6 +15,7 @@
 #include <cylinder.h>
 #include <lua.h>
 #include <obj_type.h>
+#include <polyhedron.h>
 #include <sphere.h>
 
 /**
@@ -42,6 +43,22 @@ void cylinder_to_code( lua_State* L, cylinder* self );
 void sphere_to_code( lua_State* L, sphere* self );
 
 /**
+ * @description: 输出多边体
+ * @param {lua_State*} L
+ * @param {polyhedron*} self
+ * @return {*}
+ */
+void polyhedron_to_code( lua_State* L, polyhedron* self );
+
+/**
+ * @description: 输出 3d 对象
+ * @param {lua_State*} L
+ * @param {D3OBJECT_BASE*} base
+ * @return {*}
+ */
+void d3obj_to_code( lua_State* L, D3OBJECT_BASE* base );
+
+/**
  * @description: 输出 boolean
  * @param {lua_State*} L
  * @param {OBJ_TYPE*} self
@@ -62,6 +79,18 @@ extern char* LAYOUT_EXPORT_RULE[];
 
 #define TRANSLATE_EXPORT_RULE "translate([%f, %f, %f])\n"
 
+/**
+ * @description: 参数模板
+ * @return {*}
+ */
+#define SINGLE_ARG_RULE1 "%s = %f"
+
+/**
+ * @description: 点模板
+ * @return {*}
+ */
+#define POINT_RULE "[ %f, %f, %f ]"
+
 /*
  *  CUBE
  *  默认的输出规则
@@ -69,7 +98,7 @@ extern char* LAYOUT_EXPORT_RULE[];
  */
 #define CUBE_EXPORT_RULE "cube([%f, %f, %f], center = %d);\n"
 #define CUBE_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE CUBE_EXPORT_RULE
-#define CUBE_EXPORT_ARGS                                                                   \
+#define CUBE_EXPORT_ARGS( self )                                                           \
     CUBE_X( self ), CUBE_Y( self ), CUBE_Z( self ), CUBE_WIDTH( self ),                    \
     CUBE_LENGTH( self ), CUBE_HEIGHT( self ), CUBE_CENTER( self )
 
@@ -79,12 +108,11 @@ extern char* LAYOUT_EXPORT_RULE[];
  */
 extern const char* CYLINDER_ARG1;
 extern const char* CYLINDER_ARG2;
-#define CYLINDER_EXPORT_RULE                                                               \
-    "cylinder([h = %f, %s = %f, %s center = %d]);\n"
+#define CYLINDER_EXPORT_RULE "cylinder([h = %f, %s = %f, %s center = %d]);\n"
 #define CYLINDER_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE CYLINDER_EXPORT_RULE
-#define CYLINDER_EXPORT_ARGS                                                               \
+#define CYLINDER_EXPORT_ARGS( self )                                                       \
     CYLINDER_X( self ), CYLINDER_Y( self ), CYLINDER_Z( self ), CYLINDER_H( self ),        \
-    CYLINDER_ARG1, CYLINDER_R_D_1(self), CYLINDER_ARG2, CYLINDER_CENTER(self)
+    CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, CYLINDER_CENTER( self )
 
 /**
  * @description: 球体输出规则
@@ -93,4 +121,15 @@ extern const char* CYLINDER_ARG2;
 extern const char* SPHERER_ARG1;
 #define SPHERE_EXPORT_RULE "sphere(%s = %f);\n"
 #define SPHERE_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE SPHERE_EXPORT_RULE
-#define SPHERE_EXPORT_ARGS SPHERE_X( self ), SPHERE_Y( self ), SPHERE_Z( self ), SPHERER_ARG1, SPHERE_R_OR_D(self)
+#define SPHERE_EXPORT_ARGS( self )                                                         \
+    SPHERE_X( self ), SPHERE_Y( self ), SPHERE_Z( self ), SPHERER_ARG1, SPHERE_R_OR_D( self )
+
+/**
+ * @description: 多面体输出规则
+ * @return {*}
+ */
+extern char POLYHEDRON_ARG1[200];
+extern char POLYHEDRON_ARG2[200];
+#define POLYHEDRON_EXPORT_RULE "polyhedron( points = [%s], faces = [%s] );\n"
+#define POLYHEDRON_ALL_EXPORT_RULE POLYHEDRON_EXPORT_RULE
+#define POLYHEDRON_EXPORT_ARGS( self ) POLYHEDRON_ARG1, POLYHEDRON_ARG2

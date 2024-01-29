@@ -27,6 +27,7 @@ static int sphere_init(lua_State* L)
     unsigned int i_bytes = sizeof( cylinder );
     sphere* current;
     current                         = dynast_cast( sphere, lua_newuserdata( L, i_bytes ) );
+    current->base.m_center = lua_toboolean(L, 2);
     current->m_r_or_d = r_or_d;
     current->base.m_offset          = dynast_cast( vec3, malloc( sizeof( vec3 ) ) );
     current->base.m_obj_base.m_code = NULL;

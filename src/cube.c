@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 11:16:06
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 19:58:08
  * @FilePath: /lua-cad/src/cube.c
  * @Description: 立方体对象
  *

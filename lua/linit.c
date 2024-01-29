@@ -55,6 +55,7 @@ static const luaL_Reg loadedlibs[] = {
   {LUA_USERDEFINEOBJLIBNAME, luaopen_user_define_obj},
   {LUA_CYLINDERLIBNAME, luaopen_cylinder},
   {LUA_SPHERELIBNAME, luaopen_sphere},
+  {LUA_POLYHEDRONLIBNAME, luaopen_polyhedron},
   {NULL, NULL}
 };
 
