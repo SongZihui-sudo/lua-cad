@@ -10,7 +10,6 @@ function print_info(data)
     end
 end
 
-hole = user_define.code("hole", hole);
 hole = user_define.postion(hole, {10, 10, 10});
 cube1 = cube.new({ 10, 10, 10 }, true);
 

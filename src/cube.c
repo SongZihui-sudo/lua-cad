@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 21:30:10
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 11:16:06
  * @FilePath: /lua-cad/src/cube.c
  * @Description: 立方体对象
  *
@@ -70,7 +70,7 @@ int cube_anchor( lua_State* L )
 {
     cube* current        = dynast_cast( cube, lua_touserdata( L, 1 ) );
     unsigned short index = luaL_checkinteger( L, 2 );
-    vec3 point           = calculate_vertices( current, index );
+    vec3 point           = calculate_vertices_cube( current, index );
     // 返回一个 table
     lua_newtable( L );
     lua_pushstring( L, "x" );
@@ -117,7 +117,7 @@ LUAMOD_API int luaopen_cube( lua_State* L )
     return 1;
 }
 
-vec3 calculate_vertices( cube* self, unsigned short index )
+vec3 calculate_vertices_cube( cube* self, unsigned short index )
 {
     vec3 result;
     vec3* sides = self->m_w_l_h;

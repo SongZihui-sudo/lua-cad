@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:39:12
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 11:17:29
  * @FilePath: /lua-cad/src/cube.h
  * @Description: cube 对象
  *
@@ -41,7 +41,7 @@ typedef struct cube
  * @param {unsigned short} index
  * @return {*}
  */
-vec3 calculate_vertices( cube* self, unsigned short index );
+vec3 calculate_vertices_cube( cube* self, unsigned short index );
 /*
     就是立方体的八个顶点，加六个平面的中心
     前面右上 case 1:

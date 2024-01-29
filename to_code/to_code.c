@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-28 22:18:48
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-29 12:03:32
  * @FilePath: /lua-cad/to_code/to_code.c
  * @Description: 
  * 
@@ -21,18 +21,9 @@ void cube_to_code( lua_State* L, struct cube* self )
 {
     char temp[CODE_LENGTH] = " ";
     const char* rule       = CUBE_ALL_EXPORT_RULE;
-    char center[6];
     if ( !self->base.m_offset || !self->m_w_l_h )
     {
         luaL_error( L, "The pointer is empty and an error has occurred!" );
-    }
-    if ( self->base.m_center )
-    {
-        strcpy( center, "true" );
-    }
-    else
-    {
-        strcpy( center, "false" );
     }
     sprintf( temp, rule, CUBE_EXPORT_ARGS );
     self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
@@ -96,6 +87,7 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
                 }
             }
             break;
+        case CYLINDER:
         case USER_DEFINE:
         case CUBE:
             temp2 = dynast_cast( D3OBJECT_BASE, self );
@@ -105,4 +97,19 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
             luaL_error( L, "Unknown object type!" );
             return;
     }
+}
+
+void cylinder_to_code(lua_State* L, cylinder* self)
+{
+    char temp[CODE_LENGTH] = " ";
+    const char* rule       = CYLINDER_ALL_EXPORT_RULE;
+    if ( !self->base.m_offset )
+    {
+        luaL_error( L, "The pointer is empty and an error has occurred!" );
+    }
+    sprintf( temp, rule, CYLINDER_EXPORT_ARGS );
+    self->base.m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
+    strcpy( self->base.m_obj_base.m_code, temp );
+    temp[0] = ' ';
+    temp[1] = '\0';
 }
