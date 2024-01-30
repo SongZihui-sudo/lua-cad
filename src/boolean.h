@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-26 20:37:20
+ * @LastEditTime: 2024-01-30 21:40:42
  * @FilePath: /lua-cad/src/boolean.h
  * @Description: bool 操作
  *
@@ -42,3 +42,31 @@ int intersection( lua_State* L );
  * @return {*}
  */
 int Union( lua_State* L );
+
+/**
+ * @description: fill c 接口
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int fill(lua_State* L);
+
+/**
+ * @description: hull c 接口
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int hull(lua_State* L);
+
+/**
+ * @description: minkowski c 接口
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int minkowski(lua_State* L);
+
+/**
+ * @description: offset c 接口
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int offset(lua_State* L);

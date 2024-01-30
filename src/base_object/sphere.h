@@ -16,6 +16,17 @@ typedef struct sphere
     double m_r_or_d;
 }sphere;
 
+/**
+ * @description: 初始化球体
+ * @param {lua_State*} L
+ * @return {*}
+ */
 int sphere_init(lua_State* L);
 
+/**
+ * @description: 计算球体顶点
+ * @param {sphere*} self
+ * @param {unsigned short} index
+ * @return {*}
+ */
 vec3 calculate_vertices_sphere( sphere* self, unsigned short index );

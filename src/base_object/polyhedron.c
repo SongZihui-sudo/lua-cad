@@ -73,7 +73,6 @@ int polyhedron_init( lua_State* L )
     memcpy( current->m_faces, faces, sizeof( double ) * counter * faces_count );
     current->m_points_count = points_count;
     current->m_face_countl  = faces_count;
-    current->base.m_offset  = dynast_cast( vec3, malloc( sizeof( vec3 ) ) );
     // free
     for ( int i = 0; i < faces_count; i++ )
     {
@@ -82,4 +81,10 @@ int polyhedron_init( lua_State* L )
     // to-code
     polyhedron_to_code( L, current );
     return 1;
+}
+
+vec3 calculate_vertices_polyhedron( polyhedron* self, unsigned short index )
+{
+    vec3 result;
+    return result;
 }

@@ -1,9 +1,9 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-30 11:02:40
- * @FilePath: /lua-cad/src/cube.c
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-30 20:49:52
+ * @FilePath: /lua-cad/src/base_object/cube.c
  * @Description: 立方体对象
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
@@ -36,11 +36,6 @@ int cube_init( lua_State* L )
     current->base.m_obj_base.m_type = CUBE;
     current->m_w_l_h                = temp_vec;
     current->base.m_center          = is_center;
-    current->base.m_offset          = dynast_cast( vec3, malloc( sizeof( vec3 ) ) );
-    for ( int i = 0; i < count; i++ )
-    {
-        current->base.m_offset->m_xyz[i] = 0.0f;
-    }
     current->base.m_obj_base.m_code = NULL;
     cube_to_code( L, current );
     return 1;
@@ -96,87 +91,87 @@ vec3 calculate_vertices_cube( cube* self, unsigned short index )
         {
             // 前面右上
             case 1:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 前面左上
             case 2:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y -
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y -
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 前面右下
             case 3:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z -
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z -
                 break;
             // 前面左上
             case 4:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y -
-                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z -
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y -
+                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z -
                 break;
             // 后面右上
             case 5:
-                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x -
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x -
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 后面左上
             case 6:
-                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x -
-                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y -
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x -
+                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y -
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 后面右下
             case 7:
-                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x -
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z -
+                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x -
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z -
                 break;
             // 后面左下
             case 8:
-                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x -
-                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y -
-                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[2]; // z -
+                result.m_xyz[0] = -sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x -
+                result.m_xyz[1] = -sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y -
+                result.m_xyz[2] = -sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[2]; // z -
                 break;
             // 顶
             case 9:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];                       // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];                       // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2] + sides->m_xyz[2] / 2; // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];                       // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];                       // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2] + sides->m_xyz[2] / 2; // z
                 break;
             // 底
             case 10:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2] - sides->m_xyz[2] / 2;
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2] - sides->m_xyz[2] / 2;
                 break;
             // 左
             case 11:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];                       // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1] - sides->m_xyz[1] / 2; // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2];                       // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];                       // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1] - sides->m_xyz[1] / 2; // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2];                       // z
                 break;
             // 右
             case 12:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];                       // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1] + sides->m_xyz[1] / 2; // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2];                       // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];                       // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1] + sides->m_xyz[1] / 2; // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2];                       // z
                 break;
             // 前
             case 13:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0] + sides->m_xyz[0] / 2; // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];                       // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2];                       // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0] + sides->m_xyz[0] / 2; // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];                       // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2];                       // z
                 break;
             // 后
             case 14:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0] - sides->m_xyz[0] / 2; // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];                       // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2];                       // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0] - sides->m_xyz[0] / 2; // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];                       // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2];                       // z
                 break;
         }
     }
@@ -186,87 +181,87 @@ vec3 calculate_vertices_cube( cube* self, unsigned short index )
         {
             // 前面右上
             case 1:
-                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 前面左上
             case 2:
-                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];                   // y
-                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];                   // y
+                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 前面右下
             case 3:
-                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2];                   // z
+                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2];                   // z
                 break;
             // 前面左上
             case 4:
-                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];                   // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2];                   // z
+                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];                   // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2];                   // z
                 break;
             // 后面右上
             case 5:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];                   // x
-                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];                   // x
+                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 后面左上
             case 6:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];                   // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];                   // y
-                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];                   // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];                   // y
+                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset.m_xyz[2]; // z
                 break;
             // 后面右下
             case 7:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];                   // x
-                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2];                   // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];                   // x
+                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2];                   // z
                 break;
             // 后面左下
             case 8:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[2]; // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[2]; // z
                 break;
             // 顶
             case 9:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset->m_xyz[1];     // z
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = sides->m_xyz[2] + self->base.m_offset.m_xyz[1];     // z
                 break;
             // 底
             case 10:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = self->base.m_offset->m_xyz[1];                       // z
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = self->base.m_offset.m_xyz[1];                       // z
                 break;
             // 左
             case 11:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = self->base.m_offset->m_xyz[1];                       // y
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[1]; // z
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = self->base.m_offset.m_xyz[1];                       // y
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[1]; // z
                 break;
             // 右
             case 12:
-                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset->m_xyz[0]; // x
-                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset->m_xyz[1];     // y
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[1]; // z
+                result.m_xyz[0] = sides->m_xyz[0] / 2 + self->base.m_offset.m_xyz[0]; // x
+                result.m_xyz[1] = sides->m_xyz[1] + self->base.m_offset.m_xyz[1];     // y
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[1]; // z
                 break;
             // 前
             case 13:
-                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset->m_xyz[0];     // x
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[1]; // z
+                result.m_xyz[0] = sides->m_xyz[0] + self->base.m_offset.m_xyz[0];     // x
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[1]; // z
                 break;
             // 后
             case 14:
-                result.m_xyz[0] = self->base.m_offset->m_xyz[0];                       // x
-                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset->m_xyz[1]; // y
-                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset->m_xyz[1]; // z
+                result.m_xyz[0] = self->base.m_offset.m_xyz[0];                       // x
+                result.m_xyz[1] = sides->m_xyz[1] / 2 + self->base.m_offset.m_xyz[1]; // y
+                result.m_xyz[2] = sides->m_xyz[2] / 2 + self->base.m_offset.m_xyz[1]; // z
                 break;
         }
     }

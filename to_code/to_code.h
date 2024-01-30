@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-29 21:00:43
+ * @LastEditTime: 2024-01-30 22:11:22
  * @FilePath: /lua-cad/to_code/to_code.h
  * @Description: 对象导出
  *
@@ -77,7 +77,39 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp );
 
 extern char* LAYOUT_EXPORT_RULE[];
 
+/**
+ * @description: translate 输出规则
+ * @return {*}
+ */
 #define TRANSLATE_EXPORT_RULE "translate([%f, %f, %f])\n"
+
+/**
+ * @description: scale 输出规则
+ * @return {*}
+ */
+#define SCALE_EXPORT_RULE "scale([%f, %f, %f])\n"
+
+extern char ROTATE_EXPORT_ARG1[64];
+extern char ROTATE_EXPORT_ARG2[64];
+/**
+ * @description: rotate 输出规则
+ * @return {*}
+ */
+#define ROTATE_EXPORT_RULE "rotate( %s %s )\n"
+
+/**
+ * @description: mirrot 导出规则
+ * @return {*}
+ */
+#define MIRROR_EXPORT_RULE "mirror([ %f, %f, %f ])\n"
+
+extern char COLOR_EXPORT_ARG1[64];
+extern char COLOR_EXPORT_ARG2[64];
+/**
+ * @description: color 导出规则
+ * @return {*}
+ */
+#define COLLOR_EXPORT_RULE "color(%s %s)\n"
 
 /**
  * @description: 参数模板
@@ -97,10 +129,9 @@ extern char* LAYOUT_EXPORT_RULE[];
  *  规则类似于 printf 的格式
  */
 #define CUBE_EXPORT_RULE "cube([%f, %f, %f], center = %d);\n"
-#define CUBE_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE CUBE_EXPORT_RULE
+#define CUBE_ALL_EXPORT_RULE CUBE_EXPORT_RULE
 #define CUBE_EXPORT_ARGS( self )                                                           \
-    CUBE_X( self ), CUBE_Y( self ), CUBE_Z( self ), CUBE_WIDTH( self ),                    \
-    CUBE_LENGTH( self ), CUBE_HEIGHT( self ), CUBE_CENTER( self )
+    CUBE_WIDTH( self ), CUBE_LENGTH( self ), CUBE_HEIGHT( self ), CUBE_CENTER( self )
 
 /**
  * @description: 圆柱体的输出规则
@@ -109,10 +140,9 @@ extern char* LAYOUT_EXPORT_RULE[];
 extern const char* CYLINDER_ARG1;
 extern const char* CYLINDER_ARG2;
 #define CYLINDER_EXPORT_RULE "cylinder([h = %f, %s = %f, %s center = %d]);\n"
-#define CYLINDER_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE CYLINDER_EXPORT_RULE
+#define CYLINDER_ALL_EXPORT_RULE CYLINDER_EXPORT_RULE
 #define CYLINDER_EXPORT_ARGS( self )                                                       \
-    CYLINDER_X( self ), CYLINDER_Y( self ), CYLINDER_Z( self ), CYLINDER_H( self ),        \
-    CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, CYLINDER_CENTER( self )
+    CYLINDER_H( self ), CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, CYLINDER_CENTER( self )
 
 /**
  * @description: 球体输出规则
@@ -120,9 +150,8 @@ extern const char* CYLINDER_ARG2;
  */
 extern const char* SPHERER_ARG1;
 #define SPHERE_EXPORT_RULE "sphere(%s = %f);\n"
-#define SPHERE_ALL_EXPORT_RULE TRANSLATE_EXPORT_RULE SPHERE_EXPORT_RULE
-#define SPHERE_EXPORT_ARGS( self )                                                         \
-    SPHERE_X( self ), SPHERE_Y( self ), SPHERE_Z( self ), SPHERER_ARG1, SPHERE_R_OR_D( self )
+#define SPHERE_ALL_EXPORT_RULE SPHERE_EXPORT_RULE
+#define SPHERE_EXPORT_ARGS( self ) SPHERER_ARG1, SPHERE_R_OR_D( self )
 
 /**
  * @description: 多面体输出规则

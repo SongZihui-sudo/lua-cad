@@ -2,11 +2,11 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-29 21:33:22
+ * @LastEditTime: 2024-01-30 22:03:25
  * @FilePath: /lua-cad/to_code/to_code.c
- * @Description: 
- * 
- * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved. 
+ * @Description:
+ *
+ * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
 #include <lauxlib.h>
 #include <obj_type.h>
@@ -15,16 +15,15 @@
 #include <to_code.h>
 
 char* LAYOUT_EXPORT_RULE[]
-= { "difference()\n{\n%s\n}\n", "union()\n{\n%s\n}\n", "intersection(){\n%s\n}" };
+= { "difference()\n{\n%s\n}\n", "union()\n{\n%s\n}\n", "intersection(){\n%s\n}",
+    "fill(){\n%s\n}",           "hull(){\n%s\n}",      "minkowski(){\n%s\n}",
+    "offset(%s){\n%s\n}" };
 
-void cube_to_code( lua_State* L, struct cube* self )
-{
-    d3obj_to_code(L, &self->base);
-}
+void cube_to_code( lua_State* L, struct cube* self ) { d3obj_to_code( L, &self->base ); }
 
-void d3obj_to_code(lua_State* L, D3OBJECT_BASE* base)
+void d3obj_to_code( lua_State* L, D3OBJECT_BASE* base )
 {
-    if ( !base->m_offset  )
+    if ( !base )
     {
         luaL_error( L, "The pointer is empty and an error has occurred!" );
     }
@@ -33,26 +32,26 @@ void d3obj_to_code(lua_State* L, D3OBJECT_BASE* base)
     cylinder* self2;
     sphere* self3;
     polyhedron* self4;
-    switch (base->m_obj_base.m_type) 
+    switch ( base->m_obj_base.m_type )
     {
         case CUBE:
-            self1 = dynast_cast(cube, base);
-            sprintf( temp, CUBE_ALL_EXPORT_RULE, CUBE_EXPORT_ARGS(self1) );
+            self1 = dynast_cast( cube, base );
+            sprintf( temp, CUBE_ALL_EXPORT_RULE, CUBE_EXPORT_ARGS( self1 ) );
             break;
         case CYLINDER:
-            self2 = dynast_cast(cylinder, base);
-            sprintf( temp, CYLINDER_ALL_EXPORT_RULE, CYLINDER_EXPORT_ARGS(self2) );
+            self2 = dynast_cast( cylinder, base );
+            sprintf( temp, CYLINDER_ALL_EXPORT_RULE, CYLINDER_EXPORT_ARGS( self2 ) );
             break;
         case SPHERE:
-            self3 = dynast_cast(sphere, base);
-            sprintf( temp, SPHERE_ALL_EXPORT_RULE, SPHERE_EXPORT_ARGS(self3) );
+            self3 = dynast_cast( sphere, base );
+            sprintf( temp, SPHERE_ALL_EXPORT_RULE, SPHERE_EXPORT_ARGS( self3 ) );
             break;
         case POLYHEDRON:
-            self4 = dynast_cast(polyhedron, base);
-            sprintf( temp, POLYHEDRON_ALL_EXPORT_RULE, POLYHEDRON_EXPORT_ARGS(self4) );
+            self4 = dynast_cast( polyhedron, base );
+            sprintf( temp, POLYHEDRON_ALL_EXPORT_RULE, POLYHEDRON_EXPORT_ARGS( self4 ) );
             break;
         default:
-            luaL_error(L, "");
+            luaL_error( L, "Unknown object!" );
     }
     base->m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
     strcpy( base->m_obj_base.m_code, temp );
@@ -69,11 +68,10 @@ void boolean_to_code( lua_State* L, OBJ_TYPE* self )
     {
         return;
     }
-    const char* rule = LAYOUT_EXPORT_RULE[*self - BOOLEAN_BEGIN - 1];
     layout_to_code( L, ( OBJ_TYPE* )self, temp );
     struct OBJ_BASE* base = dynast_cast( OBJ_BASE, self );
     base->m_code          = dynast_cast( char, malloc( sizeof( temp ) ) );
-    sprintf( base->m_code, rule, temp );
+    sprintf( base->m_code, LAYOUT_EXPORT_RULE[*self - BOOLEAN_BEGIN - 1], temp );
     temp[0] = ' ';
     temp[1] = '\0';
 }
@@ -88,8 +86,19 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
     struct BOOLEAN_BASE* temp1;
     struct D3OBJECT_BASE* temp2;
     unsigned int count;
+    double offset;
+    char buffer_offset[32];
+    char buffer2[128];
     switch ( *self )
     {
+        case OFFSET:
+            offset = lua_checkstack(L, 3);
+            sprintf(buffer_offset, SINGLE_ARG_RULE1, "r", offset);
+            sprintf(buffer2, LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN], buffer_offset, "%s");
+            LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN] = buffer2;
+        case MINKOWSKI:
+        case HULL:
+        case FILL:
         case INTERSECTION:
         case UNION:
         case DIFFERENCE:
@@ -129,17 +138,11 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
     }
 }
 
-void cylinder_to_code(lua_State* L, cylinder* self)
-{
-    d3obj_to_code(L, &self->base);
-}
+void cylinder_to_code( lua_State* L, cylinder* self ) { d3obj_to_code( L, &self->base ); }
 
-void sphere_to_code( lua_State* L, sphere* self )
-{
-    d3obj_to_code(L, &self->base);
-}
+void sphere_to_code( lua_State* L, sphere* self ) { d3obj_to_code( L, &self->base ); }
 
 void polyhedron_to_code( lua_State* L, polyhedron* self )
 {
-    d3obj_to_code(L, &self->base);
+    d3obj_to_code( L, &self->base );
 }

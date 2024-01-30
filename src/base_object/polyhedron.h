@@ -14,4 +14,17 @@ typedef struct polyhedron
     int m_face_countl
 } polyhedron;
 
+/**
+ * @description: 初始化 多面体
+ * @param {lua_State*} L
+ * @return {*}
+ */
 int polyhedron_init( lua_State* L );
+
+/**
+ * @description: 多面体的顶点
+ * @param {polyhedron*} self
+ * @param {unsigned short} index
+ * @return {*}
+ */
+vec3 calculate_vertices_polyhedron( polyhedron* self, unsigned short index );

@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-30 11:16:02
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-30 14:00:58
  * @FilePath: /lua-cad/src/base_object/cube.h
  * @Description: cube 对象
  *
@@ -60,4 +60,9 @@ vec3 calculate_vertices_cube( cube* self, unsigned short index );
     后 case 14:
 */
 
+/**
+ * @description: 初始化立方体
+ * @param {lua_State*} L
+ * @return {*}
+ */
 int cube_init( lua_State* L );

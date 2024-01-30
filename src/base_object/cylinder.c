@@ -91,7 +91,6 @@ int cylinder_init( lua_State* L )
         }
     }
 finish:
-    temp->base.m_offset          = dynast_cast( vec3, malloc( sizeof( vec3 ) ) );
     temp->base.m_obj_base.m_code = NULL;
     temp->base.m_obj_base.m_type = CYLINDER;
     cylinder_to_code( L, temp );

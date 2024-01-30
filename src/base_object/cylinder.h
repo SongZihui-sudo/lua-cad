@@ -21,6 +21,11 @@ typedef struct cylinder
     double m_r_d_2;
 }cylinder;
 
+/**
+ * @description: 初始化圆柱体
+ * @param {lua_State*} L
+ * @return {*}
+ */
 int cylinder_init( lua_State* L );
 
 /**

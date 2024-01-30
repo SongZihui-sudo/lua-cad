@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 13:32:23
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-30 22:22:06
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *
@@ -33,6 +33,10 @@ enum TYPES
     DIFFERENCE,
     UNION,
     INTERSECTION,
+    FILL,
+    HULL,
+    MINKOWSKI,
+    OFFSET,
     BOOLEAN_END
 };
 
@@ -68,6 +72,13 @@ typedef struct BOOLEAN_BASE
 typedef struct D3OBJECT_BASE
 {
     OBJ_BASE m_obj_base;
+    vec3 m_offset;
+    vec3 m_scale;
+    vec3 m_rotate_v;
+    vec3 m_rotate_a;
+    vec3 m_mirror;
     bool m_center;
-    vec3* m_offset;
+    double m_color_arr[4];
+    char m_color_str[32];
+    double m_color_alpha;
 } D3OBJECT_BASE;

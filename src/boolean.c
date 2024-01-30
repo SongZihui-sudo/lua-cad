@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 10:44:43
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-30 21:48:47
  * @FilePath: /lua-cad/src/boolean.c
  * @Description: bool 操作
  *
@@ -39,9 +39,32 @@ int Union( lua_State* L )
     return 1;
 }
 
+int fill(lua_State* L)
+{
+    boolean_init( L, FILL );
+    return 1;
+}
+
+int hull(lua_State* L)
+{
+    boolean_init( L, HULL );
+    return 1;
+}
+
+int minkowski(lua_State* L)
+{
+    boolean_init( L, MINKOWSKI );
+    return 1;
+}
+
+int offset(lua_State* L)
+{
+    boolean_init( L, OFFSET );
+    return 1;
+}
+
 void boolean_init( lua_State* L, OBJ_TYPE type )
 {
-    // 创建一个 intersection 对象
     unsigned int i_bytes = sizeof( BOOLEAN_BASE );
     BOOLEAN_BASE* current;
     current                    = dynast_cast( BOOLEAN_BASE, lua_newuserdata( L, i_bytes ) );
