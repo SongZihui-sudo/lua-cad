@@ -44,24 +44,17 @@ LUAMOD_API int (luaopen_debug) (lua_State *L);
 #define LUA_LOADLIBNAME	"package"
 LUAMOD_API int (luaopen_package) (lua_State *L);
 
-#define LUA_CUBELIBNAME "cube"
-LUAMOD_API int (luaopen_cube) (lua_State *L);
-
 #define LUA_BOOLEANLIBNAME "boolean"
 LUAMOD_API int (luaopen_boolean) (lua_State *L);
 
 #define LUA_USERDEFINEOBJLIBNAME "user_define_obj"
 LUAMOD_API int (luaopen_user_define_obj) (lua_State *L);
 
-#define LUA_CYLINDERLIBNAME "cylinder"
-LUAMOD_API int (luaopen_cylinder) (lua_State *L);
+#define LUA_TRANSFORMLIBNAME "transform"
+LUAMOD_API int (luaopen_transform) (lua_State *L);
 
-#define LUA_SPHERELIBNAME "sphere"
-LUAMOD_API int (luaopen_sphere) (lua_State *L);
-
-#define LUA_POLYHEDRONLIBNAME "polyhedron"
-LUAMOD_API int (luaopen_polyhedron) (lua_State *L);
-
+#define LUA_D3OBJECTLIBNAME "d3object"
+LUAMOD_API int (luaopen_d3object) (lua_State *L);
 
 /* open all previous libraries */
 LUALIB_API void (luaL_openlibs) (lua_State *L);

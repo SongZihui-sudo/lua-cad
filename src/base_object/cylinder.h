@@ -21,6 +21,8 @@ typedef struct cylinder
     double m_r_d_2;
 }cylinder;
 
+int cylinder_init( lua_State* L );
+
 /**
  * @description: 计算圆柱体的顶点
  * @param {sphere*} self

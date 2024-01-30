@@ -5,7 +5,7 @@
 
 const char* SPHERER_ARG1;
 
-static int sphere_init(lua_State* L)
+int sphere_init(lua_State* L)
 {
     double r_or_d = -1;
     lua_pushstring(L, "r");
@@ -24,7 +24,7 @@ static int sphere_init(lua_State* L)
         SPHERER_ARG1 = "d";
         r_or_d = lua_tonumber(L, -1);
     }
-    unsigned int i_bytes = sizeof( cylinder );
+    unsigned int i_bytes = sizeof( sphere );
     sphere* current;
     current                         = dynast_cast( sphere, lua_newuserdata( L, i_bytes ) );
     current->base.m_center = lua_toboolean(L, 2);
@@ -37,15 +37,3 @@ static int sphere_init(lua_State* L)
 }
 
 static const luaL_Reg spherelib[] = { { "new", sphere_init }, { NULL, NULL } };
-
-LUAMOD_API int luaopen_sphere( lua_State* L )
-{
-    luaL_newlib( L, spherelib );
-    return 1;
-}
-
-vec3 calculate_vertices_sphere( sphere* self, unsigned short index )
-{
-    vec3 result;
-    return result;
-}

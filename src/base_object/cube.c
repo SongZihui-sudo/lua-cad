@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-29 19:58:08
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-30 11:02:40
  * @FilePath: /lua-cad/src/cube.c
  * @Description: 立方体对象
  *
@@ -83,38 +83,6 @@ int cube_anchor( lua_State* L )
     lua_pushstring( L, "z" );
     lua_pushnumber( L, point.m_xyz[2] );
     lua_settable( L, -3 );
-    return 1;
-}
-
-int cube_postion( lua_State* L )
-{
-    cube* current = dynast_cast( cube, lua_touserdata( L, 1 ) );
-    // 读输入的参数
-    const int count = 3;
-    for ( int i = 0; i < count; i++ )
-    {
-        lua_pushnumber( L, i + 1 );
-        lua_gettable( L, 2 );
-        double temp_num                  = lua_tonumber( L, -1 );
-        current->base.m_offset->m_xyz[i] = temp_num;
-        lua_pop( L, 1 );
-    }
-    // 设置当前的输出代码
-    cube_to_code( L, current );
-    return 1;
-}
-
-static const luaL_Reg cubelib[] = { { "new", cube_init },
-                                    { "height", cube_height },
-                                    { "width", cube_width },
-                                    { "length", cube_length },
-                                    { "anchor", cube_anchor },
-                                    { "postion", cube_postion },
-                                    { NULL, NULL } };
-
-LUAMOD_API int luaopen_cube( lua_State* L )
-{
-    luaL_newlib( L, cubelib );
     return 1;
 }
 

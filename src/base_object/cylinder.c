@@ -6,7 +6,7 @@
 const char* CYLINDER_ARG1;
 const char* CYLINDER_ARG2;
 
-static int cylinder_init( lua_State* L )
+int cylinder_init( lua_State* L )
 {
     cylinder* temp = ( cylinder* )malloc( sizeof( cylinder ) );
     temp->m_r_d_1  = -1;
@@ -108,12 +108,4 @@ vec3 calculate_vertices_cylinder( cylinder* self, unsigned short index )
 {
     vec3 result;
     return result;
-}
-
-static const luaL_Reg cylinderlib[] = { { "new", cylinder_init }, { NULL, NULL } };
-
-LUAMOD_API int luaopen_cylinder( lua_State* L )
-{
-    luaL_newlib( L, cylinderlib );
-    return 1;
 }

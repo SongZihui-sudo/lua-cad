@@ -13,3 +13,5 @@ typedef struct polyhedron
     int m_points_count;
     int m_face_countl
 } polyhedron;
+
+int polyhedron_init( lua_State* L );

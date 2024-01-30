@@ -2,8 +2,8 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 11:17:29
- * @FilePath: /lua-cad/src/cube.h
+ * @LastEditTime: 2024-01-30 11:16:02
+ * @FilePath: /lua-cad/src/base_object/cube.h
  * @Description: cube 对象
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
@@ -59,3 +59,5 @@ vec3 calculate_vertices_cube( cube* self, unsigned short index );
     前 case 13:
     后 case 14:
 */
+
+int cube_init( lua_State* L );

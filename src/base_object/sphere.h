@@ -16,10 +16,6 @@ typedef struct sphere
     double m_r_or_d;
 }sphere;
 
-/**
- * @description: 计算圆柱体的顶点
- * @param {sphere*} self
- * @param {unsigned short} index
- * @return {*}
- */
+int sphere_init(lua_State* L);
+
 vec3 calculate_vertices_sphere( sphere* self, unsigned short index );

@@ -1,31 +1,9 @@
-local cube = require("cube")
-local boolean = require("boolean")
+d3object = require("d3object")
+boolean = require("boolean")
+transform = require("transform")
 
-local cube1 = cube.new({ 10, 10, 10 }, true);
-local cube2 = cube.new({ 10, 10, 10 }, false);
-
--- 打印长，宽，高
-print("height: " .. cube.height(cube1) .. " mm");
-print("width: " .. cube.width(cube1) .. " mm");
-print("length: " .. cube.length(cube1) .. " mm");
-
--- 设置位置
-print("Current position: ")
-cube.postion(cube1, { 0, 0, 0 });
-local point = cube.anchor(cube1, 10);
-for k, v in pairs(point) do
-    print(k, v)
-end
-
--- 正方体顶点坐标
-for i = 1, 14, 1 do
-    print("point" .. i .. ": ")
-    -- 返回一个顶点
-    local point = cube.anchor(cube1, i);
-    for k, v in pairs(point) do
-        print(k, v)
-    end
-end
+local cube1 = d3object.cube({ 10, 10, 10 }, true);
+local cube2 = d3object.cube({ 10, 10, 10 }, false);
 
 local difference1 = boolean.difference({cube1, cube2});
 local difference2 = boolean.difference({difference1, cube1});

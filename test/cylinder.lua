@@ -1,11 +1,10 @@
-cylinder = require("cylinder");
+d3object = require("d3object");
 boolean = require("boolean")
-cube = require("cube")
 user_define = require("user_define_obj")
 
 local hole = $screw_hole("1/4-20,.5",head="socket",counterbore=5, anchor="TOP")$;
-local cylinder1 = cylinder.new({h = 1,  r = 2}, true );
-local cube1 = cube.new({10, 10, 10}, true);
+local cylinder1 = d3object.cylinder({h = 1,  r = 2}, true );
+local cube1 = d3object.cube({10, 10, 10}, true);
 
 print(code(cylinder1));
 

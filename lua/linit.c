@@ -50,12 +50,10 @@ static const luaL_Reg loadedlibs[] = {
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {LUA_DBLIBNAME, luaopen_debug},
-  {LUA_CUBELIBNAME, luaopen_cube},
   {LUA_BOOLEANLIBNAME, luaopen_boolean},
   {LUA_USERDEFINEOBJLIBNAME, luaopen_user_define_obj},
-  {LUA_CYLINDERLIBNAME, luaopen_cylinder},
-  {LUA_SPHERELIBNAME, luaopen_sphere},
-  {LUA_POLYHEDRONLIBNAME, luaopen_polyhedron},
+  {LUA_TRANSFORMLIBNAME, luaopen_transform},
+  {LUA_D3OBJECTLIBNAME, luaopen_d3object},
   {NULL, NULL}
 };
 

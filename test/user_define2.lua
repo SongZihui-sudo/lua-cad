@@ -1,5 +1,5 @@
 boolean = require("boolean")
-cube = require("cube");
+d3object = require("d3object");
 user_define = require("user_define_obj");
 
 local hole = $screw_hole("1/4-20,.5",head="socket",counterbore=5, anchor="TOP")$;
@@ -11,7 +11,7 @@ function print_info(data)
 end
 
 hole = user_define.postion(hole, {10, 10, 10});
-cube1 = cube.new({ 10, 10, 10 }, true);
+cube1 = d3object.cube({ 10, 10, 10 }, true);
 
 difference1 = boolean.difference({cube1, hole})
 

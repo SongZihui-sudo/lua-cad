@@ -7,7 +7,7 @@
 char POLYHEDRON_ARG1[200];
 char POLYHEDRON_ARG2[200];
 
-static int polyhedron_init( lua_State* L )
+int polyhedron_init( lua_State* L )
 {
     // 读 points 表
     vec3 points[64];
@@ -81,13 +81,5 @@ static int polyhedron_init( lua_State* L )
     }
     // to-code
     polyhedron_to_code( L, current );
-    return 1;
-}
-
-static const luaL_Reg polyhedronlib[] = { { "new", polyhedron_init }, { NULL, NULL } };
-
-LUAMOD_API int luaopen_polyhedron( lua_State* L )
-{
-    luaL_newlib( L, polyhedronlib );
     return 1;
 }
