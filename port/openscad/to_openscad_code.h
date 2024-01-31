@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-31 10:55:04
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-31 17:35:32
  * @FilePath: /lua-cad/to_code/to_code.h
  * @Description: 对象导出
  *
@@ -131,7 +131,7 @@ extern char COLOR_EXPORT_ARG2[64];
 #define CUBE_EXPORT_RULE "cube([%f, %f, %f], center = %d);\n"
 #define CUBE_ALL_EXPORT_RULE CUBE_EXPORT_RULE
 #define CUBE_EXPORT_ARGS( self )                                                           \
-    CUBE_WIDTH( self ), CUBE_LENGTH( self ), CUBE_HEIGHT( self ), CUBE_CENTER( self )
+    CUBE_WIDTH( self ), CUBE_LENGTH( self ), CUBE_HEIGHT( self ), IS_CENTER( self )
 
 /**
  * @description: 圆柱体的输出规则
@@ -142,7 +142,7 @@ extern const char* CYLINDER_ARG2;
 #define CYLINDER_EXPORT_RULE "cylinder(h = %f, %s = %f, %s center = %d);\n"
 #define CYLINDER_ALL_EXPORT_RULE CYLINDER_EXPORT_RULE
 #define CYLINDER_EXPORT_ARGS( self )                                                       \
-    CYLINDER_H( self ), CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, CYLINDER_CENTER( self )
+    CYLINDER_H( self ), CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, IS_CENTER( self )
 
 /**
  * @description: 球体输出规则
@@ -152,13 +152,12 @@ extern const char* SPHERER_ARG1;
 #define SPHERE_EXPORT_RULE "sphere(%s = %f);\n"
 #define SPHERE_ALL_EXPORT_RULE SPHERE_EXPORT_RULE
 #define SPHERE_EXPORT_ARGS( self ) SPHERER_ARG1, SPHERE_R_OR_D( self )
-
 /**
  * @description: 多面体输出规则
  * @return {*}
  */
 extern char POLYHEDRON_ARG1[200];
 extern char POLYHEDRON_ARG2[200];
-#define POLYHEDRON_EXPORT_RULE "polyhedron( points = [%s], faces = [%s] );\n"
+#define POLYHEDRON_EXPORT_RULE "polyhedron( points = [%s], faces = [%s]);\n"
 #define POLYHEDRON_ALL_EXPORT_RULE POLYHEDRON_EXPORT_RULE
 #define POLYHEDRON_EXPORT_ARGS( self ) POLYHEDRON_ARG1, POLYHEDRON_ARG2

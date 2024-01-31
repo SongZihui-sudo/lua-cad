@@ -2,8 +2,8 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-30 22:03:25
- * @FilePath: /lua-cad/to_code/to_code.c
+ * @LastEditTime: 2024-01-31 19:30:18
+ * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
@@ -12,7 +12,7 @@
 #include <obj_type.h>
 #include <stdlib.h>
 #include <string.h>
-#include <to_code.h>
+#include <to_openscad_code.h>
 
 char* LAYOUT_EXPORT_RULE[]
 = { "difference()\n{\n%s\n}\n", "union()\n{\n%s\n}\n", "intersection(){\n%s\n}",
@@ -53,7 +53,7 @@ void d3obj_to_code( lua_State* L, D3OBJECT_BASE* base )
         default:
             luaL_error( L, "Unknown object!" );
     }
-    base->m_obj_base.m_code = ( char* )malloc( sizeof( temp ) );
+    base->m_obj_base.m_code = dynast_cast(char, malloc( sizeof( temp ) ));
     strcpy( base->m_obj_base.m_code, temp );
     temp[0] = ' ';
     temp[1] = '\0';

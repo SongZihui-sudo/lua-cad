@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-31 11:45:09
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-01-31 17:32:32
  * @FilePath: /lua-cad/src/base_object/cube.h
  * @Description: cube 对象
  *
@@ -20,20 +20,20 @@
  * @description: 获取立方体内对象
  * @return {*}
  */
-#define CUBE_WIDTH( obj ) obj->m_w_l_h->m_xyz[0]
-#define CUBE_LENGTH( obj ) obj->m_w_l_h->m_xyz[1]
-#define CUBE_HEIGHT( obj ) obj->m_w_l_h->m_xyz[2]
-#define CUBE_X( obj ) obj->base.m_offset->m_xyz[0]
-#define CUBE_Y( obj ) obj->base.m_offset->m_xyz[1]
-#define CUBE_Z( obj ) obj->base.m_offset->m_xyz[2]
-#define CUBE_CENTER( obj ) obj->base.m_center
+#define CUBE_WIDTH( obj ) obj->m_w_l_h.m_xyz[0]
+#define CUBE_LENGTH( obj ) obj->m_w_l_h.m_xyz[1]
+#define CUBE_HEIGHT( obj ) obj->m_w_l_h.m_xyz[2]
 
 // 立方体
 typedef struct cube
 {
     D3OBJECT_BASE base;
-    vec3* m_w_l_h; // 长，宽，高
+    vec3 m_w_l_h; // 长，宽，高
 } cube;
+
+#define cube_obj_init( obj )                                                               \
+    vec3_init( &obj->m_w_l_h, 1 );                                                            \
+    D3OBJECT_BASE_INIT( &obj->base );
 
 /**
  * @description: 计算立方体的顶点

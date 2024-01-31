@@ -1,5 +1,5 @@
 #include <cylinder.h>
-#include <to_code.h>
+#include <to_openscad_code.h>
 
 #include <stdlib.h>
 
@@ -9,8 +9,7 @@ const char* CYLINDER_ARG2;
 int cylinder_init( lua_State* L )
 {
     cylinder* temp = ( cylinder* )malloc( sizeof( cylinder ) );
-    temp->m_r_d_1  = -1;
-    temp->m_r_d_2  = -1;
+    cylinder_obj_init( temp );
     // 读参数列表
     temp->base.m_center = lua_toboolean( L, 2 );
     lua_pushstring( L, "h" );
@@ -35,7 +34,7 @@ int cylinder_init( lua_State* L )
         {
             luaL_error( L, "r or d cannot be configured at the same time!" );
         }
-        temp->m_r_d_1 = lua_tonumber( L, -1 );
+        temp->m_r_d_1 = lua_tonumber( L, -1 ) / 2;
         goto finish;
     }
     lua_pushstring( L, "d1" );
@@ -43,7 +42,7 @@ int cylinder_init( lua_State* L )
     if ( !lua_isnil( L, -1 ) )
     {
         CYLINDER_ARG1 = "d1";
-        temp->m_r_d_1 = lua_tonumber( L, -1 );
+        temp->m_r_d_1 = lua_tonumber( L, -1 ) / 2;
     }
     lua_pushstring( L, "d2" );
     lua_gettable( L, 1 );
@@ -52,6 +51,7 @@ int cylinder_init( lua_State* L )
         char buf[32];
         temp->m_r_d_2 = lua_tonumber( L, -1 );
         sprintf( buf, SINGLE_ARG_RULE1, "d2", temp->m_r_d_2 );
+        temp->m_r_d_2 = temp->m_r_d_2 / 2;
         CYLINDER_ARG2 = buf;
         if ( temp->m_r_d_1 != -1 )
         {
@@ -103,23 +103,57 @@ finish:
     return 1;
 }
 
-vec3 calculate_vertices_cylinder( lua_State* L,  cylinder* self, unsigned short index )
+vec3 calculate_vertices_cylinder( lua_State* L, cylinder* self, unsigned short index )
 {
     vec3 result;
     vec3 sides;
     sides.m_xyz[0] = self->m_h;
-    sides.m_xyz[0] = self->m_r_d_1;
-    sides.m_xyz[0] = self->m_r_d_2;
+    sides.m_xyz[1] = self->m_r_d_1;
+    sides.m_xyz[2] = self->m_r_d_2;
     scale( &sides, self->base.m_scale );
     pan( &result, self->base.m_offset );
-    TODO完成圆柱体的基准面计算:
-    if(self->base.m_center)
+    if ( self->base.m_center )
     {
-
+        switch ( index )
+        {
+#define xx( case_num, op, xyz )                                                            \
+    case case_num:                                                                         \
+        result.m_xyz[xyz] += self->m_h / 2;                                                \
+        break;
+            xx( 1, +=, 2 );
+            xx( 2, -=, 2 );
+#undef xx
+            default:
+                luaL_error( L, "Datum index out of bounds!" );
+        }
     }
-    else {
-    
+    else
+    {
+#define xx( xyz1, xyz2, xyz3 )                                                             \
+    result.m_xyz[xyz1] += sides.m_xyz[xyz3];                                               \
+    result.m_xyz[xyz2] += sides.m_xyz[xyz3];
+        if ( self->m_r_d_2 > 0 )
+        {
+            xx( 0, 1, 2 )
+        }
+        else
+        {
+            xx( 0, 1, 1 )
+        }
+#undef xx
+        switch ( index )
+        {
+            // 顶
+            case 1:
+                result.m_xyz[2] += sides.m_xyz[0];
+                break;
+            // 底
+            case 2:
+                break;
+            default:
+                luaL_error( L, "Datum index out of bounds!" );
+        }
     }
-    rotation(&result, self->base.m_rotate_a, self->base.m_rotate_v);
+    rotation( &result, self->base.m_rotate_a, self->base.m_rotate_v );
     return result;
 }

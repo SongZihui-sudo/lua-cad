@@ -1,6 +1,9 @@
 #include <boolean.h>
-#include <to_code.h>
+#include <to_openscad_code.h>
 #include <transform.h>
+
+#include <stdlib.h>
+#include <string.h>
 
 char ROTATE_EXPORT_ARG1[64];
 char ROTATE_EXPORT_ARG2[64];
@@ -42,8 +45,7 @@ static void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TRANSF
         default:
             luaL_error( L, "Unknown transform type!" );
     }
-    char* buffer
-    = ( char* )malloc( sizeof( char ) * ( strlen( obj->m_obj_base.m_code ) + strlen( temp ) ) );
+    char* buffer = dynast_cast(char, malloc( sizeof( char ) * ( strlen( obj->m_obj_base.m_code ) + strlen( temp ) ) ));
     sprintf( buffer, "%s%s", temp, obj->m_obj_base.m_code );
     strcpy( obj->m_obj_base.m_code, buffer );
     free( buffer );

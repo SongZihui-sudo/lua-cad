@@ -29,3 +29,10 @@ int distance_to_datum(lua_State* L);
  * @return {*}
  */
 int angle_to_datum(lua_State* L);
+
+/**
+ * @description: 将 x,y,z 内容转换到数组
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int to_table_datum(lua_State* L);

@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-30 22:22:06
+ * @LastEditTime: 2024-01-31 17:34:41
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *
@@ -82,3 +82,17 @@ typedef struct D3OBJECT_BASE
     char m_color_str[32];
     double m_color_alpha;
 } D3OBJECT_BASE;
+
+static void D3OBJECT_BASE_INIT(D3OBJECT_BASE* obj)
+{
+    vec3_init(&obj->m_offset, 0);
+    vec3_init(&obj->m_scale, 1);
+    vec3_init(&obj->m_rotate_v, 0);
+    vec3_init(&obj->m_rotate_a, 0);
+    vec3_init(&obj->m_mirror, 0);
+}
+
+#define IS_CENTER( obj ) obj->base.m_center
+#define POS_X( obj ) obj->base.m_offset->m_xyz[0]
+#define POS_Y( obj ) obj->base.m_offset->m_xyz[1]
+#define POS_Z( obj ) obj->base.m_offset->m_xyz[2]

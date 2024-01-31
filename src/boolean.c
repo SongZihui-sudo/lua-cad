@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-30 21:48:47
+ * @LastEditTime: 2024-01-31 19:30:26
  * @FilePath: /lua-cad/src/boolean.c
  * @Description: bool 操作
  *
@@ -12,7 +12,7 @@
 #include <string.h>
 
 #include <boolean.h>
-#include <to_code.h>
+#include <to_openscad_code.h>
 
 /**
  * @description: 布尔操作

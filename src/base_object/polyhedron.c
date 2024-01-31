@@ -1,5 +1,5 @@
 #include <polyhedron.h>
-#include <to_code.h>
+#include <to_openscad_code.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -45,7 +45,7 @@ int polyhedron_init( lua_State* L )
         lua_pushnumber( L, i + 1 );
         lua_gettable( L, 2 );
         counter  = luaL_len( L, -1 );
-        faces[i] = ( double* )malloc( sizeof( double ) );
+        faces[i] = dynast_cast( int, malloc( sizeof( int ) * counter ) );
         for ( int j = 0; j < counter; j++ )
         {
             char buffer2[100];
@@ -71,14 +71,10 @@ int polyhedron_init( lua_State* L )
     current->base.m_center = lua_toboolean( L, 2 );
     current->base.m_obj_base.m_type = POLYHEDRON;
     memcpy( current->m_points, points, sizeof( vec3 ) * points_count );
-    memcpy( current->m_faces, faces, sizeof( double ) * counter * faces_count );
+    memcpy( current->m_faces, faces, sizeof( int ) * counter * faces_count );
     current->m_points_count = points_count;
-    current->m_face_countl  = faces_count;
-    // free
-    for ( int i = 0; i < faces_count; i++ )
-    {
-        free( faces[i] );
-    }
+    current->m_face_count   = faces_count;
+    current->m_face_count   = counter;
     // to-code
     polyhedron_to_code( L, current );
     return 1;
@@ -89,13 +85,27 @@ vec3 calculate_vertices_polyhedron( lua_State* L, polyhedron* self, unsigned sho
     vec3 result;
     vec3 sides;
     pan( &result, self->base.m_offset );
-    TODO完成多面体基准面的计算:
-    if ( self->base.m_center )
+    // 计算这些点的中心
+    double max_x = 0, max_y = 0, max_z = 0, min_x = 0x3f3f3f3f,
+           min_y = 0x3f3f3f3f, min_z = 0x3f3f3f3f;
+    for ( int i = 0; i < self->m_face_count; i++ )
     {
+#define xx( xyz, cmp, op )                                                                 \
+    if ( self->m_points[self->m_faces[index][i]].m_xyz[xyz] op cmp )                                     \
+    {                                                                                      \
+        cmp = self->m_points[self->m_faces[index][i]].m_xyz[xyz];                                        \
     }
-    else
-    {
+        xx( 0, max_x, > )
+        xx(1, max_y, >)
+        xx(2, max_z, >)
+        xx(0, min_x, <)
+        xx(1, min_y, <)
+        xx(2, min_z, <)
+#undef xx
     }
+    result.m_xyz[0] = (max_x + min_x) / 2;
+    result.m_xyz[1] = (max_y + min_y) / 2;
+    result.m_xyz[2] = (max_z + min_z) / 2;
     rotation( &result, self->base.m_rotate_a, self->base.m_rotate_v );
     return result;
 }

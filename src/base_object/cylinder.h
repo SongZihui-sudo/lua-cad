@@ -5,13 +5,9 @@
 #include <stdbool.h>
 #include <vec3.h>
 
-#define CYLINDER_R_D_1(CYLINDER) CYLINDER->m_r_d_1
-#define CYLINDER_R_D_2(CYLINDER) CYLINDER->m_r_d_2
-#define CYLINDER_H(CYLINDER) CYLINDER->m_h
-#define CYLINDER_X( CYLINDER ) CYLINDER->base.m_offset->m_xyz[0]
-#define CYLINDER_Y( CYLINDER ) CYLINDER->base.m_offset->m_xyz[1]
-#define CYLINDER_Z( CYLINDER ) CYLINDER->base.m_offset->m_xyz[2]
-#define CYLINDER_CENTER( CYLINDER ) CYLINDER->base.m_center
+#define CYLINDER_R_D_1( CYLINDER ) CYLINDER->m_r_d_1
+#define CYLINDER_R_D_2( CYLINDER ) CYLINDER->m_r_d_2
+#define CYLINDER_H( CYLINDER ) CYLINDER->m_h
 
 typedef struct cylinder
 {
@@ -19,7 +15,17 @@ typedef struct cylinder
     double m_h;
     double m_r_d_1;
     double m_r_d_2;
-}cylinder;
+} cylinder;
+
+/**
+ * @description: 圆柱体对象初始化
+ * @return {*}
+ */
+#define cylinder_obj_init( obj )                                                           \
+    obj->m_h     = -1;                                                                     \
+    obj->m_r_d_1 = -1;                                                                     \
+    obj->m_r_d_2 = -1;                                                                     \
+    D3OBJECT_BASE_INIT( &obj->base );
 
 /**
  * @description: 初始化圆柱体

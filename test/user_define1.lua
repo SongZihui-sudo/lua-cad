@@ -12,9 +12,9 @@ test1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 test1 = user_define.postion(test1, {10, 10, 10});
 print("obj_type: "..test1[1]);
 print("offset")
-print("x: "..test1["offset"]["x"]);
-print("x: "..test1["offset"]["y"]);
-print("x: "..test1["offset"]["z"]);
+print("x: "..test1.offset.x);
+print("x: "..test1.offset.y);
+print("x: "..test1.offset.z);
 print("test1")
 print_info(test1);
 

@@ -11,7 +11,7 @@ typedef struct polyhedron
     vec3 m_points[64];
     int* m_faces[64];
     int m_points_count;
-    int m_face_countl
+    int m_face_count;
 } polyhedron;
 
 /**
