@@ -48,26 +48,27 @@ int polyhedron_init( lua_State* L )
         faces[i] = ( double* )malloc( sizeof( double ) );
         for ( int j = 0; j < counter; j++ )
         {
-            char buffer2[100];buffer2[0] = '\0';
+            char buffer2[100];
+            buffer2[0] = '\0';
             lua_pushnumber( L, j + 1 );
             lua_gettable( L, -2 );
             faces[i][j] = lua_tointeger( L, -1 );
-            sprintf(buffer2, "%s%d,", buffer, faces[i][j]);
-            strcpy(buffer, buffer2);
+            sprintf( buffer2, "%s%d,", buffer, faces[i][j] );
+            strcpy( buffer, buffer2 );
             lua_pop( L, 1 );
         }
-        buffer[strlen(buffer) - 1] = ']';
+        buffer[strlen( buffer ) - 1] = ']';
         strcat( POLYHEDRON_ARG2, buffer );
         POLYHEDRON_ARG2[strlen( POLYHEDRON_ARG2 )] = ',';
-        memset(buffer, 0, strlen(buffer));
+        memset( buffer, 0, strlen( buffer ) );
         lua_pop( L, 1 );
     }
     POLYHEDRON_ARG2[strlen( POLYHEDRON_ARG2 ) - 1] = '\0';
     // 创建多变体对象
     unsigned int i_bytes = sizeof( polyhedron );
     polyhedron* current;
-    current = dynast_cast( polyhedron, lua_newuserdata( L, i_bytes ) );
-    current->base.m_center = lua_toboolean(L, 2);
+    current                = dynast_cast( polyhedron, lua_newuserdata( L, i_bytes ) );
+    current->base.m_center = lua_toboolean( L, 2 );
     current->base.m_obj_base.m_type = POLYHEDRON;
     memcpy( current->m_points, points, sizeof( vec3 ) * points_count );
     memcpy( current->m_faces, faces, sizeof( double ) * counter * faces_count );
@@ -83,8 +84,18 @@ int polyhedron_init( lua_State* L )
     return 1;
 }
 
-vec3 calculate_vertices_polyhedron( polyhedron* self, unsigned short index )
+vec3 calculate_vertices_polyhedron( lua_State* L, polyhedron* self, unsigned short index )
 {
     vec3 result;
+    vec3 sides;
+    pan( &result, self->base.m_offset );
+    TODO完成多面体基准面的计算:
+    if ( self->base.m_center )
+    {
+    }
+    else
+    {
+    }
+    rotation( &result, self->base.m_rotate_a, self->base.m_rotate_v );
     return result;
 }

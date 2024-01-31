@@ -27,4 +27,4 @@ int polyhedron_init( lua_State* L );
  * @param {unsigned short} index
  * @return {*}
  */
-vec3 calculate_vertices_polyhedron( polyhedron* self, unsigned short index );
+vec3 calculate_vertices_polyhedron( lua_State* L, polyhedron* self, unsigned short index );

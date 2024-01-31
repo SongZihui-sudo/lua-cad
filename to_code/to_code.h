@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-30 22:11:22
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-01-31 10:55:04
  * @FilePath: /lua-cad/to_code/to_code.h
  * @Description: 对象导出
  *
@@ -139,7 +139,7 @@ extern char COLOR_EXPORT_ARG2[64];
  */
 extern const char* CYLINDER_ARG1;
 extern const char* CYLINDER_ARG2;
-#define CYLINDER_EXPORT_RULE "cylinder([h = %f, %s = %f, %s center = %d]);\n"
+#define CYLINDER_EXPORT_RULE "cylinder(h = %f, %s = %f, %s center = %d);\n"
 #define CYLINDER_ALL_EXPORT_RULE CYLINDER_EXPORT_RULE
 #define CYLINDER_EXPORT_ARGS( self )                                                       \
     CYLINDER_H( self ), CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, CYLINDER_CENTER( self )

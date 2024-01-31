@@ -29,4 +29,4 @@ int sphere_init(lua_State* L);
  * @param {unsigned short} index
  * @return {*}
  */
-vec3 calculate_vertices_sphere( sphere* self, unsigned short index );
+vec3 calculate_vertices_sphere( lua_State* L, sphere* self, unsigned short index );

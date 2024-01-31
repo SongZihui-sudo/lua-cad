@@ -15,7 +15,7 @@ int cylinder_init( lua_State* L )
     temp->base.m_center = lua_toboolean( L, 2 );
     lua_pushstring( L, "h" );
     lua_gettable( L, 1 );
-    temp->m_h = lua_tonumber( L, -1 );
+    temp->m_h = luaL_checknumber( L, -1 );
     lua_pushstring( L, "r" );
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
@@ -50,7 +50,7 @@ int cylinder_init( lua_State* L )
     if ( !lua_isnil( L, -1 ) )
     {
         char buf[32];
-        temp->m_r_d_2        = lua_tonumber( L, -1 );
+        temp->m_r_d_2 = lua_tonumber( L, -1 );
         sprintf( buf, SINGLE_ARG_RULE1, "d2", temp->m_r_d_2 );
         CYLINDER_ARG2 = buf;
         if ( temp->m_r_d_1 != -1 )
@@ -60,7 +60,7 @@ int cylinder_init( lua_State* L )
     }
     else if ( temp->m_r_d_1 != -1 )
     {
-        luaL_error(L, "d2 cannot be empty!");
+        luaL_error( L, "d2 cannot be empty!" );
     }
     lua_pushstring( L, "r1" );
     lua_gettable( L, 1 );
@@ -82,7 +82,7 @@ int cylinder_init( lua_State* L )
             luaL_error( L, "r2 or d2 cannot be configured at the same time!" );
         }
         char buf[32];
-        temp->m_r_d_2        = lua_tonumber( L, -1 );
+        temp->m_r_d_2 = lua_tonumber( L, -1 );
         sprintf( buf, SINGLE_ARG_RULE1, "r2", temp->m_r_d_2 );
         CYLINDER_ARG2 = buf;
         if ( temp->m_r_d_1 != -1 )
@@ -103,8 +103,23 @@ finish:
     return 1;
 }
 
-vec3 calculate_vertices_cylinder( cylinder* self, unsigned short index )
+vec3 calculate_vertices_cylinder( lua_State* L,  cylinder* self, unsigned short index )
 {
     vec3 result;
+    vec3 sides;
+    sides.m_xyz[0] = self->m_h;
+    sides.m_xyz[0] = self->m_r_d_1;
+    sides.m_xyz[0] = self->m_r_d_2;
+    scale( &sides, self->base.m_scale );
+    pan( &result, self->base.m_offset );
+    TODO完成圆柱体的基准面计算:
+    if(self->base.m_center)
+    {
+
+    }
+    else {
+    
+    }
+    rotation(&result, self->base.m_rotate_a, self->base.m_rotate_v);
     return result;
 }

@@ -35,4 +35,23 @@ int sphere_init(lua_State* L)
     return 1;
 }
 
+vec3 calculate_vertices_sphere( lua_State* L, sphere* self, unsigned short index )
+{
+    vec3 result;
+    vec3 sides;
+    sides.m_xyz[0] = self->m_r_or_d;
+    scale( &sides, self->base.m_scale );
+    pan( &result, self->base.m_offset );
+    TODO完成球体基准面的计算:
+    if(self->base.m_center)
+    {
+
+    }
+    else {
+    
+    }
+    rotation(&result, self->base.m_rotate_a, self->base.m_rotate_v);
+    return result;
+}
+
 static const luaL_Reg spherelib[] = { { "new", sphere_init }, { NULL, NULL } };
