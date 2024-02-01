@@ -10,7 +10,7 @@ char ROTATE_EXPORT_ARG2[64];
 char COLOR_EXPORT_ARG1[64];
 char COLOR_EXPORT_ARG2[64];
 
-static void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TRANSFORM_TYPES type )
+void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type )
 {
     char temp[128];
     switch ( type )
@@ -52,11 +52,11 @@ static void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TRANSF
     free( buffer );
 }
 
-int transform( lua_State* L, enum TRANSFORM_TYPES type, D3OBJECT_BASE* obj )
+int transform( lua_State* L, enum TYPES type, D3OBJECT_BASE* obj )
 {
     // 读输入的参数
-    const int count = 3;
-    const char* xyz[3] = {"x", "y", "z"};
+    const int count    = 3;
+    const char* xyz[3] = { "x", "y", "z" };
     for ( int i = 0; i < count; i++ )
     {
         lua_pushnumber( L, i + 1 );
@@ -65,7 +65,7 @@ int transform( lua_State* L, enum TRANSFORM_TYPES type, D3OBJECT_BASE* obj )
         if ( !temp_num )
         {
             lua_pop( L, 1 );
-            lua_pushstring(L, xyz[i]);
+            lua_pushstring( L, xyz[i] );
             lua_gettable( L, 2 );
             temp_num = lua_tonumber( L, -1 );
         }
@@ -85,8 +85,6 @@ int transform( lua_State* L, enum TRANSFORM_TYPES type, D3OBJECT_BASE* obj )
         }
         lua_pop( L, 1 );
     }
-    // 设置当前的输出代码
-    append_transform_code( L, obj, type );
     return 1;
 }
 
@@ -98,6 +96,7 @@ int transform_postion( lua_State* L )
         luaL_error( L, "Object is null!" );
     }
     transform( L, TRANSLATE, current );
+    current->m_op_stack[++current->m_op_stack[0]] = TRANSLATE;
     return 1;
 }
 
@@ -109,6 +108,7 @@ int transform_scale( lua_State* L )
         luaL_error( L, "Object is null!" );
     }
     transform( L, SCALE, current );
+    current->m_op_stack[++current->m_op_stack[0]] = SCALE;
     return 1;
 }
 
@@ -164,7 +164,7 @@ int transform_rotate( lua_State* L )
                  current->m_rotate_v.m_xyz[2] );
     }
 finish:
-    append_transform_code( L, current, ROTATE );
+    current->m_op_stack[++current->m_op_stack[0]] = ROTATE;
     return 1;
 }
 
@@ -176,6 +176,7 @@ int transform_mirror( lua_State* L )
         luaL_error( L, "Object is null!" );
     }
     transform( L, MIRROR, current );
+    current->m_op_stack[++current->m_op_stack[0]] = MIRROR;
     return 1;
 }
 
@@ -238,10 +239,9 @@ int color( lua_State* L )
     else
     {
         COLOR_EXPORT_ARG2[0] = '\0';
-        luaL_error( L, "Error Type! arg 3!" );
     }
 finish:
-    append_transform_code( L, current, COLOR );
+    current->m_op_stack[++current->m_op_stack[0]] = COLOR;
     return 1;
 }
 

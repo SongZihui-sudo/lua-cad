@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-31 19:30:18
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-02 00:43:37
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
@@ -20,6 +20,25 @@ char* LAYOUT_EXPORT_RULE[]
     "offset(%s){\n%s\n}" };
 
 void cube_to_code( lua_State* L, struct cube* self ) { d3obj_to_code( L, &self->base ); }
+
+void transform_to_code( lua_State* L, D3OBJECT_BASE* base )
+{
+    int buffer[20];
+    buffer[0] = 0;
+    for ( int i = 1; i <= base->m_op_stack[0]; i++ )
+    {
+        for ( int j = 0; j < buffer[0]; j++ )
+        {
+            if (buffer[j] == base->m_op_stack[i]) {
+                goto continue_;      
+            }
+        }
+        append_transform_code( L, base, base->m_op_stack[i] );
+        buffer[buffer[0]++] = base->m_op_stack[i];
+continue_:
+    continue;
+    }
+}
 
 void d3obj_to_code( lua_State* L, D3OBJECT_BASE* base )
 {
@@ -53,8 +72,9 @@ void d3obj_to_code( lua_State* L, D3OBJECT_BASE* base )
         default:
             luaL_error( L, "Unknown object!" );
     }
-    base->m_obj_base.m_code = dynast_cast(char, malloc( sizeof( temp ) ));
+    base->m_obj_base.m_code = dynast_cast( char, malloc( sizeof( temp ) ) );
     strcpy( base->m_obj_base.m_code, temp );
+    transform_to_code( L, base );
     temp[0] = ' ';
     temp[1] = '\0';
 }
@@ -92,9 +112,12 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
     switch ( *self )
     {
         case OFFSET:
-            offset = lua_checkstack(L, 3);
-            sprintf(buffer_offset, SINGLE_ARG_RULE1, "r", offset);
-            sprintf(buffer2, LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN], buffer_offset, "%s");
+            offset = lua_checkstack( L, 3 );
+            sprintf( buffer_offset, SINGLE_ARG_RULE1, "r", offset );
+            sprintf( buffer2,
+                     LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN],
+                     buffer_offset,
+                     "%s" );
             LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN] = buffer2;
         case MINKOWSKI:
         case HULL:
@@ -116,7 +139,8 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
                 }
                 else
                 {
-                    temp2        = dynast_cast( D3OBJECT_BASE, children[i] );
+                    temp2 = dynast_cast( D3OBJECT_BASE, children[i] );
+                    d3obj_to_code( L, temp2 );
                     char* buffer = temp2->m_obj_base.m_code;
                     char temp_buffer[CODE_LENGTH];
                     sprintf( temp_buffer, "%s%s", temp, buffer );
@@ -130,6 +154,7 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
         case USER_DEFINE:
         case CUBE:
             temp2 = dynast_cast( D3OBJECT_BASE, self );
+            d3obj_to_code( L, temp2 );
             sprintf( temp, "%s", temp2->m_obj_base.m_code );
             break;
         default:

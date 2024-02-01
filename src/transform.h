@@ -5,15 +5,6 @@
 #include <stdbool.h>
 #include <vec3.h>
 
-enum TRANSFORM_TYPES
-{
-    TRANSLATE,
-    SCALE,
-    ROTATE,
-    MIRROR,
-    COLOR
-};
-
 /**
  * @description: 设置位置 --- translate
  * @param {lua_State*} L
@@ -56,4 +47,13 @@ int color(lua_State* L);
  * @param {D3OBJECT_BASE*} obj
  * @return {*}
  */
-int transform( lua_State* L, enum TRANSFORM_TYPES type, D3OBJECT_BASE* obj );
+int transform( lua_State* L, enum TYPES type, D3OBJECT_BASE* obj );
+
+/**
+ * @description: 添加变换修饰代码
+ * @param {lua_State*} L
+ * @param {D3OBJECT_BASE*} obj
+ * @param {enum TYPES} type
+ * @return {*}
+ */
+void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type );

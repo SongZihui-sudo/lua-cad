@@ -38,7 +38,6 @@ int cube_init( lua_State* L )
     current->m_w_l_h                = temp_vec;
     current->base.m_center          = is_center;
     current->base.m_obj_base.m_code = NULL;
-    cube_to_code( L, current );
     return 1;
 }
 

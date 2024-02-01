@@ -34,7 +34,6 @@ int sphere_init( lua_State* L )
     current->m_r_or_d               = r_or_d;
     current->base.m_obj_base.m_code = NULL;
     current->base.m_obj_base.m_type = SPHERE;
-    sphere_to_code( L, current );
     return 1;
 }
 

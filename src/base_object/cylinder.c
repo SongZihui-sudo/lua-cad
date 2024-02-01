@@ -93,7 +93,6 @@ int cylinder_init( lua_State* L )
 finish:
     temp->base.m_obj_base.m_code = NULL;
     temp->base.m_obj_base.m_type = CYLINDER;
-    cylinder_to_code( L, temp );
     unsigned int i_bytes = sizeof( cylinder );
     cylinder* current;
     current = dynast_cast( cylinder, lua_newuserdata( L, i_bytes ) );

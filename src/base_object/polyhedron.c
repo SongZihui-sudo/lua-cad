@@ -68,6 +68,7 @@ int polyhedron_init( lua_State* L )
     unsigned int i_bytes = sizeof( polyhedron );
     polyhedron* current;
     current                = dynast_cast( polyhedron, lua_newuserdata( L, i_bytes ) );
+    D3OBJECT_BASE_INIT(&current->base);
     current->base.m_center = lua_toboolean( L, 2 );
     current->base.m_obj_base.m_type = POLYHEDRON;
     memcpy( current->m_points, points, sizeof( vec3 ) * points_count );
@@ -75,8 +76,6 @@ int polyhedron_init( lua_State* L )
     current->m_points_count = points_count;
     current->m_face_count   = faces_count;
     current->m_face_count   = counter;
-    // to-code
-    polyhedron_to_code( L, current );
     return 1;
 }
 
