@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-29 12:47:14
+ * @LastEditTime: 2024-02-01 11:38:02
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -55,6 +55,14 @@ int lua_cad_export( lua_State* L )
     return 1;
 }
 
-int include_code( lua_State* L ) { return 1; }
+int include_code( lua_State* L ) 
+{ 
+    TODOinclude其他文件:
+    return 1; 
+}
 
-int import_module( lua_State* L ) { return 1; }
+int import_module( lua_State* L ) 
+{
+    TODO导入其他stl文件:
+    return 1; 
+}

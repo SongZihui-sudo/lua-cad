@@ -106,6 +106,7 @@ finish:
 vec3 calculate_vertices_cylinder( lua_State* L, cylinder* self, unsigned short index )
 {
     vec3 result;
+    vec3_init(&result, 0);
     vec3 sides;
     sides.m_xyz[0] = self->m_h;
     sides.m_xyz[1] = self->m_r_d_1;
@@ -120,8 +121,8 @@ vec3 calculate_vertices_cylinder( lua_State* L, cylinder* self, unsigned short i
     case case_num:                                                                         \
         result.m_xyz[xyz] += self->m_h / 2;                                                \
         break;
-            xx( 1, +=, 2 );
-            xx( 2, -=, 2 );
+            xx( 1, +=, 2 ); // 顶
+            xx( 2, -=, 2 ); // 底
 #undef xx
             default:
                 luaL_error( L, "Datum index out of bounds!" );
@@ -134,11 +135,11 @@ vec3 calculate_vertices_cylinder( lua_State* L, cylinder* self, unsigned short i
     result.m_xyz[xyz2] += sides.m_xyz[xyz3];
         if ( self->m_r_d_2 > 0 )
         {
-            xx( 0, 1, 2 )
+            xx( 0, 1, 1 )
         }
         else
         {
-            xx( 0, 1, 1 )
+            xx( 0, 1, 2 )
         }
 #undef xx
         switch ( index )

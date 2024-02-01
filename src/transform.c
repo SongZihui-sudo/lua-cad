@@ -45,21 +45,30 @@ static void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TRANSF
         default:
             luaL_error( L, "Unknown transform type!" );
     }
-    char* buffer = dynast_cast(char, malloc( sizeof( char ) * ( strlen( obj->m_obj_base.m_code ) + strlen( temp ) ) ));
+    char* buffer
+    = dynast_cast( char, malloc( sizeof( char ) * ( strlen( obj->m_obj_base.m_code ) + strlen( temp ) ) ) );
     sprintf( buffer, "%s%s", temp, obj->m_obj_base.m_code );
     strcpy( obj->m_obj_base.m_code, buffer );
     free( buffer );
 }
 
-static int transform( lua_State* L, enum TRANSFORM_TYPES type, D3OBJECT_BASE* obj )
+int transform( lua_State* L, enum TRANSFORM_TYPES type, D3OBJECT_BASE* obj )
 {
     // 读输入的参数
     const int count = 3;
+    const char* xyz[3] = {"x", "y", "z"};
     for ( int i = 0; i < count; i++ )
     {
         lua_pushnumber( L, i + 1 );
         lua_gettable( L, 2 );
         double temp_num = lua_tonumber( L, -1 );
+        if ( !temp_num )
+        {
+            lua_pop( L, 1 );
+            lua_pushstring(L, xyz[i]);
+            lua_gettable( L, 2 );
+            temp_num = lua_tonumber( L, -1 );
+        }
         switch ( type )
         {
             case TRANSLATE:
@@ -180,9 +189,9 @@ int color( lua_State* L )
     if ( lua_istable( L, 2 ) )
     {
         int count = luaL_len( L, 2 );
-        if (count > 4) 
+        if ( count > 4 )
         {
-            luaL_error(L, "To many args in table!");    
+            luaL_error( L, "To many args in table!" );
         }
         for ( int i = 0; i < count; i++ )
         {
@@ -217,17 +226,19 @@ int color( lua_State* L )
         sprintf( current->m_color_str, "\"%s\"", lua_tostring( L, 2 ) );
         sprintf( COLOR_EXPORT_ARG1, "%s", current->m_color_str );
     }
-    else {
-        luaL_error(L, "Error Type! arg 2!");
+    else
+    {
+        luaL_error( L, "Error Type! arg 2!" );
     }
     if ( lua_isnumber( L, 3 ) )
     {
         current->m_color_alpha = lua_tonumber( L, 3 );
         sprintf( COLOR_EXPORT_ARG2, SINGLE_ARG_RULE1, ", alpha", current->m_color_alpha );
     }
-    else {
+    else
+    {
         COLOR_EXPORT_ARG2[0] = '\0';
-        luaL_error(L, "Error Type! arg 3!");
+        luaL_error( L, "Error Type! arg 3!" );
     }
 finish:
     append_transform_code( L, current, COLOR );

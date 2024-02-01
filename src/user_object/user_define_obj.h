@@ -1,9 +1,9 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-28 21:38:58
- * @FilePath: /lua-cad/src/user_define_obj.h
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-01 11:42:11
+ * @FilePath: /lua-cad/src/user_object/user_define_obj.h
  * @Description: 用户自定义对象
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
@@ -32,7 +32,41 @@ extern user_define_objects user_objs;
 int user_code_postion( lua_State* L );
 
 /**
+ * @description: mirror
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int user_code_mirror(lua_State* L);
+
+/**
+ * @description: scale
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int user_code_scale(lua_State* L);
+
+/**
+ * @description: rotate
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int user_code_rotate(lua_State* L);
+
+/**
+ * @description: color
+ * @return {*}
+ */
+int user_code_color(lua_State* L);
+
+/**
  * @description: 用户自定义对象输出
  * @return {*}
  */
 int user_define_to_code( lua_State* L );
+
+/**
+ * @description: 引入其他文件中用户定义的对象
+ * @param {lua_State*} L
+ * @return {*}
+ */
+int user_define_from_file(lua_State* L);

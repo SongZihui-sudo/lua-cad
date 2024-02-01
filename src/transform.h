@@ -48,3 +48,12 @@ int transform_mirror(lua_State* L);
  * @return {*}
  */
 int color(lua_State* L);
+
+/**
+ * @description: 读取变换参数
+ * @param {lua_State*} L
+ * @param {enum TRANSFORM_TYPES} type
+ * @param {D3OBJECT_BASE*} obj
+ * @return {*}
+ */
+int transform( lua_State* L, enum TRANSFORM_TYPES type, D3OBJECT_BASE* obj );

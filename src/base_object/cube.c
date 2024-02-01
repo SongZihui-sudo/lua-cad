@@ -45,6 +45,7 @@ int cube_init( lua_State* L )
 vec3 calculate_vertices_cube( lua_State* L, cube* self, unsigned short index )
 {
     vec3 result;
+    vec3_init(&result, 0);
     vec3 sides = self->m_w_l_h;
     scale( &sides, self->base.m_scale );
     pan( &result, self->base.m_offset );

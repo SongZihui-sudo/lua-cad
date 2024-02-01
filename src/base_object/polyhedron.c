@@ -83,6 +83,7 @@ int polyhedron_init( lua_State* L )
 vec3 calculate_vertices_polyhedron( lua_State* L, polyhedron* self, unsigned short index )
 {
     vec3 result;
+    vec3_init(&result, 0);
     vec3 sides;
     pan( &result, self->base.m_offset );
     // 计算这些点的中心
