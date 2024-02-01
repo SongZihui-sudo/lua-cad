@@ -14,7 +14,7 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
 <br />
 
 <p align="center">
-  <a href="https://github.com/shaojintian/Best_README_template/">
+  <a href="https://github.com/SongZihui-sudo/lua-cad/">
     <img src="https://lua.org/images/lua30.gif" alt="Logo" width="200" height="200">
   </a>
 
@@ -134,8 +134,6 @@ export("./export.scad", intersection1);
 
 ### 上手指南
 
-请将所有链接中的“shaojintian/Best_README_template”改为“your_github_name/your_repository”
-
 ###### **源码编译**
 
 1. 安装 `xmake`  
@@ -224,14 +222,14 @@ mail: 1751122876@qq.com
 - [openscad](https://openscad.org/index.html)
 
 <!-- links -->
-[your-project-path]:shaojintian/Best_README_template
-[contributors-shield]: https://img.shields.io/github/contributors/shaojintian/Best_README_template.svg?style=flat-square
-[contributors-url]: https://github.com/shaojintian/Best_README_template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/shaojintian/Best_README_template.svg?style=flat-square
-[forks-url]: https://github.com/shaojintian/Best_README_template/network/members
-[stars-shield]: https://img.shields.io/github/stars/shaojintian/Best_README_template.svg?style=flat-square
-[stars-url]: https://github.com/shaojintian/Best_README_template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/shaojintian/Best_README_template.svg?style=flat-square
-[issues-url]: https://img.shields.io/github/issues/shaojintian/Best_README_template.svg
-[license-shield]: https://img.shields.io/github/license/shaojintian/Best_README_template.svg?style=flat-square
+[your-project-path]:SongZihui-sudo/lua-cad
+[contributors-shield]: https://img.shields.io/github/contributors/SongZihui-sudo/lua-cad.svg?style=flat-square
+[contributors-url]: https://github.com/SongZihui-sudo/lua-cad/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/SongZihui-sudo/lua-cad.svg?style=flat-square
+[forks-url]: https://github.com/SongZihui-sudo/lua-cad/network/members
+[stars-shield]: https://img.shields.io/github/stars/SongZihui-sudo/lua-cad.svg?style=flat-square
+[stars-url]: https://github.com/SongZihui-sudo/lua-cad/stargazers
+[issues-shield]: https://img.shields.io/github/issues/SongZihui-sudo/lua-cad.svg?style=flat-square
+[issues-url]: https://img.shields.io/github/issues/SongZihui-sudo/lua-cad.svg
+[license-shield]: https://img.shields.io/github/license/SongZihui-sudo/lua-cad.svg?style=flat-square
 [license-url]: ./LICENSE.txt
