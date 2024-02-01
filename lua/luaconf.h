@@ -226,11 +226,14 @@
 #define LUA_ROOT	"/usr/local/"
 #define LUA_LDIR	LUA_ROOT "share/lua/" LUA_VDIR "/"
 #define LUA_CDIR	LUA_ROOT "lib/lua/" LUA_VDIR "/"
+#define LUA_CAD_LLIB_DIR "lua_cad/"
+#define LUA_CAD_ROOT_LLIB_DIR LUA_ROOT "lua_cad/"
 
 #if !defined(LUA_PATH_DEFAULT)
 #define LUA_PATH_DEFAULT  \
 		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
 		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" \
+		LUA_CAD_LLIB_DIR"?.lua;" LUA_CAD_ROOT_LLIB_DIR"?.lua;" \
 		"./?.lua;" "./?/init.lua"
 #endif
 
