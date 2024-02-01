@@ -25,8 +25,6 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
     <a href="./doc/index.md"><strong>探索本项目的文档 »</strong></a>
     <br />
     <br />
-    <a href=">查看Demo</a>
-    ·
     <a href="">报告Bug</a>
     ·
     <a href="">提出新特性</a>
