@@ -140,6 +140,7 @@ export("./export.scad", intersection1);
    - [xmake安装方法](https://xmake.io/#/guide/installation)
 2. Clone the repo
 ```sh
+git clone https://github.com/SongZihui-sudo/lua-cad.git
 ```
 3. cd lua-cad
 4. 编译源码

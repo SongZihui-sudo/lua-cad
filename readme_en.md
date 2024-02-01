@@ -36,26 +36,25 @@ OpenSCAD for Lua, uses lua to create 3D models.
  
 ## Table of contents
 
-- [Lua-cad](#lua-cad)
-   - [catalog](#catalogue)
-     - [**Features**](#Features)
-         - [**Use benchmarks to achieve accurate positioning**](#Use benchmarks to achieve accurate positioning)
-         - [**Quick transplantation, reuse of existing code, compatible with openscad's module call statements**] (#Quick transplantation, reuse of existing code compatible with -openscad-'s module call statements)
-     - [Example](#example)
-         - [Reuse openscad](#reuse-openscad)
-         - [Basic operations:](#Basic operations)
-     - [Documentation](#documentation)
-     - [Getting Started Guide](#Getting Started Guide)
-           - [**Source Code Compilation**](#Source Code Compilation)
-         - [**Instructions for use**](#Instructions for use)
-     - [File Directory Description](#File Directory Description)
-     - [Open source projects used](#Open source projects used)
-     - [contributor](#contributor)
-       - [How to participate in open source projects](#How to participate in open source projects)
-     - [Version Control](#VERSION CONTROL)
-     - [Author](#author)
-     - [Copyright Notice](# Copyright Notice)
-     - [ACKNOWLEDGMENTS](#ACKNOWLEDGMENTS)
+- [Table of contents](#table-of-contents)
+  - [**Features**](#features)
+      - [**Use benchmarks to achieve accurate positioning**](#use-benchmarks-to-achieve-accurate-positioning)
+      - [**Fast transplantation, reuse of existing code, compatible with openscad’s module calling statements**](#fast-transplantation-reuse-of-existing-code-compatible-with-openscads-module-calling-statements)
+  - [Example](#example)
+      - [Reuse openscad](#reuse-openscad)
+      - [Basic operations:](#basic-operations)
+  - [document](#document)
+  - [Getting Started Guide](#getting-started-guide)
+        - [**Source code compilation**](#source-code-compilation)
+      - [**Instructions for use**](#instructions-for-use)
+  - [File directory description](#file-directory-description)
+  - [Open source projects used](#open-source-projects-used)
+  - [Contributors](#contributors)
+    - [How to participate in open source projects](#how-to-participate-in-open-source-projects)
+  - [version control](#version-control)
+  - [author](#author)
+  - [Copyright statement](#copyright-statement)
+  - [Acknowledgments](#acknowledgments)
 
 ### **Features**
 
@@ -140,6 +139,7 @@ export("./export.scad", intersection1);
     - [xmake installation method](https://xmake.io/#/guide/installation)
 2. Clone the repo
 ```sh
+git clone https://github.com/SongZihui-sudo/lua-cad.git
 ```
 3. cd lua-cad
 4. Compile source code
