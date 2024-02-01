@@ -25,9 +25,9 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
     <a href="./doc/index.md"><strong>探索本项目的文档 »</strong></a>
     <br />
     <br />
-    <a href="">报告Bug</a>
+    <a href = "https://github.com/SongZihui-sudo/lua-cad/issues/new">报告Bug</a>
     ·
-    <a href="">提出新特性</a>
+    <a href="https://github.com/SongZihui-sudo/lua-cad/issues">提出新特性</a>
     ·
     <a href="./readme_en.md">English</a>
   </p>
@@ -230,6 +230,6 @@ mail: 1751122876@qq.com
 [stars-shield]: https://img.shields.io/github/stars/SongZihui-sudo/lua-cad.svg?style=flat-square
 [stars-url]: https://github.com/SongZihui-sudo/lua-cad/stargazers
 [issues-shield]: https://img.shields.io/github/issues/SongZihui-sudo/lua-cad.svg?style=flat-square
-[issues-url]: https://img.shields.io/github/issues/SongZihui-sudo/lua-cad.svg
+[issues-url]: https://github.com/SongZihui-sudo/lua-cad/issues
 [license-shield]: https://img.shields.io/github/license/SongZihui-sudo/lua-cad.svg?style=flat-square
 [license-url]: ./LICENSE.txt
