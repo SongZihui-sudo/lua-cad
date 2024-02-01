@@ -25,46 +25,6 @@ typedef struct user_define_objects {
 extern user_define_objects user_objs;
 
 /**
- * @description: 用户自定义对象设置位置
- * @param {lua_State*} L
- * @return {*}
- */
-int user_code_postion( lua_State* L );
-
-/**
- * @description: mirror
- * @param {lua_State*} L
- * @return {*}
- */
-int user_code_mirror(lua_State* L);
-
-/**
- * @description: scale
- * @param {lua_State*} L
- * @return {*}
- */
-int user_code_scale(lua_State* L);
-
-/**
- * @description: rotate
- * @param {lua_State*} L
- * @return {*}
- */
-int user_code_rotate(lua_State* L);
-
-/**
- * @description: color
- * @return {*}
- */
-int user_code_color(lua_State* L);
-
-/**
- * @description: 用户自定义对象输出
- * @return {*}
- */
-int user_define_to_code( lua_State* L );
-
-/**
  * @description: 引入其他文件中用户定义的对象
  * @param {lua_State*} L
  * @return {*}
