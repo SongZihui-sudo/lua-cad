@@ -1,5 +1,7 @@
-#include <d3object.h>
-
+#include <lauxlib.h>
+#include <obj_type.h>
+#include <stdbool.h>
+#include <vec3.h>
 #include <cube.h>
 #include <cylinder.h>
 #include <polyhedron.h>

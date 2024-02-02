@@ -73,7 +73,7 @@ int angle_to_datum( lua_State* L )
     return 1;
 }
 
-int to_table_datum( lua_State* L )
+static int to_table( lua_State* L )
 {
     datum* currnet = dynast_cast( datum, lua_touserdata( L, 1 ) );
     if ( !currnet )
@@ -96,7 +96,7 @@ int to_table_datum( lua_State* L )
 static const luaL_Reg datumlib[] = { { "relative", relative_position },
                                      { "distance", distance_to_datum },
                                      { "angle", angle_to_datum },
-                                     { "to_table", to_table_datum },
+                                     { "to_table", to_table },
                                      { NULL, NULL } };
 
 LUAMOD_API int luaopen_datum( lua_State* L )

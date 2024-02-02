@@ -9,11 +9,7 @@ package.path = package.path .. ';../?.lua'
 @return {*}
 --]]
 function user_obj_postion(user_obj, pos_list)
-    old_code = user_obj[1];
-    translate_code = to_openscad_code.to_translate(pos_list);
-    new_code = translate_code..old_code;
-    user_obj[1] = new_code;
-    user_obj.offset = pos_list;
+    user_obj.m_offset = pos_list;
     return user_obj;
 end
 
@@ -22,7 +18,7 @@ end
 @return {*}
 --]]
 function user_obj_mirror(user_obj, pos_list)
-    
+    user_obj.m_mirror = pos_list;
 end
 
 --[[
@@ -30,6 +26,10 @@ end
 @return {*}
 --]]
 function user_obj_scale(user_obj, scale_set)
+    user_obj.m_scale = scale_set;
+end
+
+function user_obj_to_Cstruct()
     
 end
 
@@ -37,32 +37,48 @@ end
 @description: user_define_obj 的变换操作表
 @return {*}
 --]]
-user_define_metatable = 
-{
-    postion = user_obj_postion,
-    mirror = user_obj_mirror,
-    scale = user_obj_scale
+user_define_metatable = {
+    __index = {
+        postion = user_obj_postion,
+        mirror = user_obj_mirror,
+        scale = user_obj_scale,
+        to_struct = user_obj_to_Cstruct
+    }
 }
+
+--[[
+@description: 将一组 d3object 保存为一个 chunk
+@return {*}
+--]]
+function d3object_to_chunk(obj)
+    return {}
+end
+
+--[[
+@description: 保存对象到标准件库
+@return {*}
+--]]
+function d3object_save(obj)
+    
+end
 
 --[[
 @description: 3d 对象的元表
 @return {*}
 --]]
-d3object_metatable = 
-{
+d3object_metatable = {
     --[[
     @description: union
     @return {*}
-    --]]    
+    --]]
     __add = function(obj1, obj2)
         return boolean.union({obj1, obj2});
-    end
-    ,
-    
+    end,
+
     --[[
     @description: difference
     @return {*}
-    --]]    
+    --]]
     __sub = function(obj1, obj2)
         return boolean.difference({obj1, obj2});
     end,
@@ -70,23 +86,18 @@ d3object_metatable =
     --[[
     @description: intersection
     @return {*}
-    --]]    
+    --]]
     __mul = function(obj1, obj2)
         return boolean.intersection({obj1, obj2});
-    end
+    end,
+
+    __index = {
+        to_table = d3object_to_chunk,
+        save = d3object_save
+    }
 }
 
 -- 继承
 setmetatable(user_define_metatable, d3object_metatable);
 
-transform = {}
-
-function transform.tranlate(obj, pos_list)
-    if type(obj) == userdata then
-        transform.postion(obj, pos_list);
-    else
-        user_define_metatable.postion(obj, pos_list);
-    end
-end
-
-return transform
+return user_define_metatable, d3object_metatable;
