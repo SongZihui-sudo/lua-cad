@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-02 00:21:18
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-02 16:52:28
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -13,14 +13,23 @@
 #include <lua.h>
 #include <obj_type.h>
 #include <stdlib.h>
+#include <user_define_obj.h>
 
 int code( lua_State* L )
 {
-    D3OBJECT_BASE* obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 1 ) );
-    if ( !obj )
+    D3OBJECT_BASE* obj;
+    if ( lua_isnil( L, 1 ) )
     {
-        luaL_error( L, "object is null!" );
-        return -1;
+        obj = table_to_Cstruct(L);
+    }
+    else
+    {
+        obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 1 ) );
+        if ( !obj )
+        {
+            luaL_error( L, "object is null!" );
+            return -1;
+        }
     }
     if ( obj->m_obj_base.m_type < OBJECT_END )
     {
@@ -38,11 +47,19 @@ int code( lua_State* L )
 int lua_cad_export( lua_State* L )
 {
     const char* path = luaL_checkstring( L, 1 );
-    D3OBJECT_BASE* obj    = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 2 ) );
-    if ( !obj )
+    D3OBJECT_BASE* obj;
+    if ( lua_isnil( L, 1 ) )
     {
-        luaL_error( L, "object is null!" );
-        return -1;
+        obj = table_to_Cstruct(L);
+    }
+    else
+    {
+        obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 2 ) );
+        if ( !obj )
+        {
+            luaL_error( L, "object is null!" );
+            return -1;
+        }
     }
     if ( obj->m_obj_base.m_type < OBJECT_END )
     {

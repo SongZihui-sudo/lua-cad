@@ -30,3 +30,10 @@ extern user_define_objects user_objs;
  * @return {*}
  */
 int user_define_from_file(lua_State* L);
+
+/**
+ * @description: 把 table 转换成 D3OBJECT_BASE
+ * @param {lua_State*} L
+ * @return {*}
+ */
+D3OBJECT_BASE* table_to_Cstruct(lua_State* L);

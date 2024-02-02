@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-02 00:36:38
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-02 18:29:24
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *

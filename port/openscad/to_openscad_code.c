@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-02 00:43:37
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-02 16:44:39
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
@@ -68,6 +68,9 @@ void d3obj_to_code( lua_State* L, D3OBJECT_BASE* base )
         case POLYHEDRON:
             self4 = dynast_cast( polyhedron, base );
             sprintf( temp, POLYHEDRON_ALL_EXPORT_RULE, POLYHEDRON_EXPORT_ARGS( self4 ) );
+            break;
+        case USER_DEFINE:
+            sprintf(temp, "%s", base->m_obj_base.m_code);
             break;
         default:
             luaL_error( L, "Unknown object!" );
