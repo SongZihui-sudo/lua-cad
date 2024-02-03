@@ -70,17 +70,17 @@ function user_obj_to_code(self)
     if type(self._offset) ~= "nil" then
         local fmt = transform.translate_fmt();
         local temp = string.format(fmt, self._offset[1], self._offset[2], self._offset[3]);
-        self[1] = temp .. self[1] .. "\n";
+        self[1] = temp .. self[1];
     end
     if type(self._scale) ~= "nil" then
         local fmt = transform.scale_fmt();
         local temp = string.format(fmt, self._scale[1], self._scale[2], self._scale[3]);
-        self[1] = temp .. self[1] .. "\n";
+        self[1] = temp .. self[1];
     end
     if type(self._mirror) ~= "nil" then
         local fmt = transform.mirror_fmt();
         local temp = string.format(fmt, self._mirror[1], self._mirror[2], self._mirror[3]);
-        self[1] = temp .. self[1] .. "\n";
+        self[1] = temp .. self[1];
     end
     if self._isrotate then
         local fmt = transform.rotate_fmt();
@@ -106,7 +106,7 @@ function user_obj_to_code(self)
             rotate_arg2 = "v = [" .. rotate_arg2 .. "]";
         end
         local temp = string.format(fmt, rotate_arg1, rotate_arg2);
-        self[1] = temp .. self[1] .. "\n";
+        self[1] = temp .. self[1];
     end
     if self._iscolor then
         local fmt = transform.color_fmt();
@@ -127,7 +127,7 @@ function user_obj_to_code(self)
             color_arg2 = ", alpha = " .. self._color_alpha;
         end
         local temp = string.format(fmt, color_arg1, color_arg2);
-        self[1] = temp .. self[1] .. "\n";
+        self[1] = temp .. self[1];
     end
     return self;
 end

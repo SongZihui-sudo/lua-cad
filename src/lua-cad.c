@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-03 14:17:57
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-03 22:30:18
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -21,6 +21,10 @@ int code( lua_State* L )
     if ( lua_istable( L, 1 ) )
     {
         code = get_user_obj_code( L, code );
+    }
+    else if ( lua_isstring( L, 1 ) )
+    {
+        code = lua_tostring( L, 1 );
     }
     else
     {
@@ -48,9 +52,13 @@ int lua_cad_export( lua_State* L )
 {
     char* code;
     const char* path = luaL_checkstring( L, 1 );
-    if ( lua_istable( L, 1 ) )
+    if ( lua_istable( L, 2 ) )
     {
-        get_user_obj_code( L, code );
+        code = get_user_obj_code( L, code );
+    }
+    else if ( lua_isstring( L, 2 ) )
+    {
+        code = lua_tostring( L, 2 );
     }
     else
     {
@@ -82,17 +90,17 @@ int lua_cad_export( lua_State* L )
 int include_code( lua_State* L )
 {
     char code[64] = "include <";
-    strcat(code, lua_tostring( L, 1 ));
-    strcat(code, ">\n");
-    lua_pushstring(L, code);
+    strcat( code, lua_tostring( L, 1 ) );
+    strcat( code, ">\n" );
+    lua_pushstring( L, code );
     return 1;
 }
 
 int import_module( lua_State* L )
 {
     char code[64] = "import (";
-    strcat(code, lua_tostring( L, 1 ));
-    strcat(code, ")\n");
-    lua_pushstring(L, code);
+    strcat( code, lua_tostring( L, 1 ) );
+    strcat( code, ")\n" );
+    lua_pushstring( L, code );
     return 1;
 }

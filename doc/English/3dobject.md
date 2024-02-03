@@ -15,7 +15,7 @@
 
 ## Cube
 
-> d3object library
+> d3object
 
 ### Syntax
 
@@ -40,7 +40,7 @@ cube2 = d3object.cube({20, 20, 20}, false);
 
 ## Cylinder
 
-> d3object library
+> d3object
 
 ### Syntax
 
@@ -48,25 +48,25 @@ cube2 = d3object.cube({20, 20, 20}, false);
 d3object.cylinder({ h = number, r = number, r1 = number, r2 = number, d = number, d1 = number, d2 = number }, true/false );
 ```
 
--h
+- h
    - `number` type
      - Specify the height of the cylinder
--r
+- r
    - `number` type
      - Specifies the radius of the cylinder. If the parameter `r` is entered, the parameters `r1, r2, d1, d2` are no longer accepted.
--d
+- d
    - `number` type
      - Specifies the diameter of the cylinder. If the parameter `d` is entered, the parameters `r1, r2, d1, d2` are no longer accepted.
--r1
+- r1
    - `number` type
      - Specifies the top radius of the cylinder. How to input parameter `r1`, it will continue to read `r2`, and no longer accept parameters `r, d, d1, d2`.
 - r2
    - `number` type
      - Specifies the base radius of the cylinder. If parameter `r2` is entered, parameters `r, d, d1, d2` are no longer accepted.
--d1
+- d1
    - `number` type
      - Specifies the diameter of the top surface of the cylinder. How to input parameter `d1`, it will continue to read `d2`, and no longer accept parameters `r, d, r1, r2`.
--d2
+- d2
    - `number` type
      - Specifies the base diameter of the cylinder. How to input parameter `d2`, but no longer accept parameters `r, d, r1, r2`.
 - last parameter
@@ -88,7 +88,7 @@ local cylinder4 = d3object.cylinder({h = 1, d1 = 20, d2 = 40}, false );
 
 ## Sphere
 
-> d3object library
+> d3object
 
 ### Syntax
 
@@ -96,10 +96,10 @@ local cylinder4 = d3object.cylinder({h = 1, d1 = 20, d2 = 40}, false );
 d3object.sphere({r = number, d = number});
 ```
 
--r
+- r
    - `number` type
      - Specifies the radius of the sphere. If `r` is entered, the parameter `d` will no longer be accepted.
--d
+- d
    - `number` type
      - Specifies the diameter of the sphere. If `d` is entered, the parameter `r` will no longer be received.
 
@@ -113,7 +113,7 @@ sphere2 = d3object.sphere({ d = 20 });
 
 ## Polyhedron
 
-> d3object library
+> d3object
 
 ### Syntax
 

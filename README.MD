@@ -40,8 +40,9 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
 - [Lua-cad](#lua-cad)
   - [目录](#目录)
     - [**特性**](#特性)
-        - [**使用基准实现准确定位**](#使用基准实现准确定位)
-        - [**快速移植，复用现有代码，兼容 openscad 的模块调用语句**](#快速移植复用现有代码兼容-openscad-的模块调用语句)
+      - [**使用基准实现准确定位**](#使用基准实现准确定位)
+      - [**快速移植，复用现有代码，兼容 openscad 的模块调用语句**](#快速移植复用现有代码兼容-openscad-的模块调用语句)
+      - [**面向对象**](#面向对象)
     - [Example](#example)
         - [复用 openscad](#复用-openscad)
         - [基本操作：](#基本操作)
@@ -60,15 +61,15 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
 
 ### **特性**
 
-##### **使用基准实现准确定位**  
+#### **使用基准实现准确定位**  
 
 在 lua-cad 中使用基准 `datum` 可以精准确定 3d 对象的基准面，以此根据对象间的几何关系来实行准确定位。
 ```lua
-datum1 = d3object.datum(cube1, 1);
+local datum1 = d3object.datum(cube1, 1);
 ```
 使用 `d3object.datum(obj, index)` 函数来获取基准面中心的位置，并通过 `datum` 库来进行几何关系的处理。
 
-##### **快速移植，复用现有代码，兼容 openscad 的模块调用语句**  
+#### **快速移植，复用现有代码，兼容 openscad 的模块调用语句**  
 
 在 lua-cad 中快速复用您再 `openscad` 中创建模块。
 ```lua
@@ -76,36 +77,35 @@ local shoulder_screw1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 ```
 使用 `$` 来在 Lua-cad 创建您要在 openscad 文件中定义的模块，这会将其转换唯一个 `table` 类型的变量。在 `user_define_obj` 库中，您可以对其进行进一步的操作。[用户自定义对象库](./doc/userdefineobject.md)。
 
+#### **面向对象**
+
+采用面向对象的模式，高效复用代码，编码更加灵活，增加了维护性。
+
 ### Example
 
 ##### 复用 openscad
 
 ```lua
-user_define = require("user_define_obj")
-
-function print_info(data)
-    for key, value in pairs(data) do      
-        print(key, value);
-    end
-end
+-- The directory is specified according to the actual situation
+package.path = package.path ..';../../../../?.lua';
+user_obj = require("src.user_object.user_obj")
 
 -- test1
 test1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 
-test1 = user_define.postion(test1, {10, 10, 10});
-print("obj_type: "..test1[1]);
-print("offset")
-print("x: "..test1.offset.x);
-print("x: "..test1.offset.y);
-print("x: "..test1.offset.z);
-print("test1")
-print_info(test1);
+test1.postion(test1, {10, 10, 10});
+
+print("offset");
+print("x: ".. test1._offset[1]);
+print("x: ".. test1._offset[2]);
+print("x: ".. test1._offset[3]);
+print("test1");
+test1.print(test1);
 
 -- test2
 test2 = $screw( "#6-32", head="flat undercut",length=12)$;
 print("test2")
-print("obj_type: "..test2[1]);
-print_info(test2);
+test2.print(test2);
 ```
 
 ##### 基本操作：

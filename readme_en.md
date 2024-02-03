@@ -1,4 +1,4 @@
-#lua-cad
+# lua-cad
 
 OpenSCAD for Lua, uses lua to create 3D models.
 
@@ -36,29 +36,31 @@ OpenSCAD for Lua, uses lua to create 3D models.
  
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
-  - [**Features**](#features)
+- [lua-cad](#lua-cad)
+  - [Table of contents](#table-of-contents)
+    - [**Features**](#features)
       - [**Use benchmarks to achieve accurate positioning**](#use-benchmarks-to-achieve-accurate-positioning)
       - [**Fast transplantation, reuse of existing code, compatible with openscad’s module calling statements**](#fast-transplantation-reuse-of-existing-code-compatible-with-openscads-module-calling-statements)
-  - [Example](#example)
-      - [Reuse openscad](#reuse-openscad)
-      - [Basic operations:](#basic-operations)
-  - [document](#document)
-  - [Getting Started Guide](#getting-started-guide)
-        - [**Source code compilation**](#source-code-compilation)
-      - [**Instructions for use**](#instructions-for-use)
-  - [File directory description](#file-directory-description)
-  - [Open source projects used](#open-source-projects-used)
-  - [Contributors](#contributors)
-    - [How to participate in open source projects](#how-to-participate-in-open-source-projects)
-  - [version control](#version-control)
-  - [author](#author)
-  - [Copyright statement](#copyright-statement)
-  - [Acknowledgments](#acknowledgments)
+      - [**Object-Oriented**](#object-oriented)
+    - [Example](#example)
+        - [Reuse openscad](#reuse-openscad)
+        - [Basic operations:](#basic-operations)
+    - [document](#document)
+    - [Getting Started Guide](#getting-started-guide)
+          - [**Source code compilation**](#source-code-compilation)
+        - [**Instructions for use**](#instructions-for-use)
+    - [File directory description](#file-directory-description)
+    - [Open source projects used](#open-source-projects-used)
+    - [Contributors](#contributors)
+      - [How to participate in open source projects](#how-to-participate-in-open-source-projects)
+    - [version control](#version-control)
+    - [author](#author)
+    - [Copyright statement](#copyright-statement)
+    - [Acknowledgments](#acknowledgments)
 
 ### **Features**
 
-##### **Use benchmarks to achieve accurate positioning**
+#### **Use benchmarks to achieve accurate positioning**
 
 Using datum `datum` in lua-cad can accurately determine the datum plane of 3D objects, so as to achieve accurate positioning based on the geometric relationship between objects.
 ```lua
@@ -66,7 +68,7 @@ datum1 = d3object.datum(cube1, 1);
 ```
 Use the `d3object.datum(obj, index)` function to obtain the position of the datum center, and use the `datum` library to process geometric relationships.
 
-##### **Fast transplantation, reuse of existing code, compatible with openscad’s module calling statements**
+#### **Fast transplantation, reuse of existing code, compatible with openscad’s module calling statements**
 
 Quickly reuse modules you create in `openscad` in lua-cad.
 ```lua
@@ -74,36 +76,35 @@ local shoulder_screw1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 ```
 Use `$` in Lua-cad to create the module you want to define in the openscad file, which will convert it into a variable of type `table`. In the `user_define_obj` library you can manipulate it further. [User-defined object library](./doc/userdefineobject.md).
 
+#### **Object-Oriented**
+
+The object-oriented pattern is adopted, the code is reused efficiently, the coding is more flexible, and the maintainability is increased.
+
 ### Example
 
 ##### Reuse openscad
 
 ```lua
-user_define = require("user_define_obj")
+-- The directory is specified according to the actual situation
+package.path = package.path ..';../../../../?.lua';
+user_obj = require("src.user_object.user_obj")
 
-function print_info(data)
-     for key, value in pairs(data) do
-         print(key, value);
-     end
-end
-
---test1
+-- test1
 test1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 
-test1 = user_define.postion(test1, {10, 10, 10});
-print("obj_type: "..test1[1]);
-print("offset")
-print("x: "..test1.offset.x);
-print("x: "..test1.offset.y);
-print("x: "..test1.offset.z);
-print("test1")
-print_info(test1);
+test1.postion(test1, {10, 10, 10});
 
---test2
+print("offset");
+print("x: ".. test1._offset[1]);
+print("x: ".. test1._offset[2]);
+print("x: ".. test1._offset[3]);
+print("test1");
+test1.print(test1);
+
+-- test2
 test2 = $screw( "#6-32", head="flat undercut",length=12)$;
 print("test2")
-print("obj_type: "..test2[1]);
-print_info(test2);
+test2.print(test2);
 ```
 
 ##### Basic operations:
@@ -228,4 +229,8 @@ This project is licensed under GPLv3, please see [LICENSE.txt](./LICENSE.txt) fo
 [forks-shield]: https://img.shields.io/github/forks/SongZihui-sudo/lua-cad.svg?style=flat-square
 [forks-url]: https://github.com/SongZihui-sudo/lua-cad/network/members
 [stars-shield]: https://img.shields.io/github/stars/SongZihui-sudo/lua-cad.svg?style=flat-square
-[stars-url]: https://github.com/SongZ
+[stars-url]: https://github.com/SongZihui-sudo/lua-cad/stargazers
+[issues-shield]: https://img.shields.io/github/issues/SongZihui-sudo/lua-cad.svg?style=flat-square
+[issues-url]: https://github.com/SongZihui-sudo/lua-cad/issues
+[license-shield]: https://img.shields.io/github/license/SongZihui-sudo/lua-cad.svg?style=flat-square
+[license-url]: ./LICENSE.txt
