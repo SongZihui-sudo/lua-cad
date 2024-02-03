@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-03 13:29:19
+ * @LastEditTime: 2024-02-04 01:12:20
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
@@ -27,7 +27,7 @@ void transform_to_code( lua_State* L, D3OBJECT_BASE* base )
     buffer[0] = 0;
     for ( int i = 1; i <= base->m_op_stack[0]; i++ )
     {
-        for ( int j = 0; j < buffer[0]; j++ )
+        for ( int j = 0; j <= buffer[0]; j++ )
         {
             if ( buffer[j] == base->m_op_stack[i] )
             {
@@ -113,11 +113,14 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
     double offset;
     char buffer_offset[32];
     char buffer2[128];
+    buffer2[0] = '\0';
     switch ( *self )
     {
         case OFFSET:
-            offset = lua_checkstack( L, 3 );
+            buffer_offset[0] = '\0';
+            offset = lua_tonumber( L, 2 );
             sprintf( buffer_offset, SINGLE_ARG_RULE1, "r", offset );
+
             sprintf( buffer2,
                      LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN],
                      buffer_offset,

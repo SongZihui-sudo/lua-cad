@@ -36,6 +36,9 @@ print(code(minkowski1));
 offset1 = transform.offset({cube1}, 1);
 print(code(offset1));
 
+offset1 = transform.offset({cube1}, 2);
+print(code(offset1));
+
 transform.color(cube1, "xxx");
 print(code(cube1));
 

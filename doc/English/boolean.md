@@ -15,7 +15,7 @@
 
 ## Union
 
-> boolean
+> boolean library
 
 ### Syntax
 
@@ -40,7 +40,7 @@ union1 = boolean.union({cube1, shoulder_screw11});
 
 ## Difference
 
-> boolean
+> boolean library
 
 ### Syntax
 
@@ -65,7 +65,7 @@ difference1 = boolean.difference({cylinder1, shoulder_screw1});
 
 ## Intersection
 
-> boolean
+> boolean library
 
 ### Syntax
 

@@ -15,7 +15,7 @@
 
 ## Cube
 
-> d3object
+> d3object library
 
 ### Syntax
 
@@ -40,7 +40,7 @@ cube2 = d3object.cube({20, 20, 20}, false);
 
 ## Cylinder
 
-> d3object
+> d3object library
 
 ### Syntax
 
@@ -88,7 +88,7 @@ local cylinder4 = d3object.cylinder({h = 1, d1 = 20, d2 = 40}, false );
 
 ## Sphere
 
-> d3object
+> d3object library
 
 ### Syntax
 
@@ -113,7 +113,7 @@ sphere2 = d3object.sphere({ d = 20 });
 
 ## Polyhedron
 
-> d3object
+> d3object library
 
 ### Syntax
 
