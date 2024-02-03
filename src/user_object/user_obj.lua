@@ -11,6 +11,7 @@ function user_obj_mirror(self, parameters)
 end
 
 function user_obj_rotate(self, ...)
+    self._isrotate = true;
     local arg = {...}
     local i = 0;
     for k, v in pairs(arg) do
@@ -39,6 +40,7 @@ function user_obj_rotate(self, ...)
 end
 
 function user_obj_color(self, ...)
+    self._iscolor = true;
     local arg = {...}
     local i = 0;
     for k, v in pairs(arg) do
@@ -65,20 +67,66 @@ function user_obj_color(self, ...)
 end
 
 function user_obj_to_code(self)
-    local temp;
     if type(self._offset) ~= "nil" then
         local fmt = transform.translate_fmt();
-        temp = string.format(fmt, self._offset[1], self._offset[2], self._offset[3]);
+        local temp = string.format(fmt, self._offset[1], self._offset[2], self._offset[3]);
         self[1] = temp .. self[1] .. "\n";
     end
     if type(self._scale) ~= "nil" then
         local fmt = transform.scale_fmt();
-        temp = string.format(fmt, self._scale[1], self._scale[2], self._scale[3]);
+        local temp = string.format(fmt, self._scale[1], self._scale[2], self._scale[3]);
         self[1] = temp .. self[1] .. "\n";
     end
     if type(self._mirror) ~= "nil" then
         local fmt = transform.mirror_fmt();
-        temp = string.format(fmt, self._mirror[1], self._mirror[2], self._mirror[3]);
+        local temp = string.format(fmt, self._mirror[1], self._mirror[2], self._mirror[3]);
+        self[1] = temp .. self[1] .. "\n";
+    end
+    if self._isrotate then
+        local fmt = transform.rotate_fmt();
+        local rotate_arg1 = "";
+        local rotate_arg2 = "";
+        if type(self._rotate_deg_a) ~= "nil"  then
+            rotate_arg1 = "a = " .. self._rotate_deg_a .. ",";
+            goto next;
+        end
+        if type(self._rotate_a) ~= "nil" then
+            for k, v in pairs(self._rotate_a) do
+                rotate_arg1 = rotate_arg1 .. v .. ",";
+            end
+            string.sub(rotate_arg1, 1, -2);
+            rotate_arg1 = "[" .. rotate_arg1 .. "]";
+        end
+::next::
+        if type(self._rotate_v) ~= "nil" then
+            for k, v in pairs(self._rotate_v) do
+                rotate_arg2 = rotate_arg2 .. v .. ",";
+            end
+            rotate_arg2 = string.sub( rotate_arg2, 1, -2 );
+            rotate_arg2 = "v = [" .. rotate_arg2 .. "]";
+        end
+        local temp = string.format(fmt, rotate_arg1, rotate_arg2);
+        self[1] = temp .. self[1] .. "\n";
+    end
+    if self._iscolor then
+        local fmt = transform.color_fmt();
+        local color_arg1 = "";
+        local color_arg2 = "";
+        if type(self._color) ~= "nil" then
+            if type(self._color) == "string" then
+                color_arg1 = self._color;
+            elseif type(self._color) == "table" then
+                for k, v in pairs(self._color) do
+                    color_arg1 = color_arg1 .. v .. ",";
+                end
+                color_arg1 = string.sub( color_arg1, 1, -2 );
+                color_arg1 = "c = [" .. color_arg1 .. "]";
+            end
+        end
+        if type(self._color_alpha) ~= "nil" then
+            color_arg2 = ", alpha = " .. self._color_alpha;
+        end
+        local temp = string.format(fmt, color_arg1, color_arg2);
         self[1] = temp .. self[1] .. "\n";
     end
     return self;
