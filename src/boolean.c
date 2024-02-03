@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-31 19:30:26
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-03 13:34:45
  * @FilePath: /lua-cad/src/boolean.c
  * @Description: bool 操作
  *
@@ -13,6 +13,7 @@
 
 #include <boolean.h>
 #include <to_openscad_code.h>
+#include <user_define_obj.h>
 
 /**
  * @description: 布尔操作
@@ -84,13 +85,11 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
         }
         else {
             // 读自定义对象表
-            D3OBJECT_BASE user_define;
-            user_define.m_obj_base.m_type = USER_DEFINE;
-            lua_pushnumber(L, 1);
-            lua_gettable( L, -2 );
-            const char* code = lua_tostring(L, -1);
-            user_define.m_obj_base.m_code = code;
-            temp = dynast_cast(OBJ_TYPE, &user_define);
+            D3OBJECT_BASE* user_define = dynast_cast(D3OBJECT_BASE, malloc(sizeof(D3OBJECT_BASE)));
+            D3OBJECT_BASE_INIT(user_define);
+            user_define->m_obj_base.m_type = USER_DEFINE;
+            user_define->m_obj_base.m_code = get_user_obj_code(L, user_define->m_obj_base.m_code);
+            temp = dynast_cast(OBJ_TYPE, user_define);
             lua_pop( L, 1 );
         }
         lua_pop( L, 1 );

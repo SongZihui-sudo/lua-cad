@@ -40,7 +40,7 @@ void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type )
                      obj->m_mirror.m_xyz[2] );
             break;
         case COLOR:
-            sprintf( temp, COLLOR_EXPORT_RULE, COLOR_EXPORT_ARG1, COLOR_EXPORT_ARG2 );
+            sprintf( temp, COLOR_EXPORT_RULE, COLOR_EXPORT_ARG1, COLOR_EXPORT_ARG2 );
             break;
         default:
             luaL_error( L, "Unknown transform type!" );
@@ -245,6 +245,36 @@ finish:
     return 1;
 }
 
+LUA_CAD_API get_translate_fmt( lua_State* L )
+{
+    lua_pushstring( L, TRANSLATE_EXPORT_RULE );
+    return 1;
+}
+
+LUA_CAD_API get_mirror_fmt( lua_State* L )
+{
+    lua_pushstring( L, MIRROR_EXPORT_RULE );
+    return 1;
+}
+
+LUA_CAD_API get_scale_fmt( lua_State* L )
+{
+    lua_pushstring( L, SCALE_EXPORT_RULE );
+    return 1;
+}
+
+LUA_CAD_API get_rotate_fmt( lua_State* L )
+{
+    lua_pushstring( L, ROTATE_EXPORT_RULE );
+    return 1;
+}
+
+LUA_CAD_API get_color_fmt( lua_State* L )
+{
+    lua_pushstring( L, COLOR_EXPORT_RULE );
+    return 1;
+}
+
 static const luaL_Reg transformlib[] = { { "postion", transform_postion },
                                          { "scale", transform_scale },
                                          { "rotate", transform_rotate },
@@ -254,6 +284,11 @@ static const luaL_Reg transformlib[] = { { "postion", transform_postion },
                                          { "minkowski", minkowski },
                                          { "offset", offset },
                                          { "color", color },
+                                         { "translate_fmt", get_translate_fmt },
+                                         { "mirror_fmt", get_mirror_fmt },
+                                         { "scale_fmt", get_scale_fmt },
+                                         { "rotate_fmt", get_rotate_fmt },
+                                         { "color_fmt", get_color_fmt },
                                          { NULL, NULL } };
 
 LUAMOD_API int luaopen_transform( lua_State* L )

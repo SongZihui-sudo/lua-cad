@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-02 16:52:28
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-03 14:17:57
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -17,25 +17,25 @@
 
 int code( lua_State* L )
 {
-    D3OBJECT_BASE* obj;
-    if ( lua_isnil( L, 1 ) )
+    char* code;
+    if ( lua_istable( L, 1 ) )
     {
-        obj = table_to_Cstruct(L);
+        code = get_user_obj_code( L, code );
     }
     else
     {
-        obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 1 ) );
+        D3OBJECT_BASE* obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 1 ) );
         if ( !obj )
         {
             luaL_error( L, "object is null!" );
             return -1;
         }
+        if ( obj->m_obj_base.m_type < OBJECT_END )
+        {
+            d3obj_to_code( L, obj );
+        }
+        code = obj->m_obj_base.m_code;
     }
-    if ( obj->m_obj_base.m_type < OBJECT_END )
-    {
-        d3obj_to_code( L, obj );
-    }
-    const char* code = obj->m_obj_base.m_code;
     if ( !code )
     {
         luaL_error( L, "The code field is empty!" );
@@ -46,26 +46,26 @@ int code( lua_State* L )
 
 int lua_cad_export( lua_State* L )
 {
+    char* code;
     const char* path = luaL_checkstring( L, 1 );
-    D3OBJECT_BASE* obj;
-    if ( lua_isnil( L, 1 ) )
+    if ( lua_istable( L, 1 ) )
     {
-        obj = table_to_Cstruct(L);
+        get_user_obj_code( L, code );
     }
     else
     {
-        obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 2 ) );
+        D3OBJECT_BASE* obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 2 ) );
         if ( !obj )
         {
             luaL_error( L, "object is null!" );
             return -1;
         }
+        if ( obj->m_obj_base.m_type < OBJECT_END )
+        {
+            d3obj_to_code( L, obj );
+        }
+        code = obj->m_obj_base.m_code;
     }
-    if ( obj->m_obj_base.m_type < OBJECT_END )
-    {
-        d3obj_to_code( L, obj );
-    }
-    const char* code = obj->m_obj_base.m_code;
     // 写入文件
     FILE* fptr;
     fptr = fopen( path, "w" );
@@ -81,12 +81,18 @@ int lua_cad_export( lua_State* L )
 
 int include_code( lua_State* L )
 {
-TODOinclude其他文件:
+    char code[64] = "include <";
+    strcat(code, lua_tostring( L, 1 ));
+    strcat(code, ">\n");
+    lua_pushstring(L, code);
     return 1;
 }
 
 int import_module( lua_State* L )
 {
-TODO导入其他stl文件:
+    char code[64] = "import (";
+    strcat(code, lua_tostring( L, 1 ));
+    strcat(code, ")\n");
+    lua_pushstring(L, code);
     return 1;
 }

@@ -943,6 +943,9 @@ static void constructor (LexState *ls, expdesc *t) {
   luaK_reserveregs(fs, 1);
   init_exp(&cc.v, VVOID, 0);  /* no value (yet) */
   if (ls->t.token == '$') {
+    char setmetatablecode[64];
+    const char* temp_metatable_code = "setmetatable(%s, user_obj_metatable);\n";
+    sprintf(setmetatablecode, temp_metatable_code, ls->buff->buffer);
     char temp[128]; temp[0] = ls->current;
      /* 获取这行代码的内容给保存下来 */
     int i = 0;
@@ -959,7 +962,6 @@ static void constructor (LexState *ls, expdesc *t) {
     cc.v.u.strval = luaS_newlstr(ls->L, temp, sizeof(char) * i);
     cc.tostore++;
     /* 解析用户输出代码为一个 table */
-    /* 读用户自定义代码 */
     ls->t.token = TK_USER_DEFINE;
     do {
       lua_assert(cc.v.k == VVOID || cc.tostore > 0);
@@ -971,6 +973,12 @@ static void constructor (LexState *ls, expdesc *t) {
       lua_assert(cc.v.k == VVOID || cc.tostore > 0);
       next(ls);
     }
+    /* 自动添加元表 */
+    char* code_buffer = (char*)malloc(sizeof(int) * strlen(ls->z->p));
+    sprintf(code_buffer, "%s%s", setmetatablecode, ls->z->p);
+    ls->z->n = strlen(code_buffer);
+    strcpy(ls->z->p, code_buffer);
+    free(code_buffer);
   }
   else {
     checknext(ls, '{');

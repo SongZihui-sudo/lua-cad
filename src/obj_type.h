@@ -44,7 +44,9 @@ enum TYPES
     ROTATE,
     MIRROR,
     COLOR,
-    TRANSFORM_END
+    TRANSFORM_END,
+    INCLUDE,
+    IMPORT
 };
 
 #define CODE_LENGTH 3000
@@ -108,3 +110,5 @@ static void D3OBJECT_BASE_INIT( D3OBJECT_BASE* obj )
 #define POS_X( obj ) obj->base.m_offset->m_xyz[0]
 #define POS_Y( obj ) obj->base.m_offset->m_xyz[1]
 #define POS_Z( obj ) obj->base.m_offset->m_xyz[2]
+
+#define LUA_CAD_API int

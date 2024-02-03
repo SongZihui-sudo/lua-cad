@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-02 16:44:39
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-03 13:29:19
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
@@ -29,14 +29,15 @@ void transform_to_code( lua_State* L, D3OBJECT_BASE* base )
     {
         for ( int j = 0; j < buffer[0]; j++ )
         {
-            if (buffer[j] == base->m_op_stack[i]) {
-                goto continue_;      
+            if ( buffer[j] == base->m_op_stack[i] )
+            {
+                goto continue_;
             }
         }
         append_transform_code( L, base, base->m_op_stack[i] );
-        buffer[buffer[0]++] = base->m_op_stack[i];
-continue_:
-    continue;
+        buffer[++buffer[0]] = base->m_op_stack[i];
+    continue_:
+        continue;
     }
 }
 
@@ -70,7 +71,7 @@ void d3obj_to_code( lua_State* L, D3OBJECT_BASE* base )
             sprintf( temp, POLYHEDRON_ALL_EXPORT_RULE, POLYHEDRON_EXPORT_ARGS( self4 ) );
             break;
         case USER_DEFINE:
-            sprintf(temp, "%s", base->m_obj_base.m_code);
+            sprintf( temp, "%s", base->m_obj_base.m_code );
             break;
         default:
             luaL_error( L, "Unknown object!" );
@@ -106,8 +107,8 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
         return;
     }
     OBJ_TYPE** children;
-    struct BOOLEAN_BASE* temp1;
-    struct D3OBJECT_BASE* temp2;
+    BOOLEAN_BASE* temp1;
+    D3OBJECT_BASE* temp2;
     unsigned int count;
     double offset;
     char buffer_offset[32];
@@ -140,6 +141,14 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
                     sprintf( temp_buffer, LAYOUT_EXPORT_RULE[*children[i] - 1 - BOOLEAN_BEGIN], temp );
                     strcpy( temp, temp_buffer );
                 }
+                else if ( *children[i] == USER_DEFINE )
+                {
+                    temp2        = dynast_cast( D3OBJECT_BASE, children[i] );
+                    char* buffer = temp2->m_obj_base.m_code;
+                    char temp_buffer[CODE_LENGTH];
+                    sprintf( temp_buffer, "%s%s", temp, buffer );
+                    strcpy( temp, temp_buffer );
+                }
                 else
                 {
                     temp2 = dynast_cast( D3OBJECT_BASE, children[i] );
@@ -151,10 +160,13 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
                 }
             }
             break;
+        case USER_DEFINE:
+            temp2 = dynast_cast( D3OBJECT_BASE, self );
+            sprintf( temp, "%s", temp2->m_obj_base.m_code );
+            break;
         case POLYHEDRON:
         case SPHERE:
         case CYLINDER:
-        case USER_DEFINE:
         case CUBE:
             temp2 = dynast_cast( D3OBJECT_BASE, self );
             d3obj_to_code( L, temp2 );

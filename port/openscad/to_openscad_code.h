@@ -1,9 +1,9 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-31 17:35:32
- * @FilePath: /lua-cad/to_code/to_code.h
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-03 11:18:35
+ * @FilePath: /lua-cad/port/openscad/to_openscad_code.h
  * @Description: 对象导出
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
@@ -109,7 +109,7 @@ extern char COLOR_EXPORT_ARG2[64];
  * @description: color 导出规则
  * @return {*}
  */
-#define COLLOR_EXPORT_RULE "color(%s %s)\n"
+#define COLOR_EXPORT_RULE "color(%s %s)\n"
 
 /**
  * @description: 参数模板
