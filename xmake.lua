@@ -1,3 +1,5 @@
+includes("@builtin/xpack")
+
 add_rules("mode.debug", "mode.release")
 
 add_includedirs("./lua")
@@ -14,3 +16,20 @@ target("lua-cad")
     add_files("src/base_object/*.c")
     add_files("src/user_object/*.c")
 target_end()
+
+-- 生成安装包
+xpack("lua-cad")
+    set_version("1.0")
+    set_formats("zip", "targz")
+    set_title("Lua-cad($(arch)-$(host))")
+    set_basename("Lua-cad-v$(version)-$(arch)-$(host)")
+    set_homepage("https://github.com/SongZihui-sudo/lua-cad")
+    set_author("SongZihui-sudo")
+    set_maintainer("1751122876@qq.com")
+    set_copyright("Copyright (C) 2024 lua-cad SongZihui-sudo")
+    set_license("Gplv3")
+    set_licensefile("./LICENSE.txt")
+    add_installfiles ("src/user_object/user_obj.lua")
+    add_installfiles ("src/chunk.lua")
+    add_targets("lua-cad")
+
