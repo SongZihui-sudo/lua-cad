@@ -2,31 +2,31 @@
 
 - [变换](#变换)
   - [设置位置](#设置位置)
-    - [语法](#语法)
+    - [用法](#用法)
     - [例子](#例子)
   - [缩放](#缩放)
-    - [语法](#语法-1)
+    - [用法](#用法-1)
     - [例子](#例子-1)
   - [旋转](#旋转)
-    - [语法](#语法-2)
+    - [用法](#用法-2)
     - [例子](#例子-2)
   - [镜像](#镜像)
-    - [语法](#语法-3)
+    - [用法](#用法-3)
     - [例子](#例子-3)
   - [颜色](#颜色)
-    - [语法](#语法-4)
+    - [用法](#用法-4)
     - [例子](#例子-4)
   - [offset](#offset)
-    - [语法](#语法-5)
+    - [用法](#用法-5)
     - [例子](#例子-5)
   - [fill](#fill)
-    - [语法](#语法-6)
+    - [用法](#用法-6)
     - [例子](#例子-6)
   - [minkowski](#minkowski)
-    - [语法](#语法-7)
+    - [用法](#用法-7)
     - [例子](#例子-7)
   - [hull](#hull)
-    - [语法](#语法-8)
+    - [用法](#用法-8)
     - [例子](#例子-8)
 
 [English](./English/transform.md)
@@ -35,7 +35,7 @@
 
 > transform 库
 
-### 语法
+### 用法
 
 ```lua
 transform.postion(object, {x, y, z});
@@ -61,7 +61,7 @@ transform.postion(cube1, {0, 0, 5});
 
 > transform 库
 
-### 语法
+### 用法
 
 ```lua
 transform.scale(object, {n1, n2, n3});
@@ -87,7 +87,7 @@ transform.scale(cube1, {2, 2, 2});
 
 > transform 库
 
-### 语法
+### 用法
 
 ```lua
 transform.rotate(object, deg_a, v);
@@ -128,7 +128,7 @@ transform.rotate(cube1, 1, {4, 5, 6});
 
 > transform 库
 
-### 语法
+### 用法
 
 ```lua
 transform.mirror(object, {x, y, z});
@@ -157,7 +157,7 @@ transform.mirror(cube1, {-20, -20, -25});
 
 > transform 库
 
-### 语法
+### 用法
 
 ```lua
 transform.color(object, "colorname");
@@ -211,7 +211,7 @@ transform.color(cube1, {1,2,3,4}, 1);
 
 ## offset
 
-### 语法
+### 用法
 
 ```lua
 transform.offset(objects, r);
@@ -234,7 +234,7 @@ offset1 = transform.offset({cube1}, 1);
 
 ## fill
 
-### 语法
+### 用法
 
 ```lua
 transform.fill(objects);
@@ -254,7 +254,7 @@ fill1 = transform.fill({cube1});
 
 ## minkowski
 
-### 语法
+### 用法
 
 ```lua
 transform.minkowski(objects);
@@ -272,7 +272,7 @@ minkowski1 = transform.minkowski({cube1, cube2});
 
 ## hull
 
-### 语法
+### 用法
 
 ```lua
 transform.hull(objects);

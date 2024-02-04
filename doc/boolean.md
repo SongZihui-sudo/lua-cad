@@ -2,13 +2,13 @@
 
 - [布尔操作](#布尔操作)
   - [或](#或)
-    - [语法](#语法)
+    - [用法](#用法)
     - [例子](#例子)
   - [与非](#与非)
-    - [语法](#语法-1)
+    - [用法](#用法-1)
     - [例子](#例子-1)
   - [与](#与)
-    - [语法](#语法-2)
+    - [用法](#用法-2)
     - [例子](#例子-2)
 
 [English](./English/boolean.md)
@@ -17,7 +17,7 @@
 
 > boolean 库
 
-### 语法
+### 用法
 
 ```lua
 boolean.union({obj1, obj2, obj3,...........});
@@ -42,7 +42,7 @@ union1 = boolean.union({cube1, shoulder_screw11});
 
 > boolean 库
 
-### 语法
+### 用法
 
 ```lua
 boolean.difference({obj1, obj2, obj3,...........});
@@ -67,7 +67,7 @@ difference1 = boolean.difference({cylinder1, shoulder_screw1});
 
 > boolean 库
 
-### 语法
+### 用法
 
 ```lua
 boolean.intersection({obj1, obj2, obj3,...........});

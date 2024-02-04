@@ -2,21 +2,21 @@
 
 - [global function](#global-function)
   - [Code](#code)
-    - [Syntax](#syntax)
+    - [Usage](#Usage)
     - [Example](#example)
   - [export](#export)
-    - [Syntax](#syntax-1)
+    - [Usage](#Usage-1)
     - [Example](#example-1)
-    - [Syntax](#syntax-2)
+    - [Usage](#Usage-2)
     - [Example](#example-2)
   - [import](#import)
-    - [Syntax](#syntax-3)
+    - [Usage](#Usage-3)
     - [Example](#example-3)
 
 
 ## Code
 
-### Syntax
+### Usage
 
 ```lua
 code(object)
@@ -38,7 +38,7 @@ print(code(cube1));
 
 ## export
 
-### Syntax
+### Usage
 
 ```lua
 export("filepath", object);
@@ -73,7 +73,7 @@ export("export.scad", code(cube1));
 
 ##include
 
-### Syntax
+### Usage
 
 ```lua
 include("include_path")
@@ -93,7 +93,7 @@ include_hole = include("hole.scad");
 
 ## import
 
-### Syntax
+### Usage
 
 ```lua
 import("import_path")

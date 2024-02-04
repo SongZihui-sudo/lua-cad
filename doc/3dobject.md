@@ -1,16 +1,16 @@
 # 3d 对象
 - [3d 对象](#3d-对象)
   - [立方体](#立方体)
-    - [语法](#语法)
+    - [用法](#用法)
     - [例子](#例子)
   - [圆柱体](#圆柱体)
-    - [语法](#语法-1)
+    - [用法](#用法-1)
     - [例子](#例子-1)
   - [球体](#球体)
-    - [语法](#语法-2)
+    - [用法](#用法-2)
     - [例子](#例子-2)
   - [多面体](#多面体)
-    - [语法](#语法-3)
+    - [用法](#用法-3)
     - [例子](#例子-3)
 
 [English](./English/3dobject.md)
@@ -19,7 +19,7 @@
 
 > d3object 库  
 
-### 语法
+### 用法
 
 ```lua
 d3object.cube( { x, y, z }, true/false );
@@ -44,7 +44,7 @@ cube2 = d3object.cube({20, 20, 20}, false);
 
 > d3object 库  
 
-### 语法
+### 用法
 
 ```lua
 d3object.cylinder({ h = number, r = number, r1 = number, r2 = number, d = number, d1 = number, d2 = number }, true/false );
@@ -92,7 +92,7 @@ local cylinder4 = d3object.cylinder({h = 1,  d1 = 20, d2 = 40}, false );
 
 > d3object 库  
 
-### 语法
+### 用法
 
 ```lua
 d3object.sphere({r = number, d = number});
@@ -117,7 +117,7 @@ sphere2 = d3object.sphere({ d = 20 });
 
 > d3object 库  
 
-### 语法
+### 用法
 
 ```lua
 d3object.polyhedron({{x1, y1, z1}, {x2, y2, z2}, {x3, y3, z3},........},

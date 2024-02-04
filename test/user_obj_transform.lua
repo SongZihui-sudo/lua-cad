@@ -9,6 +9,9 @@ test1.scale(test1, {10, 10, 10});
 test1.mirror(test1, {10, 10, 10});
 test1.print(test1);
 test1.rotate(test1, 1, {10, 10, 10})
+test1.rotate(cube1, {4, 5, 6});
+test1.rotate(cube1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(cube1, 1, {4, 5, 6});
 test1.print(test1);
 test1.color(test1, {1, 2, 3});
 test1.print(test1);

@@ -1,23 +1,23 @@
 # 3d object
 - [3d object](#3d-object)
   - [Cube](#cube)
-    - [Syntax](#syntax)
+    - [Usage](#Usage)
     - [Example](#example)
   - [Cylinder](#cylinder)
-    - [Syntax](#syntax-1)
+    - [Usage](#Usage-1)
     - [Example](#example-1)
   - [Sphere](#sphere)
-    - [Syntax](#syntax-2)
+    - [Usage](#Usage-2)
     - [Example](#example-2)
   - [Polyhedron](#polyhedron)
-    - [Syntax](#syntax-3)
+    - [Usage](#Usage-3)
     - [Example](#example-3)
 
 ## Cube
 
 > d3object library
 
-### Syntax
+### Usage
 
 ```lua
 d3object.cube( { x, y, z }, true/false );
@@ -42,7 +42,7 @@ cube2 = d3object.cube({20, 20, 20}, false);
 
 > d3object library
 
-### Syntax
+### Usage
 
 ```lua
 d3object.cylinder({ h = number, r = number, r1 = number, r2 = number, d = number, d1 = number, d2 = number }, true/false );
@@ -90,7 +90,7 @@ local cylinder4 = d3object.cylinder({h = 1, d1 = 20, d2 = 40}, false );
 
 > d3object library
 
-### Syntax
+### Usage
 
 ```lua
 d3object.sphere({r = number, d = number});
@@ -115,7 +115,7 @@ sphere2 = d3object.sphere({ d = 20 });
 
 > d3object library
 
-### Syntax
+### Usage
 
 ```lua
 d3object.polyhedron({{x1, y1, z1}, {x2, y2, z2}, {x3, y3, z3},.........},

@@ -2,23 +2,23 @@
 
 - [全局函数](#全局函数)
   - [Code](#code)
-    - [语法](#语法)
+    - [用法](#用法)
     - [例子](#例子)
   - [export](#export)
-    - [语法](#语法-1)
+    - [用法](#用法-1)
     - [例子](#例子-1)
   - [include](#include)
-    - [语法](#语法-2)
+    - [用法](#用法-2)
     - [例子](#例子-2)
   - [import](#import)
-    - [语法](#语法-3)
+    - [用法](#用法-3)
     - [例子](#例子-3)
 
 [English](./English/gloal_function.md)
 
 ## Code
 
-### 语法
+### 用法
 
 ```lua
 code(object)
@@ -40,7 +40,7 @@ print(code(cube1));
 
 ## export
 
-### 语法
+### 用法
 
 ```lua
 export("filepath", object);
@@ -75,7 +75,7 @@ export("export.scad", code(cube1));
 
 ## include
 
-### 语法
+### 用法
 
 ```lua
 include("include_path")
@@ -95,7 +95,7 @@ include_hole = include("hole.scad");
 
 ## import
 
-### 语法
+### 用法
 
 ```lua
 import("import_path")
@@ -111,3 +111,9 @@ import("import_path")
 ```lus
 import_obj = include("obj.stl");
 ```
+
+## lua-cad 的附加库路径
+
+./ = lua-cad 所处路径
+- ./lua-cad/
+- /usr/local/lua-cad/

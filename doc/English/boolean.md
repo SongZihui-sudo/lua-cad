@@ -2,13 +2,13 @@
 
 - [Boolean operations](#boolean-operations)
   - [Union](#union)
-    - [Syntax](#syntax)
+    - [Usage](#Usage)
     - [Examples](#examples)
   - [Difference](#difference)
-    - [Syntax](#syntax-1)
+    - [Usage](#Usage-1)
     - [Examples](#examples-1)
   - [Intersection](#intersection)
-    - [Syntax](#syntax-2)
+    - [Usage](#Usage-2)
     - [Examples](#examples-2)
 
 
@@ -17,7 +17,7 @@
 
 > boolean library
 
-### Syntax
+### Usage
 
 ```lua
 boolean.union({obj1, obj2, obj3,...........});
@@ -42,7 +42,7 @@ union1 = boolean.union({cube1, shoulder_screw11});
 
 > boolean library
 
-### Syntax
+### Usage
 
 ```lua
 boolean.difference({obj1, obj2, obj3,...........});
@@ -67,7 +67,7 @@ difference1 = boolean.difference({cylinder1, shoulder_screw1});
 
 > boolean library
 
-### Syntax
+### Usage
 
 ```lua
 boolean.intersection({obj1, obj2, obj3,...........});

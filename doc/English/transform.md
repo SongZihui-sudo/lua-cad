@@ -2,40 +2,38 @@
 
 - [Transform](#transform)
   - [Postion](#postion)
-    - [Syntax](#syntax)
+    - [Usage](#usage)
     - [Example](#example)
   - [Scale](#scale)
-    - [Syntax](#syntax-1)
+    - [Usage](#usage-1)
     - [Example](#example-1)
   - [Rotate](#rotate)
-    - [Syntax](#syntax-2)
+    - [Usage](#usage-2)
     - [Example](#example-2)
   - [Mirror](#mirror)
-    - [Syntax](#syntax-3)
+    - [Usage](#usage-3)
     - [Example](#example-3)
   - [color](#color)
-    - [Syntax](#syntax-4)
+    - [Usage](#usage-4)
     - [Example](#example-4)
   - [offset](#offset)
-    - [Syntax](#syntax-5)
+    - [Usage](#usage-5)
     - [Example](#example-5)
   - [fill](#fill)
-    - [Syntax](#syntax-6)
+    - [Usage](#usage-6)
     - [Example](#example-6)
   - [minkowski](#minkowski)
-    - [Syntax](#syntax-7)
+    - [Usage](#usage-7)
     - [Example](#example-7)
   - [hull](#hull)
-    - [Syntax](#syntax-8)
+    - [Usage](#usage-8)
     - [Example](#example-8)
-
-[English](./English/transform.md)
 
 ## Postion
 
 > transform library
 
-### Syntax
+### Usage
 
 ```lua
 transform.postion(object, {x, y, z});
@@ -61,7 +59,7 @@ transform.postion(cube1, {0, 0, 5});
 
 > transform library
 
-### Syntax
+### Usage
 
 ```lua
 transform.scale(object, {n1, n2, n3});
@@ -87,7 +85,7 @@ transform.scale(cube1, {2, 2, 2});
 
 > transform library
 
-### Syntax
+### Usage
 
 ```lua
 transform.rotate(object, deg_a, v);
@@ -128,7 +126,7 @@ transform.rotate(cube1, 1, {4, 5, 6});
 
 > transform library
 
-### Syntax
+### Usage
 
 ```lua
 transform.mirror(object, {x, y, z});
@@ -157,7 +155,7 @@ transform.mirror(cube1, {-20, -20, -25});
 
 > transform library
 
-### Syntax
+### Usage
 
 ```lua
 transform.color(object, "colorname");
@@ -211,7 +209,7 @@ transform.color(cube1, {1,2,3,4}, 1);
 
 ## offset
 
-### Syntax
+### Usage
 
 ```lua
 transform.offset(objects, r);
@@ -234,7 +232,7 @@ offset1 = transform.offset({cube1}, 1);
 
 ## fill
 
-### Syntax
+### Usage
 
 ```lua
 transform.fill(objects);
@@ -254,7 +252,7 @@ fill1 = transform.fill({cube1});
 
 ## minkowski
 
-### Syntax
+### Usage
 
 ```lua
 transform.minkowski(objects);
@@ -272,7 +270,7 @@ minkowski1 = transform.minkowski({cube1, cube2});
 
 ## hull
 
-### Syntax
+### Usage
 
 ```lua
 transform.hull(objects);

@@ -18,8 +18,10 @@ function user_obj_rotate(self, ...)
         if i == 0 then
             if type(v) == "number" then
                 self._rotate_deg_a = v;
+                self._rotate_a = nil;
             elseif type(v) == "table" then
                 self._rotate_a = v;
+                self._rotate_deg_a = nil;
             else
                 print("Arg 1 Type Error!");
                 return;
@@ -129,7 +131,7 @@ function user_obj_to_code(self)
         local temp = string.format(fmt, color_arg1, color_arg2);
         self[1] = temp .. self[1];
     end
-    return self;
+    return self[1];
 end
 
 user_obj_metatable = {
