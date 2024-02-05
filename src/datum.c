@@ -22,15 +22,15 @@ int relative_position( lua_State* L )
     current->m_center.m_xyz[2] = src->m_center.m_xyz[2];
     if ( !strcmp( direction, "x" ) )
     {
-        current->m_center.m_xyz[0] += src->m_center.m_xyz[0] + offset;
+        current->m_center.m_xyz[0] = src->m_center.m_xyz[0] + offset;
     }
     else if ( !strcmp( direction, "y" ) )
     {
-        current->m_center.m_xyz[1] += src->m_center.m_xyz[1] + offset;
+        current->m_center.m_xyz[1] = src->m_center.m_xyz[1] + offset;
     }
     else if ( !strcmp( direction, "z" ) )
     {
-        current->m_center.m_xyz[2] += src->m_center.m_xyz[2] + offset;
+        current->m_center.m_xyz[2] = src->m_center.m_xyz[2] + offset;
     }
     else
     {
