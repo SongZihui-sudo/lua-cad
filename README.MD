@@ -44,6 +44,7 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
       - [**快速移植，复用现有代码，兼容 openscad 的模块调用语句**](#快速移植复用现有代码兼容-openscad-的模块调用语句)
       - [**面向对象**](#面向对象)
     - [Example](#example)
+        - [简单的离心风机外壳](#简单的离心风机外壳)
         - [复用 openscad](#复用-openscad)
         - [基本操作：](#基本操作)
     - [文档](#文档)
@@ -82,6 +83,12 @@ local shoulder_screw1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 采用面向对象的模式，高效复用代码，编码更加灵活，增加了维护性。
 
 ### Example
+
+##### 简单的离心风机外壳
+
+[Example](./Example/fan_housing/fan_housing.lua)  
+![image1](./Example/fan_housing/export1.png)
+![image2](./Example/fan_housing/export2.png)
 
 ##### 复用 openscad
 
