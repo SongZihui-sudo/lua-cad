@@ -19,7 +19,7 @@ target_end()
 
 -- 生成安装包
 xpack("lua-cad")
-    set_version("1.0")
+    set_version("1.0.1")
     set_formats("zip", "targz")
     set_title("Lua-cad($(arch)-$(host))")
     set_basename("Lua-cad-v$(version)-$(arch)-$(host)")
@@ -31,5 +31,6 @@ xpack("lua-cad")
     set_licensefile("./LICENSE.txt")
     add_installfiles ("src/user_object/user_obj.lua")
     add_installfiles ("src/chunk.lua")
+    add_installfiles ("src/lua_class/class.lua")
     add_targets("lua-cad")
 

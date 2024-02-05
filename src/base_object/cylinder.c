@@ -129,18 +129,6 @@ vec3 calculate_vertices_cylinder( lua_State* L, cylinder* self, unsigned short i
     }
     else
     {
-#define xx( xyz1, xyz2, xyz3 )                                                             \
-    result.m_xyz[xyz1] += sides.m_xyz[xyz3];                                               \
-    result.m_xyz[xyz2] += sides.m_xyz[xyz3];
-        if ( self->m_r_d_2 > 0 )
-        {
-            xx( 0, 1, 1 )
-        }
-        else
-        {
-            xx( 0, 1, 2 )
-        }
-#undef xx
         switch ( index )
         {
             // 顶
