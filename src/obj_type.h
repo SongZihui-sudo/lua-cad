@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-02 18:29:24
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-05 13:27:15
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *
@@ -106,7 +106,7 @@ static void D3OBJECT_BASE_INIT( D3OBJECT_BASE* obj )
     memset(obj->m_op_stack, 0, 20);
 }
 
-#define IS_CENTER( obj ) obj->base.m_center
+#define IS_CENTER( obj ) center_true_false[obj->base.m_center]
 #define POS_X( obj ) obj->base.m_offset->m_xyz[0]
 #define POS_Y( obj ) obj->base.m_offset->m_xyz[1]
 #define POS_Z( obj ) obj->base.m_offset->m_xyz[2]

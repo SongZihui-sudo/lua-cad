@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-03 11:18:35
+ * @LastEditTime: 2024-02-05 13:28:39
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.h
  * @Description: 对象导出
  *
@@ -17,6 +17,8 @@
 #include <obj_type.h>
 #include <polyhedron.h>
 #include <sphere.h>
+
+static char* center_true_false[2] = {"false", "true"};
 
 /**
  * @description: 输出立方体
@@ -128,7 +130,7 @@ extern char COLOR_EXPORT_ARG2[64];
  *  默认的输出规则
  *  规则类似于 printf 的格式
  */
-#define CUBE_EXPORT_RULE "cube([%f, %f, %f], center = %d);\n"
+#define CUBE_EXPORT_RULE "cube([%f, %f, %f], center = %s);\n"
 #define CUBE_ALL_EXPORT_RULE CUBE_EXPORT_RULE
 #define CUBE_EXPORT_ARGS( self )                                                           \
     CUBE_WIDTH( self ), CUBE_LENGTH( self ), CUBE_HEIGHT( self ), IS_CENTER( self )
@@ -139,7 +141,7 @@ extern char COLOR_EXPORT_ARG2[64];
  */
 extern const char* CYLINDER_ARG1;
 extern const char* CYLINDER_ARG2;
-#define CYLINDER_EXPORT_RULE "cylinder(h = %f, %s = %f, %s center = %d);\n"
+#define CYLINDER_EXPORT_RULE "cylinder(h = %f, %s = %f, %s center = %s);\n"
 #define CYLINDER_ALL_EXPORT_RULE CYLINDER_EXPORT_RULE
 #define CYLINDER_EXPORT_ARGS( self )                                                       \
     CYLINDER_H( self ), CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, IS_CENTER( self )
