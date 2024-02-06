@@ -59,6 +59,9 @@ LUAMOD_API int (luaopen_d3object) (lua_State *L);
 #define LUA_DATUMLIBNAME "datum"
 LUAMOD_API int (luaopen_datum) (lua_State *L);
 
+#define LUA_D2OBJECTLIBNAME "d2object"
+LUAMOD_API int (luaopen_d2object) (lua_State *L);
+
 /* open all previous libraries */
 LUALIB_API void (luaL_openlibs) (lua_State *L);
 

@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-05 13:27:15
+ * @LastEditTime: 2024-02-06 13:25:58
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *
@@ -22,13 +22,18 @@
  */
 enum TYPES
 {
-    OBJECT_BEGIN = 0,
+    D2OBJECT_BEGIN = 0,
+    SQUARE,
+    CIRCLE,
+    POLYGON,
+    D2OBJECT_END,
+    D3OBJECT_BEGIN,
     USER_DEFINE,
     CUBE,
     CYLINDER,
     SPHERE,
     POLYHEDRON,
-    OBJECT_END,
+    D3OBJECT_END,
     BOOLEAN_BEGIN,
     DIFFERENCE,
     UNION,
@@ -44,10 +49,15 @@ enum TYPES
     ROTATE,
     MIRROR,
     COLOR,
+    LINEAR_EXTRUDE,
+    ROTATE_EXTRUDE,
     TRANSFORM_END,
     INCLUDE,
     IMPORT
 };
+
+/* ouput mode */
+#define OUPUT_MODE_OPENSCAD "openscad"
 
 #define CODE_LENGTH 3000
 
@@ -75,7 +85,7 @@ typedef struct BOOLEAN_BASE
 } BOOLEAN_BASE;
 
 /**
- * @description: 3d 对象基类
+ * @description: 3D 对象基类
  * @return {*}
  */
 typedef struct D3OBJECT_BASE
@@ -96,6 +106,42 @@ typedef struct D3OBJECT_BASE
     int m_op_stack[20];
 } D3OBJECT_BASE;
 
+/**
+ * @description: 2D 对象基类
+ * @return {*}
+ */
+typedef struct D2OBJECT_BASE
+{
+    OBJ_BASE m_obj_base;
+    vec3 m_offset;
+    vec3 m_scale;
+    vec3 m_rotate_v;
+    vec3 m_rotate_a;
+    vec3 m_mirror;
+    union
+    {
+        double m_color_arr[4];
+        char m_color_str[32];
+    };
+    double m_color_alpha;
+    bool m_center;
+    int m_op_stack[20];
+    struct
+    {
+        double height;
+        bool center;
+        double convexity;
+        double twist;
+        double slices;
+        double scale;
+    } linear_extrude;
+    struct
+    {
+        double angle;
+        double convexity;
+    } rotate_extrude;
+} D2OBJECT_BASE;
+
 static void D3OBJECT_BASE_INIT( D3OBJECT_BASE* obj )
 {
     vec3_init( &obj->m_offset, 0 );
@@ -103,10 +149,10 @@ static void D3OBJECT_BASE_INIT( D3OBJECT_BASE* obj )
     vec3_init( &obj->m_rotate_v, 0 );
     vec3_init( &obj->m_rotate_a, 0 );
     vec3_init( &obj->m_mirror, 0 );
-    memset(obj->m_op_stack, 0, 20);
+    memset( obj->m_op_stack, 0, 20 );
 }
 
-#define IS_CENTER( obj ) center_true_false[obj->base.m_center]
+#define IS_CENTER( bool_value ) center_true_false[bool_value]
 #define POS_X( obj ) obj->base.m_offset->m_xyz[0]
 #define POS_Y( obj ) obj->base.m_offset->m_xyz[1]
 #define POS_Z( obj ) obj->base.m_offset->m_xyz[2]
