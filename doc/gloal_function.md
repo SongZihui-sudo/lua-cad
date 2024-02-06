@@ -13,6 +13,8 @@
   - [import](#import)
     - [用法](#用法-3)
     - [例子](#例子-3)
+  - [lua-cad 的附加库路径](#lua-cad-的附加库路径)
+  - [全局变量](#全局变量)
 
 [English](./English/gloal_function.md)
 
@@ -117,3 +119,16 @@ import_obj = include("obj.stl");
 ./ = lua-cad 所处路径
 - ./lua-cad/
 - /usr/local/lua-cad/
+
+## 全局变量
+
+```lua
+output_mode = string
+```
+这个变量，设置当前程序的输出格式，可选参数为 `openscad` 等。  
+
+可选参数:  
+| output_mode |
+| ----- |
+| openscad |
+| .... |

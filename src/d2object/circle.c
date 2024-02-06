@@ -2,7 +2,7 @@
  * @Author: songzihui 1751122876@qq.com
  * @Date: 2024-02-06 00:21:43
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-06 13:22:41
+ * @LastEditTime: 2024-02-06 14:47:46
  * @FilePath: /lua-cad/src/d2object/circle.c
  * @Description:
  *
@@ -34,12 +34,10 @@ int circle_init( lua_State* L )
     }
     lua_pop(L, 1);
 finish:
-    bool is_center       = lua_toboolean( L, 2 );
     unsigned int i_bytes = sizeof( circle );
     circle* current;
     current                         = dynast_cast( circle, lua_newuserdata( L, i_bytes ) );
     current->base.m_obj_base.m_type = CIRCLE;
-    current->base.m_center          = is_center;
     current->m_r_d = flag;
     current->m_value = value;
     current->base.m_obj_base.m_code = NULL;
