@@ -59,7 +59,7 @@ int transform( lua_State* L, enum TYPES type, D3OBJECT_BASE* obj );
  * @param {enum TYPES} type
  * @return {*}
  */
-void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type );
+void append_transform_openscad_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type );
 
 /**
  * @description: 返回 translate 的模式串

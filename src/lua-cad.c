@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-03 22:30:18
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-06 13:30:12
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -13,33 +13,43 @@
 #include <lua.h>
 #include <obj_type.h>
 #include <stdlib.h>
+#include <to_openscad_code.h>
 #include <user_define_obj.h>
 
-int code( lua_State* L )
+static char* check_code( lua_State* L, int index )
 {
     char* code;
-    if ( lua_istable( L, 1 ) )
+    if ( lua_istable( L, index ) )
     {
         code = get_user_obj_code( L, code );
     }
-    else if ( lua_isstring( L, 1 ) )
+    else if ( lua_isstring( L, index) )
     {
-        code = lua_tostring( L, 1 );
+        code = lua_tostring( L, index );
     }
     else
     {
-        D3OBJECT_BASE* obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 1 ) );
+        D3OBJECT_BASE* obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, index ) );
+        lua_getglobal( L, "output_mode" );
+        const char* mode = lua_tostring( L, -1 );
         if ( !obj )
         {
             luaL_error( L, "object is null!" );
-            return -1;
+            return "";
         }
-        if ( obj->m_obj_base.m_type < OBJECT_END )
+        if ( ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) ) && obj->m_obj_base.m_type < D3OBJECT_END )
         {
-            d3obj_to_code( L, obj );
+            obj_to_openscad_code( L, obj );
         }
         code = obj->m_obj_base.m_code;
     }
+    return code;
+}
+
+int code( lua_State* L )
+{
+    char* code; 
+    code = check_code(L, 1);
     if ( !code )
     {
         luaL_error( L, "The code field is empty!" );
@@ -50,30 +60,9 @@ int code( lua_State* L )
 
 int lua_cad_export( lua_State* L )
 {
-    char* code;
-    const char* path = luaL_checkstring( L, 1 );
-    if ( lua_istable( L, 2 ) )
-    {
-        code = get_user_obj_code( L, code );
-    }
-    else if ( lua_isstring( L, 2 ) )
-    {
-        code = lua_tostring( L, 2 );
-    }
-    else
-    {
-        D3OBJECT_BASE* obj = dynast_cast( D3OBJECT_BASE, lua_touserdata( L, 2 ) );
-        if ( !obj )
-        {
-            luaL_error( L, "object is null!" );
-            return -1;
-        }
-        if ( obj->m_obj_base.m_type < OBJECT_END )
-        {
-            d3obj_to_code( L, obj );
-        }
-        code = obj->m_obj_base.m_code;
-    }
+    char* code; 
+    code = check_code(L, 1);
+    const char* path = lua_tostring(L, 1);
     // 写入文件
     FILE* fptr;
     fptr = fopen( path, "w" );

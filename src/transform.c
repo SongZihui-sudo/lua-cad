@@ -10,8 +10,9 @@ char ROTATE_EXPORT_ARG2[64];
 char COLOR_EXPORT_ARG1[64];
 char COLOR_EXPORT_ARG2[64];
 
-void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type )
+void append_transform_openscad_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type )
 {
+    D2OBJECT_BASE* self1;
     char temp[128];
     switch ( type )
     {
@@ -41,6 +42,24 @@ void append_transform_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type )
             break;
         case COLOR:
             sprintf( temp, COLOR_EXPORT_RULE, COLOR_EXPORT_ARG1, COLOR_EXPORT_ARG2 );
+            break;
+        case LINEAR_EXTRUDE:
+            self1 = dynast_cast( D2OBJECT_BASE, obj );
+            sprintf( temp,
+                     LINEAR_EXTRUDE_EXPORT_RULE,
+                     self1->linear_extrude.height,
+                     IS_CENTER( self1->m_center ),
+                     self1->linear_extrude.convexity,
+                     self1->linear_extrude.twist,
+                     self1->linear_extrude.slices,
+                     self1->linear_extrude.scale );
+            break;
+        case ROTATE_EXTRUDE:
+            self1 = dynast_cast( D2OBJECT_BASE, obj );
+            sprintf( temp,
+                     ROTATE_EXTRUDE_EXPORT_RULE,
+                     self1->rotate_extrude.angle,
+                     self1->rotate_extrude.convexity );
             break;
         default:
             luaL_error( L, "Unknown transform type!" );
@@ -247,31 +266,76 @@ finish:
 
 LUA_CAD_API get_translate_fmt( lua_State* L )
 {
-    lua_pushstring( L, TRANSLATE_EXPORT_RULE );
+    lua_getglobal( L, "output_mode" );
+    const char* mode = lua_tostring( L, -1 );
+    if ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) )
+    {
+        lua_pushstring( L, TRANSLATE_EXPORT_RULE );
+    }
+    else
+    {
+        lua_pushstring( L, "" );
+    }
     return 1;
 }
 
 LUA_CAD_API get_mirror_fmt( lua_State* L )
 {
-    lua_pushstring( L, MIRROR_EXPORT_RULE );
+    lua_getglobal( L, "output_mode" );
+    const char* mode = lua_tostring( L, -1 );
+    if ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) )
+    {
+        lua_pushstring( L, MIRROR_EXPORT_RULE );
+    }
+    else
+    {
+        lua_pushstring( L, "" );
+    }
     return 1;
 }
 
 LUA_CAD_API get_scale_fmt( lua_State* L )
 {
-    lua_pushstring( L, SCALE_EXPORT_RULE );
+    lua_getglobal( L, "output_mode" );
+    const char* mode = lua_tostring( L, -1 );
+    if ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) )
+    {
+        lua_pushstring( L, SCALE_EXPORT_RULE );
+    }
+    else
+    {
+        lua_pushstring( L, "" );
+    }
     return 1;
 }
 
 LUA_CAD_API get_rotate_fmt( lua_State* L )
 {
-    lua_pushstring( L, ROTATE_EXPORT_RULE );
+    lua_getglobal( L, "output_mode" );
+    const char* mode = lua_tostring( L, -1 );
+    if ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) )
+    {
+        lua_pushstring( L, ROTATE_EXPORT_RULE );
+    }
+    else
+    {
+        lua_pushstring( L, "" );
+    }
     return 1;
 }
 
 LUA_CAD_API get_color_fmt( lua_State* L )
 {
-    lua_pushstring( L, COLOR_EXPORT_RULE );
+    lua_getglobal( L, "output_mode" );
+    const char* mode = lua_tostring( L, -1 );
+    if ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) )
+    {
+        lua_pushstring( L, COLOR_EXPORT_RULE );
+    }
+    else
+    {
+        lua_pushstring( L, "" );
+    }
     return 1;
 }
 

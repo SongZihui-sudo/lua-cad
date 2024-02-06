@@ -242,3 +242,5 @@ mail: 1751122876@qq.com
 [issues-url]: https://github.com/SongZihui-sudo/lua-cad/issues
 [license-shield]: https://img.shields.io/github/license/SongZihui-sudo/lua-cad.svg?style=flat-square
 [license-url]: ./LICENSE.txt
+
+[![Star History Chart](https://api.star-history.com/svg?repos=SongZihui-sudo/lua-cad&type=Date)](https://star-history.com/#SongZihui-sudo/lua-cad&Date)  

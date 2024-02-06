@@ -28,7 +28,7 @@ int polyhedron_init( lua_State* L )
             lua_pop( L, 1 );
         }
         points[i] = temp;
-        sprintf( buffer, POINT_RULE, temp.m_xyz[0], temp.m_xyz[1], temp.m_xyz[2] );
+        sprintf( buffer, POINT3_RULE, temp.m_xyz[0], temp.m_xyz[1], temp.m_xyz[2] );
         strcat( POLYHEDRON_ARG1, buffer );
         POLYHEDRON_ARG1[strlen( POLYHEDRON_ARG1 )] = ',';
         lua_pop( L, 1 );
@@ -38,14 +38,18 @@ int polyhedron_init( lua_State* L )
     int* faces[64];
     const int faces_count = luaL_len( L, 2 );
     int counter;
+    int total_counter_faces = 0;
     for ( int i = 0; i < faces_count; i++ )
     {
         char buffer[100];
         buffer[0] = '[';
+        buffer[1] = ' ';
+        buffer[2] = '\0';
         lua_pushnumber( L, i + 1 );
         lua_gettable( L, 2 );
         counter  = luaL_len( L, -1 );
         faces[i] = dynast_cast( int, malloc( sizeof( int ) * counter ) );
+        total_counter_faces += counter;
         for ( int j = 0; j < counter; j++ )
         {
             char buffer2[100];
@@ -69,10 +73,10 @@ int polyhedron_init( lua_State* L )
     polyhedron* current;
     current                = dynast_cast( polyhedron, lua_newuserdata( L, i_bytes ) );
     D3OBJECT_BASE_INIT(&current->base);
-    current->base.m_center = lua_toboolean( L, 2 );
+    current->m_convexity = lua_tonumber(L, 3);
     current->base.m_obj_base.m_type = POLYHEDRON;
     memcpy( current->m_points, points, sizeof( vec3 ) * points_count );
-    memcpy( current->m_faces, faces, sizeof( int ) * counter * faces_count );
+    memcpy( current->m_faces, faces, sizeof( int ) * total_counter_faces );
     current->m_points_count = points_count;
     current->m_face_count   = faces_count;
     current->m_face_count   = counter;

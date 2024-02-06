@@ -1,3 +1,15 @@
+/*
+ * @Author: songzihui 1751122876@qq.com
+ * @Date: 2024-02-01 10:19:22
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-05 23:47:55
+ * @FilePath: /lua-cad/src/vec3.c
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved. 
+ */
+
+
 #include <vec3.h>
 
 #include <math.h>

@@ -1,3 +1,15 @@
+/*
+ * @Author: songzihui 1751122876@qq.com
+ * @Date: 2024-02-05 14:11:27
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-05 23:48:25
+ * @FilePath: /lua-cad/src/datum.c
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved. 
+ */
+
+
 #include <datum.h>
 #include <obj_type.h>
 

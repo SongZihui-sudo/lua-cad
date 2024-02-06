@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <vec3.h>
 
+#define POLYHEDRON_CONVEXITY(obj) obj->m_convexity
+
 typedef struct polyhedron
 {
     D3OBJECT_BASE base;
@@ -12,6 +14,7 @@ typedef struct polyhedron
     int* m_faces[64];
     int m_points_count;
     int m_face_count;
+    int m_convexity;
 } polyhedron;
 
 /**

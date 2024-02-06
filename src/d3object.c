@@ -1,3 +1,15 @@
+/*
+ * @Author: songzihui 1751122876@qq.com
+ * @Date: 2024-01-30 11:00:39
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-06 00:03:24
+ * @FilePath: /lua-cad/src/d3object.c
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved. 
+ */
+
+
 #include <lauxlib.h>
 #include <obj_type.h>
 #include <stdbool.h>
@@ -28,7 +40,7 @@ int d3object_datum( lua_State* L )
             point = calculate_vertices_polyhedron( L, dynast_cast( polyhedron, current ), index );
             break;
         default:
-            luaL_error( L, "Unkown Object Type!" );
+            luaL_error( L, "Unkown Object Type! 2D objects are not supported!" );
     }
     // 创建一个基准对象
     unsigned int i_bytes = sizeof( datum );

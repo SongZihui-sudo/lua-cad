@@ -1,9 +1,9 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-01-31 19:31:05
- * @FilePath: /lua-cad/src/base_object/cube.c
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-05 23:58:14
+ * @FilePath: /lua-cad/src/d3object/cube.c
  * @Description: 立方体对象
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
