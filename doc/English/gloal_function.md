@@ -2,16 +2,17 @@
 
 - [global function](#global-function)
   - [Code](#code)
-    - [Usage](#Usage)
+    - [Usage](#usage)
     - [Example](#example)
   - [export](#export)
-    - [Usage](#Usage-1)
+    - [Usage](#usage-1)
     - [Example](#example-1)
-    - [Usage](#Usage-2)
+    - [Usage](#usage-2)
     - [Example](#example-2)
   - [import](#import)
-    - [Usage](#Usage-3)
+    - [Usage](#usage-3)
     - [Example](#example-3)
+  - [Global variables](#global-variables)
 
 
 ## Code

@@ -8,6 +8,7 @@ OpenSCAD for Lua, uses lua to create 3D models.
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
+[![GPLv3 License][license-shield]][license-url]
 
 
 <!-- PROJECT LOGO -->
@@ -39,16 +40,18 @@ OpenSCAD for Lua, uses lua to create 3D models.
 - [lua-cad](#lua-cad)
   - [Table of contents](#table-of-contents)
     - [**Features**](#features)
-      - [**Use benchmarks to achieve accurate positioning**](#use-benchmarks-to-achieve-accurate-positioning)
+      - [**Use datums to achieve accurate positioning**](#use-datums-to-achieve-accurate-positioning)
       - [**Fast transplantation, reuse of existing code, compatible with openscad’s module calling statements**](#fast-transplantation-reuse-of-existing-code-compatible-with-openscads-module-calling-statements)
-      - [**Object-Oriented**](#object-oriented)
+      - [**Object-oriented**](#object-oriented)
     - [Example](#example)
+        - [Simple centrifugal fan housing](#simple-centrifugal-fan-housing)
         - [Reuse openscad](#reuse-openscad)
-        - [Basic operations:](#basic-operations)
+        - [Basic operations](#basic-operations)
     - [document](#document)
     - [Getting Started Guide](#getting-started-guide)
           - [**Source code compilation**](#source-code-compilation)
         - [**Instructions for use**](#instructions-for-use)
+    - [Architecture diagram](#architecture-diagram)
     - [File directory description](#file-directory-description)
     - [Open source projects used](#open-source-projects-used)
     - [Contributors](#contributors)
@@ -60,11 +63,11 @@ OpenSCAD for Lua, uses lua to create 3D models.
 
 ### **Features**
 
-#### **Use benchmarks to achieve accurate positioning**
+#### **Use datums to achieve accurate positioning**
 
-Using datum `datum` in lua-cad can accurately determine the datum plane of 3D objects, so as to achieve accurate positioning based on the geometric relationship between objects.
+Using `datum` in lua-cad can accurately determine the datum plane of 3D objects, so as to achieve accurate positioning based on the geometric relationship between objects.
 ```lua
-datum1 = d3object.datum(cube1, 1);
+local datum1 = d3object.datum(cube1, 1);
 ```
 Use the `d3object.datum(obj, index)` function to obtain the position of the datum center, and use the `datum` library to process geometric relationships.
 
@@ -76,11 +79,17 @@ local shoulder_screw1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 ```
 Use `$` in Lua-cad to create the module you want to define in the openscad file, which will convert it into a variable of type `table`. In the `user_define_obj` library you can manipulate it further. [User-defined object library](./doc/userdefineobject.md).
 
-#### **Object-Oriented**
+#### **Object-oriented**
 
-The object-oriented pattern is adopted, the code is reused efficiently, the coding is more flexible, and the maintainability is increased.
+Adopting an object-oriented model, code can be reused efficiently, coding is more flexible, and maintainability is increased.
 
 ### Example
+
+##### Simple centrifugal fan housing
+
+[Example](./Example/fan_housing/fan_housing.lua)
+![image1](./Example/fan_housing/export1.png)
+![image2](./Example/fan_housing/export2.png)
 
 ##### Reuse openscad
 
@@ -89,7 +98,7 @@ The object-oriented pattern is adopted, the code is reused efficiently, the codi
 package.path = package.path ..';../../../../?.lua';
 user_obj = require("src.user_object.user_obj")
 
--- test1
+--test1
 test1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 
 test1.postion(test1, {10, 10, 10});
@@ -101,13 +110,13 @@ print("x: ".. test1._offset[3]);
 print("test1");
 test1.print(test1);
 
--- test2
+--test2
 test2 = $screw( "#6-32", head="flat undercut",length=12)$;
 print("test2")
 test2.print(test2);
 ```
 
-##### Basic operations:
+##### Basic operations
 
 ```lua
 d3object = require("d3object")
@@ -156,6 +165,10 @@ lua-cad [filepath]
 If the parameter `filepath` is entered, the file pointed to by the script `filepath` is run directly. Otherwise the input is read from the terminal.
 ![read_line](./IMAGE/image.png)
 
+### Architecture diagram
+
+![Architecture Diagram](./IMAGE/Architecture.png)
+
 ### File directory description
 
 eg:
@@ -196,10 +209,10 @@ Contributions make the open source community a great place to learn, inspire, an
 
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Make some changes
+3. Commit your Changes (`git commit -m 'Add some feature'`)
+4. Push to the Branch to your repo (`git push`)
+5. Open a Pull Request to `feature` Branch.
 
 ### version control
 
@@ -234,3 +247,5 @@ This project is licensed under GPLv3, please see [LICENSE.txt](./LICENSE.txt) fo
 [issues-url]: https://github.com/SongZihui-sudo/lua-cad/issues
 [license-shield]: https://img.shields.io/github/license/SongZihui-sudo/lua-cad.svg?style=flat-square
 [license-url]: ./LICENSE.txt
+
+[![Star History Chart](https://api.star-history.com/svg?repos=SongZihui-sudo/lua-cad&type=Date)](https://star-history.com/#SongZihui-sudo/lua-cad&Date)  

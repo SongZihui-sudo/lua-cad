@@ -4,7 +4,7 @@
   - [square](#square)
     - [Usage](#usage)
     - [Example](#example)
-  - [round](#round)
+  - [circle](#circle)
     - [Usage](#usage-1)
     - [Example](#example-1)
   - [Polygon](#polygon)
@@ -41,7 +41,7 @@ d2object.square({w, l}, true/false);
 local square1 = d2object.square({10, 10}, false);
 ```
 
-## round
+## circle
 
 > d2object
 
