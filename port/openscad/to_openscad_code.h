@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-06 14:19:41
+ * @LastEditTime: 2024-02-06 14:47:34
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.h
  * @Description: 对象导出
  *
@@ -147,9 +147,9 @@ extern char POLYHEDRON_ARG2[200];
 #define SQUARE_EXPORT_ARGS( self )                                                         \
     SQUARE_WIDTH( self ), SQUARE_LENGTH( self ), IS_CENTER( self->base.m_center )
 
-#define CIRCLE_EXPORT_RULE "circle(%c = %f, center = %s);\n"
+#define CIRCLE_EXPORT_RULE "circle(%c = %f);\n"
 #define CIRCLE_ALL_EXPORT_RULE CIRCLE_EXPORT_RULE
-#define CIRCLE_EXPORT_ARGS( self ) CIRCLE_R_D(self), CIRCLE_VALUE(self), IS_CENTER( self->base.m_center )
+#define CIRCLE_EXPORT_ARGS( self ) CIRCLE_R_D(self), CIRCLE_VALUE(self)
 
 extern char POLYGON_ARG1[200];
 extern char POLYGON_ARG2[200];

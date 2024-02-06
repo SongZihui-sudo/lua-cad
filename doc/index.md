@@ -11,6 +11,7 @@
   - [圆柱体](./3dobject.md#圆柱体)
   - [球体](./3dobject.md#球体)
   - [多面体](./3dobject.md#多面体)
+- [2d对象(2D objects)](./d2object.md)
 - [自定义对象(custom object)](./user_define_object.md)
   - [复用 openscad 库](./user_define_object.md#复用-openscad-库)
   - [相关方法](./user_define_object.md#相关方法)

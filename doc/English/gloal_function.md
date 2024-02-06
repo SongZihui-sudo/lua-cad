@@ -109,3 +109,16 @@ Import the specified stl file and return a string.
 ```lus
 import_obj = include("obj.stl");
 ```
+
+## Global variables
+
+```lua
+output_mode = string
+```
+This variable sets the output format of the current program. The optional parameters are `openscad` and so on.
+
+Optional parameters:
+| output_mode |
+| ----- |
+| openscad |
+| .... |
