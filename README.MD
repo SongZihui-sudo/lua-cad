@@ -46,7 +46,7 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
     - [Example](#example)
         - [简单的离心风机外壳](#简单的离心风机外壳)
         - [复用 openscad](#复用-openscad)
-        - [基本操作：](#基本操作)
+        - [基本操作](#基本操作)
     - [文档](#文档)
     - [上手指南](#上手指南)
           - [**源码编译**](#源码编译)
@@ -77,7 +77,7 @@ local datum1 = d3object.datum(cube1, 1);
 ```lua
 local shoulder_screw1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 ```
-使用 `$` 来在 Lua-cad 创建您要在 openscad 文件中定义的模块，这会将其转换唯一个 `table` 类型的变量。在 `user_define_obj` 库中，您可以对其进行进一步的操作。[用户自定义对象库](./doc/userdefineobject.md)。
+使用 `$` 来在 Lua-cad 创建您要在 openscad 文件中定义的模块，这会将其转换唯一个 `table` 类型的变量。在 `user_define_obj` 库中，您可以对其进行进一步的操作。[用户自定义对象库](./doc/user_define_object.md)。
 
 #### **面向对象**
 
@@ -116,7 +116,7 @@ print("test2")
 test2.print(test2);
 ```
 
-##### 基本操作：
+##### 基本操作
 
 ```lua
 d3object = require("d3object")

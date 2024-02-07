@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-06 14:04:19
+ * @LastEditTime: 2024-02-07 13:44:12
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
@@ -97,7 +97,7 @@ void obj_to_openscad_code( lua_State* L, D3OBJECT_BASE* base )
     temp[1] = '\0';
 }
 
-void boolean_to_code( lua_State* L, OBJ_TYPE* self )
+void boolean_to_openscad_code( lua_State* L, OBJ_TYPE* self )
 {
     char temp[CODE_LENGTH];
     temp[0] = ' ';
@@ -151,7 +151,7 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
             count    = temp1->m_count;
             for ( int i = 0; i < count; i++ )
             {
-                if ( *children[i] > BOOLEAN_BEGIN && *children[i] < BOOLEAN_END )
+                if ( is_boolean( *children[i] ) )
                 {
                     layout_to_code( L, children[i], temp );
                     char temp_buffer[CODE_LENGTH];

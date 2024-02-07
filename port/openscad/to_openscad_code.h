@@ -37,7 +37,7 @@ void obj_to_openscad_code( lua_State* L, D3OBJECT_BASE* base );
  * @param {OBJ_TYPE*} self
  * @return {*}
  */
-void boolean_to_code( lua_State* L, OBJ_TYPE* self );
+void boolean_to_openscad_code( lua_State* L, OBJ_TYPE* self );
 
 /**
  * @description: 递归输出 layout
