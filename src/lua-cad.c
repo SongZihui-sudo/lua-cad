@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-06 13:30:12
+ * @LastEditTime: 2024-02-07 13:44:46
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -23,7 +23,7 @@ static char* check_code( lua_State* L, int index )
     {
         code = get_user_obj_code( L, code );
     }
-    else if ( lua_isstring( L, index) )
+    else if ( lua_isstring( L, index ) )
     {
         code = lua_tostring( L, index );
     }
@@ -37,9 +37,15 @@ static char* check_code( lua_State* L, int index )
             luaL_error( L, "object is null!" );
             return "";
         }
-        if ( ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) ) && obj->m_obj_base.m_type < D3OBJECT_END )
+        if ( ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) )
+             && ( is_d3object( obj->m_obj_base.m_type ) || is_d2object( obj->m_obj_base.m_type ) ) )
         {
             obj_to_openscad_code( L, obj );
+        }
+        else if ( ( !mode || !strcmp( mode, OUPUT_MODE_OPENSCAD ) )
+                  && is_boolean( obj->m_obj_base.m_type ) )
+        {
+            boolean_to_openscad_code( L, ( OBJ_TYPE* )obj );
         }
         code = obj->m_obj_base.m_code;
     }
@@ -48,8 +54,8 @@ static char* check_code( lua_State* L, int index )
 
 int code( lua_State* L )
 {
-    char* code; 
-    code = check_code(L, 1);
+    char* code;
+    code = check_code( L, 1 );
     if ( !code )
     {
         luaL_error( L, "The code field is empty!" );
@@ -60,9 +66,9 @@ int code( lua_State* L )
 
 int lua_cad_export( lua_State* L )
 {
-    char* code; 
-    code = check_code(L, 1);
-    const char* path = lua_tostring(L, 1);
+    char* code;
+    code             = check_code( L, 2 );
+    const char* path = lua_tostring( L, 1 );
     // 写入文件
     FILE* fptr;
     fptr = fopen( path, "w" );
@@ -93,3 +99,5 @@ int import_module( lua_State* L )
     lua_pushstring( L, code );
     return 1;
 }
+
+int render( lua_State* L ) { return 1; }

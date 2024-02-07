@@ -158,3 +158,14 @@ static void D3OBJECT_BASE_INIT( D3OBJECT_BASE* obj )
 #define POS_Z( obj ) obj->base.m_offset->m_xyz[2]
 
 #define LUA_CAD_API int
+
+bool is_boolean(OBJ_TYPE type);
+
+
+bool is_d3object(OBJ_TYPE type);
+
+
+bool is_d2object(OBJ_TYPE type);
+
+
+bool is_transform(OBJ_TYPE type);

@@ -96,7 +96,6 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
         current->m_children[i] = temp;
         current->m_count++;
     }
-    boolean_to_code( L, ( OBJ_TYPE* )current );
 }
 
 /**
