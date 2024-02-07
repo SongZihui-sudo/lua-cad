@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-07 13:44:46
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-07 21:32:02
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <to_openscad_code.h>
 #include <user_define_obj.h>
+
+#include <dealii.h>
 
 static char* check_code( lua_State* L, int index )
 {
@@ -100,4 +102,23 @@ int import_module( lua_State* L )
     return 1;
 }
 
-int render( lua_State* L ) { return 1; }
+int render( lua_State* L )
+{
+    lua_getglobal( L, "output_mode" );
+    const char* mode  = lua_tostring( L, -1 );
+    OBJ_BASE* current = lua_touserdata( L, 1 );
+    if ( !current )
+    {
+        luaL_error( L, "object is null!" );
+        return -1;
+    }
+    if ( !strcmp( mode, "dealii" ) )
+    {
+        int flag = dealii_render( current );
+        if ( flag < 0 )
+        {
+            luaL_error( L, "Error in Render!" );
+        }
+    }
+    return 1;
+}

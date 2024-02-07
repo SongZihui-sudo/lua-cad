@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-03 13:01:12
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-07 19:49:43
  * @FilePath: /lua-cad/src/user_object/user_define_obj.c
  * @Description: 用户自定义对象
  *
@@ -23,7 +23,7 @@ int user_define_from_file( lua_State* L )
 TODO从文件引入userdefine对象:
 }
 
-char* get_user_obj_code( lua_State* L, char* dest )
+char* get_user_obj_code( lua_State* L, const char* dest )
 {
     lua_pushnumber( L, 1 );
     lua_gettable( L, -2 );

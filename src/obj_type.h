@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-06 13:25:58
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-07 21:36:47
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *
@@ -12,6 +12,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <string.h>
 
 #include <vec3.h>
 
@@ -58,6 +59,7 @@ enum TYPES
 
 /* ouput mode */
 #define OUPUT_MODE_OPENSCAD "openscad"
+#define READER_MODE_DEALII "dealii"
 
 #define CODE_LENGTH 3000
 
@@ -159,13 +161,10 @@ static void D3OBJECT_BASE_INIT( D3OBJECT_BASE* obj )
 
 #define LUA_CAD_API int
 
-bool is_boolean(OBJ_TYPE type);
+#define is_boolean( type ) type< BOOLEAN_END && type > BOOLEAN_BEGIN
 
+#define is_d3object( type ) type > D3OBJECT_BEGIN&& type < D3OBJECT_END
 
-bool is_d3object(OBJ_TYPE type);
+#define is_d2object( type ) type > D2OBJECT_BEGIN&& type < D2OBJECT_END
 
-
-bool is_d2object(OBJ_TYPE type);
-
-
-bool is_transform(OBJ_TYPE type);
+#define is_transform( type ) type > TRANSFORM_BEGIN&& type < TRANSFORM_END

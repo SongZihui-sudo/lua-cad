@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-03 13:02:50
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-07 19:42:15
  * @FilePath: /lua-cad/src/user_object/user_define_obj.h
  * @Description: 用户自定义对象
  *
@@ -36,4 +36,4 @@ int user_define_from_file( lua_State* L );
  * @param {lua_State*} L
  * @return {*}
  */
-char* get_user_obj_code( lua_State* L, char* dest );
+char* get_user_obj_code( lua_State* L, const char* dest );

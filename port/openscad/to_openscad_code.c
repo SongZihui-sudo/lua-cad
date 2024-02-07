@@ -9,11 +9,17 @@
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
 #include <lauxlib.h>
-#include <obj_type.h>
 #include <stdlib.h>
 #include <string.h>
 #include <to_openscad_code.h>
 #include <transform.h>
+#include <polyhedron.h>
+#include <sphere.h>
+#include <square.h>
+#include <circle.h>
+#include <polygon.h>
+#include <cube.h>
+#include <cylinder.h>
 
 char* LAYOUT_EXPORT_RULE[]
 = { "difference()\n{\n%s\n}\n", "union()\n{\n%s\n}\n", "intersection(){\n%s\n}",

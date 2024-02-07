@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-06 14:47:34
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-07 19:38:47
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.h
  * @Description: 对象导出
  *
@@ -11,15 +11,8 @@
 
 #pragma once
 
-#include <cube.h>
-#include <cylinder.h>
 #include <lua.h>
 #include <obj_type.h>
-#include <polyhedron.h>
-#include <sphere.h>
-#include <square.h>
-#include <circle.h>
-#include <polygon.h>
 
 static char* center_true_false[2] = { "false", "true" };
 

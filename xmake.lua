@@ -8,26 +8,29 @@ add_includedirs("./src/d2object")
 add_includedirs("./src/d3object")
 add_includedirs("./src/user_object")
 add_includedirs("./port/openscad")
-add_linkdirs("/home/songzihui/dealii-9.5.2/dealii_lib/lib")
 add_includedirs("./port/dealii")
 add_includedirs("/home/songzihui/dealii-9.5.2/dealii_lib/include/")
-function get_subdirectories(root_path)
-    local i = 0;
-    for _, dir in ipairs(os.dirs(root_path)) do
-        print("[%d] Add include dir: " .. dir, i)
-        add_includedirs(dir)
-        i = i + 1
-    end
-    return
-end
--- 要添加头文件目录的文件夹路径
-local folder_path = "/home/songzihui/dealii-9.5.2/dealii_lib/include/**"
 
--- 获取所有子目录
-local subdirs  = get_subdirectories(folder_path)
 target("lua-cad")
+    before_build(function (target) 
+        function get_subdirectories(root_path)
+            local dirs = {}
+            local i = 0;
+            for _, dir in ipairs(os.dirs(root_path)) do
+                print("[%d] Add include dir: " .. dir, i)
+                table.insert(dirs, dir);
+                i = i + 1
+            end
+            target:add("includedirs", dirs);
+        end
+        -- 要添加头文件目录的文件夹路径
+        local folder_path = "/home/songzihui/dealii-9.5.2/dealii_lib/include/**"
+        -- 获取所有子目录
+        get_subdirectories(folder_path)        
+    end)
+    add_linkdirs("/home/songzihui/dealii-9.5.2/dealii_lib/lib/")
+    add_links("libdeal_II.so")
     set_kind("binary")
-    add_links("/home/songzihui/dealii-9.5.2/dealii_lib/lib/libdeal_II.g.so", "/home/songzihui/dealii-9.5.2/dealii_lib/lib/libdeal_II.so")
     add_files("port/openscad/*.c")
     add_files("lua/*.c|onelua.c|lua.c")
     add_files("src/*.c|lua-cad.c")
