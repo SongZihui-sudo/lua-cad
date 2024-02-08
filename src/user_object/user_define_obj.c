@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-07 19:49:43
+ * @LastEditTime: 2024-02-08 23:13:05
  * @FilePath: /lua-cad/src/user_object/user_define_obj.c
  * @Description: 用户自定义对象
  *
@@ -23,14 +23,11 @@ int user_define_from_file( lua_State* L )
 TODO从文件引入userdefine对象:
 }
 
-char* get_user_obj_code( lua_State* L, const char* dest )
+char* get_user_obj_openscad_code( lua_State* L )
 {
     lua_pushnumber( L, 1 );
     lua_gettable( L, -2 );
-    const char* code = lua_tostring( L, -1 );
-    dest = dynast_cast(char, malloc(sizeof(char) * strlen(code)));
-    strcpy( dest, code);
-    return dest;
+    return lua_tostring( L, -1 );
 }
 
 LUAMOD_API int luaopen_user_define_obj( lua_State* L )

@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-03 13:34:45
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-08 23:01:39
  * @FilePath: /lua-cad/src/boolean.c
  * @Description: bool 操作
  *
@@ -88,7 +88,7 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
             D3OBJECT_BASE* user_define = dynast_cast(D3OBJECT_BASE, malloc(sizeof(D3OBJECT_BASE)));
             D3OBJECT_BASE_INIT(user_define);
             user_define->m_obj_base.m_type = USER_DEFINE;
-            user_define->m_obj_base.m_code = get_user_obj_code(L, user_define->m_obj_base.m_code);
+            user_define->m_obj_base.m_code = get_user_obj_openscad_code(L);
             temp = dynast_cast(OBJ_TYPE, user_define);
             lua_pop( L, 1 );
         }
