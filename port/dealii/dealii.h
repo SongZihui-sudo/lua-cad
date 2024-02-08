@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-02-07 18:14:45
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-07 20:01:28
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-08 17:58:49
  * @FilePath: /lua-cad/port/dealii/dealii.h
  * @Description: 
  * 
@@ -19,7 +19,7 @@
 extern "C"
 {
 #endif
-    int dealii_render(OBJ_BASE* obj_base);
+    int foo(OBJ_BASE* obj_base);
 #ifdef __cplusplus
 }
 

@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-07 21:36:47
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-08 18:04:34
  * @FilePath: /lua-cad/src/obj_type.h
  * @Description: 对象种类与基类的定义
  *
@@ -59,7 +59,8 @@ enum TYPES
 
 /* ouput mode */
 #define OUPUT_MODE_OPENSCAD "openscad"
-#define READER_MODE_DEALII "dealii"
+#define OUPUT_MODE_DEALII "dealii"
+#define OUTPUT_MODE_GMSH "gmsh"
 
 #define CODE_LENGTH 3000
 

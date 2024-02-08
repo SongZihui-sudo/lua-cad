@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:32
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-07 21:32:02
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-08 17:58:21
  * @FilePath: /lua-cad/src/lua-cad.c
  * @Description: 一些全局函数的实现
  *
@@ -111,14 +111,6 @@ int render( lua_State* L )
     {
         luaL_error( L, "object is null!" );
         return -1;
-    }
-    if ( !strcmp( mode, "dealii" ) )
-    {
-        int flag = dealii_render( current );
-        if ( flag < 0 )
-        {
-            luaL_error( L, "Error in Render!" );
-        }
     }
     return 1;
 }
