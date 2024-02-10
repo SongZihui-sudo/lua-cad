@@ -36,4 +36,4 @@ int user_define_from_file( lua_State* L );
  * @param {lua_State*} L
  * @return {*}
  */
-char* get_user_obj_openscad_code( lua_State* L );
+const char* get_user_obj_openscad_code( lua_State* L );

@@ -9,6 +9,7 @@ add_includedirs("./src/d3object")
 add_includedirs("./src/user_object")
 add_includedirs("./port/openscad")
 add_includedirs("./port/gmsh")
+add_includedirs("./lib/gmsh-git-Linux64-sdk/include/")
 
 -- add_defines("DEAL_II")
 
@@ -49,7 +50,9 @@ target("lua-cad")
     add_files("src/d3object/*.c")
     add_files("src/d2object/*.c")
     add_files("src/user_object/*.c")
-    add_files("port/gmsh/*.c")
+    add_files("port/gmsh/*.cpp")
+    add_linkdirs("lib/gmsh-git-Linux64-sdk/lib")
+    add_links("libgmsh.so")
 target_end()
 
 -- 生成安装包

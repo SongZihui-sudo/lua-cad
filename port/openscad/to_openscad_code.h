@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-07 19:38:47
+ * @LastEditTime: 2024-02-09 23:14:39
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.h
  * @Description: 对象导出
  *
@@ -161,3 +161,10 @@ extern char POLYGON_ARG2[200];
  * @return {*}
  */
 #define ROTATE_EXTRUDE_EXPORT_RULE "rotate_extrude(angle = %f, convexity = %f)\n"
+
+/**
+ * @description: openscad 代码保存
+ * @param {lua_State*} L
+ * @return {*}
+ */
+void openscad_save(lua_State* L);

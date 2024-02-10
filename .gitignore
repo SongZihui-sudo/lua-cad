@@ -8,3 +8,5 @@ build/
 .vscode/
 
 list.txt
+
+/lib/gmsh-git-Linux64-sdk

@@ -56,6 +56,7 @@ static const luaL_Reg loadedlibs[] = {
   {LUA_D3OBJECTLIBNAME, luaopen_d3object},
   {LUA_DATUMLIBNAME, luaopen_datum},
   {LUA_D2OBJECTLIBNAME, luaopen_d2object},
+  {LUA_GMSHLIBNAME, luaopen_gmsh},
   {NULL, NULL}
 };
 

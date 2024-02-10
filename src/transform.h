@@ -66,32 +66,32 @@ void append_transform_openscad_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPE
  * @param {lua_State*} L
  * @return {*}
  */
-LUA_CAD_API get_translate_fmt( lua_State* L );
+LUA_CAD_API get_translate_openscad_fmt( lua_State* L );
 
 /**
  * @description: 返回 mirror 模式串
  * @param {lua_State*} L
  * @return {*}
  */
-LUA_CAD_API get_mirror_fmt( lua_State* L );
+LUA_CAD_API get_mirror_openscad_fmt( lua_State* L );
 
 /**
  * @description: 返回 scale 模式串
  * @param {lua_State*} L
  * @return {*}
  */
-LUA_CAD_API get_scale_fmt( lua_State* L );
+LUA_CAD_API get_scale_openscad_fmt( lua_State* L );
 
 /**
  * @description: 返回 rotate 模式串
  * @param {lua_State*} L
  * @return {*}
  */
-LUA_CAD_API get_rotate_fmt( lua_State* L );
+LUA_CAD_API get_rotate_openscad_fmt( lua_State* L );
 
 /**
  * @description: 返回 color 模式串
  * @param {lua_State*} L
  * @return {*}
  */
-LUA_CAD_API get_color_fmt( lua_State* L );
+LUA_CAD_API get_color_openscad_fmt( lua_State* L );

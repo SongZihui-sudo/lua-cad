@@ -23,11 +23,12 @@ int user_define_from_file( lua_State* L )
 TODO从文件引入userdefine对象:
 }
 
-char* get_user_obj_openscad_code( lua_State* L )
+const char* get_user_obj_openscad_code( lua_State* L )
 {
     lua_pushnumber( L, 1 );
     lua_gettable( L, -2 );
-    return lua_tostring( L, -1 );
+    const char* value = lua_tostring( L, -1 );
+    return value;
 }
 
 LUAMOD_API int luaopen_user_define_obj( lua_State* L )

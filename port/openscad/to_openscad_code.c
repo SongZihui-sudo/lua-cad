@@ -1,25 +1,26 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-07 13:44:12
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-09 23:07:41
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
+#include <circle.h>
+#include <cube.h>
+#include <cylinder.h>
 #include <lauxlib.h>
+#include <polygon.h>
+#include <polyhedron.h>
+#include <sphere.h>
+#include <square.h>
 #include <stdlib.h>
 #include <string.h>
 #include <to_openscad_code.h>
 #include <transform.h>
-#include <polyhedron.h>
-#include <sphere.h>
-#include <square.h>
-#include <circle.h>
-#include <polygon.h>
-#include <cube.h>
-#include <cylinder.h>
+#include <lua-cad.h>
 
 char* LAYOUT_EXPORT_RULE[]
 = { "difference()\n{\n%s\n}\n", "union()\n{\n%s\n}\n", "intersection(){\n%s\n}",
@@ -199,4 +200,21 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
             luaL_error( L, "Unknown object type!" );
             return;
     }
+}
+
+void openscad_save( lua_State* L )
+{
+    char* code;
+    code             = check_code( L, 2 );
+    const char* path = lua_tostring( L, 1 );
+    // 写入文件
+    FILE* fptr;
+    fptr = fopen( path, "w" );
+    if ( fptr == NULL )
+    {
+        luaL_error( L, "File write failed!" );
+        exit( 1 );
+    }
+    fprintf( fptr, "%s", code );
+    fclose( fptr );
 }

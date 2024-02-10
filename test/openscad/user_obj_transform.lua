@@ -1,6 +1,6 @@
 output_mode = "openscad"
 package.path = package.path ..';../../../../?.lua';
-user_obj_metatable = require("src.user_object.user_obj")
+user_obj_metatable = require("src.lua.user_obj")
 
 test1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 test1.postion(test1, {10, 10, 10});

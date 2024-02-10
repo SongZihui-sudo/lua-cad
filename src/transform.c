@@ -264,7 +264,7 @@ finish:
     return 1;
 }
 
-LUA_CAD_API get_translate_fmt( lua_State* L )
+LUA_CAD_API get_translate_openscad_fmt( lua_State* L )
 {
     lua_getglobal( L, "output_mode" );
     const char* mode = lua_tostring( L, -1 );
@@ -279,7 +279,7 @@ LUA_CAD_API get_translate_fmt( lua_State* L )
     return 1;
 }
 
-LUA_CAD_API get_mirror_fmt( lua_State* L )
+LUA_CAD_API get_mirror_openscad_fmt( lua_State* L )
 {
     lua_getglobal( L, "output_mode" );
     const char* mode = lua_tostring( L, -1 );
@@ -294,7 +294,7 @@ LUA_CAD_API get_mirror_fmt( lua_State* L )
     return 1;
 }
 
-LUA_CAD_API get_scale_fmt( lua_State* L )
+LUA_CAD_API get_scale_openscad_fmt( lua_State* L )
 {
     lua_getglobal( L, "output_mode" );
     const char* mode = lua_tostring( L, -1 );
@@ -309,7 +309,7 @@ LUA_CAD_API get_scale_fmt( lua_State* L )
     return 1;
 }
 
-LUA_CAD_API get_rotate_fmt( lua_State* L )
+LUA_CAD_API get_rotate_openscad_fmt( lua_State* L )
 {
     lua_getglobal( L, "output_mode" );
     const char* mode = lua_tostring( L, -1 );
@@ -324,7 +324,7 @@ LUA_CAD_API get_rotate_fmt( lua_State* L )
     return 1;
 }
 
-LUA_CAD_API get_color_fmt( lua_State* L )
+LUA_CAD_API get_color_openscad_fmt( lua_State* L )
 {
     lua_getglobal( L, "output_mode" );
     const char* mode = lua_tostring( L, -1 );
@@ -348,11 +348,11 @@ static const luaL_Reg transformlib[] = { { "postion", transform_postion },
                                          { "minkowski", minkowski },
                                          { "offset", offset },
                                          { "color", color },
-                                         { "translate_fmt", get_translate_fmt },
-                                         { "mirror_fmt", get_mirror_fmt },
-                                         { "scale_fmt", get_scale_fmt },
-                                         { "rotate_fmt", get_rotate_fmt },
-                                         { "color_fmt", get_color_fmt },
+                                         { "translate_fmt", get_translate_openscad_fmt },
+                                         { "mirror_fmt", get_mirror_openscad_fmt },
+                                         { "scale_fmt", get_scale_openscad_fmt },
+                                         { "rotate_fmt", get_rotate_openscad_fmt },
+                                         { "color_fmt", get_color_openscad_fmt },
                                          { NULL, NULL } };
 
 LUAMOD_API int luaopen_transform( lua_State* L )
