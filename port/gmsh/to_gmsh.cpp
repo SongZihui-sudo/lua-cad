@@ -1,14 +1,18 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-02-08 21:20:28
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-10 21:57:15
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-11 01:14:15
  * @FilePath: /lua-cad/port/gmsh/to_gmsh.cpp
  * @Description:
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
-
+extern "C"
+{
+#include <circle.h>
+#include <square.h>
+}
 #include <gmsh.h>
 #include <to_gmsh.h>
 
@@ -16,7 +20,7 @@
 #include <string>
 #include <vector>
 
-void square_to_gmsh( square* obj )
+static void square_to_gmsh( square* obj )
 {
     if ( !obj->base.m_center )
     {
@@ -28,12 +32,24 @@ void square_to_gmsh( square* obj )
     }
     else
     {
-        gmsh::model::occ::addRectangle( obj->base.m_offset.m_xyz[0] - (obj->w_l.m_xy[0] / 2),
-                                        obj->base.m_offset.m_xyz[1] - (obj->w_l.m_xy[1] / 2),
+        gmsh::model::occ::addRectangle( obj->base.m_offset.m_xyz[0] - ( obj->w_l.m_xy[0] / 2 ),
+                                        obj->base.m_offset.m_xyz[1] - ( obj->w_l.m_xy[1] / 2 ),
                                         obj->base.m_offset.m_xyz[2],
                                         obj->w_l.m_xy[0],
                                         obj->w_l.m_xy[1] );
     }
+}
+
+static void circle_to_gmsh( circle* obj )
+{
+    if ( obj->m_r_d == 'd' )
+    {
+        obj->m_value = obj->m_value / 2;
+    }
+    gmsh::model::occ::addCircle( obj->base.m_offset.m_xyz[0],
+                                 obj->base.m_offset.m_xyz[1],
+                                 obj->base.m_offset.m_xyz[2],
+                                 obj->m_value );
 }
 
 void object_to_gmsh( lua_State* L )
@@ -61,6 +77,14 @@ void d3object_to_gmsh( D3OBJECT_BASE* obj )
 {
     switch ( obj->m_obj_base.m_type )
     {
+        case CUBE:
+            break;
+        case CYLINDER:
+            break;
+        case SPHERE:
+            break;
+        case POLYHEDRON:
+            break;
         default:
             break;
     }
@@ -72,6 +96,12 @@ void d2object_to_gmsh( D2OBJECT_BASE* obj )
     {
         case SQUARE:
             square_to_gmsh( dynast_cast( square, obj ) );
+            break;
+        case CIRCLE:
+            circle_to_gmsh( dynast_cast( circle, obj ) );
+            break;
+        case POLYGON:
+            std::cout << "For polygons, please use 'addPlaneSurface'!" << std::endl;
             break;
         default:
             break;
@@ -181,11 +211,11 @@ static LUA_CAD_API gmsh_add_ellipsearc( lua_State* L )
 static LUA_CAD_API gmsh_add_curve( lua_State* L, GMSH_CURVE type )
 {
     double buffer[64] = { 0 };
-    int length        = get_table_field_number_array( L, "points", 1, buffer );
-    std::vector< int > points, curves = { };
+    int length        = get_table_field_number_array( L, "indexs", 1, buffer );
+    std::vector< int > indexs, curves = { };
     for ( int i = 0; i < length; i++ )
     {
-        points.push_back( buffer[i] );
+        indexs.push_back( buffer[i] );
     }
     int index;
     bool temp;
@@ -199,27 +229,27 @@ static LUA_CAD_API gmsh_add_curve( lua_State* L, GMSH_CURVE type )
             {
                 tangents.push_back( buffer[i] );
             }
-            index = gmsh::model::occ::addSpline( points, -1, tangents );
+            index = gmsh::model::occ::addSpline( indexs, -1, tangents );
             break;
         case GMSH_BSPLINE:
             // need - fix
-            index = gmsh::model::occ::addBSpline( points );
+            index = gmsh::model::occ::addBSpline( indexs );
             break;
         case GMSH_BEZIER:
-            index = gmsh::model::occ::addBezier( points );
+            index = gmsh::model::occ::addBezier( indexs );
             break;
         case GMSH_PLANESURFACE:
-            index = gmsh::model::occ::addPlaneSurface( points );
+            index = gmsh::model::occ::addPlaneSurface( indexs );
             break;
         case GMSH_SURFACELOOP:
             temp  = get_table_field_boolean_value( L, "sewing", 1 );
-            index = gmsh::model::occ::addSurfaceLoop( points, -1, temp );
+            index = gmsh::model::occ::addSurfaceLoop( indexs, -1, temp );
             break;
         case GMSH_VOLUME:
-            index = gmsh::model::occ::addVolume( points );
+            index = gmsh::model::occ::addVolume( indexs );
             break;
         case GMSH_CURVELOOP:
-            index = gmsh::model::occ::addCurveLoop( points );
+            index = gmsh::model::occ::addCurveLoop( indexs );
             break;
         default:
             break;
@@ -284,23 +314,23 @@ static LUA_CAD_API gmsh_add_surface_filling( lua_State* L )
     int maxDegree         = get_table_field_number_value( L, "maxDegree", 1 );
     int maxSegments       = get_table_field_number_value( L, "maxSegments ", 1 );
     double buffer1[64]    = { 0 };
-    int length1           = get_table_field_number_array( L, "points", 1, buffer1 );
-    std::vector< int > points;
+    int length1           = get_table_field_number_array( L, "indexs", 1, buffer1 );
+    std::vector< int > indexs;
     for ( int i = 0; i < length1; i++ )
     {
-        points.push_back( buffer1[i] );
+        indexs.push_back( buffer1[i] );
     }
     int index = gmsh::model::occ::addSurfaceFilling(
-    wire, -1, points, degree, numPointsOnCurves, numIter, anisotropic, tol2d, tol3d, tolAng, tolCurv, maxDegree, maxSegments );
+    wire, -1, indexs, degree, numPointsOnCurves, numIter, anisotropic, tol2d, tol3d, tolAng, tolCurv, maxDegree, maxSegments );
     lua_pushinteger( L, index );
     return 1;
 }
 
 static LUA_CAD_API gmsh_add_wire( lua_State* L )
 {
-    bool checkClosed  = get_table_field_boolean_value( L, "checkClosed", 1 );
+    bool checkClosed  = get_table_field_boolean_value( L, "check_closed", 1 );
     double buffer[64] = { 0 };
-    int length        = get_table_field_number_array( L, "points", 1, buffer );
+    int length        = get_table_field_number_array( L, "curves", 1, buffer );
     std::vector< int > curives;
     for ( int i = 0; i < length; i++ )
     {

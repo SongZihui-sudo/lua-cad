@@ -36,10 +36,8 @@ extern "C"
 #include <lauxlib.h>
 #include <lua.h>
 #include <lua_table.h>
-#include <square.h>
 
     void object_to_gmsh( lua_State* L );
-    void square_to_gmsh( square* obj );
     void d2object_to_gmsh( D2OBJECT_BASE* obj );
      void d3object_to_gmsh( D3OBJECT_BASE* obj );
     void gmsh_save( lua_State* L );

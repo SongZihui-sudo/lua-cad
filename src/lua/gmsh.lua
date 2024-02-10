@@ -104,7 +104,7 @@ gmsh_circle_arc = class(gmsh_obj_base);
 function gmsh_circle_arc:ctor(start_point, center_point, end_point, ...)
     local args = {...};
     if #args == 1 then
-       self.center = args[1]
+        self.center = args[1]
     else
         self.center = false;
     end
@@ -160,6 +160,11 @@ function gmsh_spline:ctor(points, tangents)
 end
 
 function gmsh_spline:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
     if self.index == -1 then
         self.index = cgmsh.addSpline(self);
     end
@@ -177,6 +182,11 @@ function gmsh_bspline:ctor(points)
 end
 
 function gmsh_bspline:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
     if self.index == -1 then
         self.index = cgmsh.addBSpline(self);
     end
@@ -189,6 +199,11 @@ end
 gmsh_bezier = class(gmsh_bspline);
 
 function gmsh_bezier:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
     if self.index == -1 then
         self.index = cgmsh.addBezier(self);
     end
@@ -201,6 +216,12 @@ end
 gmsh_curveloop = class(gmsh_bspline);
 
 function gmsh_curveloop:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
+    -- need-fix
     if self.index == -1 then
         self.index = cgmsh.addCurveLoop(self);
     end
@@ -213,6 +234,11 @@ end
 gmsh_plane_surface = class(gmsh_bspline);
 
 function gmsh_plane_surface:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
     if self.index == -1 then
         self.index = cgmsh.addPlaneSurface(self);
     end
@@ -224,7 +250,12 @@ end
 --]]
 gmsh_surface_filling = class(gmsh_bspline);
 
-function gmsh_surface_filling:ad()
+function gmsh_surface_filling:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
     if self.index == -1 then
         self.index = cgmsh.addSurfaceFilling(self);
     end
@@ -243,6 +274,11 @@ function gmsh_surface_loop:ctor(sewing, points)
 end
 
 function gmsh_surface_loop:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
     if self.index == -1 then
         self.index = cgmsh.addSurfaceLoop(self);
     end
@@ -255,7 +291,8 @@ end
 
 gmsh_volume = class(gmsh_obj_base);
 
-function gmsh_volume:ctor(wire, degree, numPointsOnCurves, numIter, anisotropic, tol2d, tol3d, tolAng, tolCurv, maxDegree, maxSegments, points)
+function gmsh_volume:ctor(wire, degree, numPointsOnCurves, numIter, anisotropic, tol2d, tol3d, tolAng, tolCurv,
+    maxDegree, maxSegments, points)
     self.wire = wire;
     self.degree = degree;
     self.numPointsOnCurves = numPointsOnCurves;
@@ -272,8 +309,28 @@ function gmsh_volume:ctor(wire, degree, numPointsOnCurves, numIter, anisotropic,
 end
 
 function gmsh_volume:add()
+    self.indexs = {};
+    for k, v in pairs(self.points) do
+        v:add();
+        table.insert(self.indexs, v:get_index());
+    end
     if self.index == -1 then
         self.index = cgmsh.addVolume(self);
+    end
+end
+
+-- ******************************************************************************************
+gmsh_wire = class(gmsh_obj_base);
+
+function gmsh_wire:ctor(curves, check_closed)
+    self.curves = curves;
+    self.check_closed = check_closed;
+    self.index = -1;
+end
+
+function gmsh_wire:add()
+    if self.index == -1 then
+        cgmsh.addWire(self);
     end
 end
 
@@ -288,7 +345,16 @@ local gmsh = {
         Point = gmsh_point,
         Line = gmsh_line,
         CircleArc = gmsh_circle_arc,
-        EllipseArc = gmsh_ellipse_arc
+        EllipseArc = gmsh_ellipse_arc,
+        Spline = gmsh_spline,
+        BSpline = gmsh_bspline,
+        Bezier = gmsh_bezier,
+        CurveLoop = gmsh_curveloop,
+        PlaneSurface = gmsh_plane_surface,
+        SurfaceFilling = gmsh_surface_filling,
+        SurfaceLoop = gmsh_surface_loop,
+        Volume = gmsh_volume,
+        Wire = gmsh_wire
     }
 }
 
