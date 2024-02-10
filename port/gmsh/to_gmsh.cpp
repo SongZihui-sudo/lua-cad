@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-02-08 21:20:28
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-10 15:25:17
+ * @LastEditTime: 2024-02-10 21:57:15
  * @FilePath: /lua-cad/port/gmsh/to_gmsh.cpp
  * @Description:
  *
@@ -12,11 +12,94 @@
 #include <gmsh.h>
 #include <to_gmsh.h>
 
+#include <iostream>
 #include <string>
 #include <vector>
 
+void square_to_gmsh( square* obj )
+{
+    if ( !obj->base.m_center )
+    {
+        gmsh::model::occ::addRectangle( obj->base.m_offset.m_xyz[0],
+                                        obj->base.m_offset.m_xyz[1],
+                                        obj->base.m_offset.m_xyz[2],
+                                        obj->w_l.m_xy[0],
+                                        obj->w_l.m_xy[1] );
+    }
+    else
+    {
+        gmsh::model::occ::addRectangle( obj->base.m_offset.m_xyz[0] - (obj->w_l.m_xy[0] / 2),
+                                        obj->base.m_offset.m_xyz[1] - (obj->w_l.m_xy[1] / 2),
+                                        obj->base.m_offset.m_xyz[2],
+                                        obj->w_l.m_xy[0],
+                                        obj->w_l.m_xy[1] );
+    }
+}
+
+void object_to_gmsh( lua_State* L )
+{
+    OBJ_BASE* current = dynast_cast( OBJ_BASE, lua_touserdata( L, 2 ) );
+    if ( !current )
+    {
+        luaL_error( L, "object is null!" );
+    }
+    if ( is_d2object( current->m_type ) )
+    {
+        d2object_to_gmsh( dynast_cast( D2OBJECT_BASE, current ) );
+    }
+    else if ( is_d3object( current->m_type ) )
+    {
+        d3object_to_gmsh( dynast_cast( D3OBJECT_BASE, current ) );
+    }
+    else
+    {
+        luaL_error( L, "Unsupported types!" );
+    }
+}
+
+void d3object_to_gmsh( D3OBJECT_BASE* obj )
+{
+    switch ( obj->m_obj_base.m_type )
+    {
+        default:
+            break;
+    }
+}
+
+void d2object_to_gmsh( D2OBJECT_BASE* obj )
+{
+    switch ( obj->m_obj_base.m_type )
+    {
+        case SQUARE:
+            square_to_gmsh( dynast_cast( square, obj ) );
+            break;
+        default:
+            break;
+    }
+}
+
 void gmsh_save( lua_State* L )
 {
+    if ( lua_istable( L, 2 ) )
+    {
+        lua_getfield( L, 2, "add" );
+        lua_pushvalue( L, 2 );
+        int iRet = lua_pcall( L, 1, 0, 0 );
+        if ( iRet )
+        {
+            const char* pErrorMsg = lua_tostring( L, -1 );
+            luaL_error( L, pErrorMsg );
+        }
+    }
+    else if ( lua_isuserdata( L, 2 ) )
+    {
+        object_to_gmsh( L );
+    }
+    else
+    {
+        luaL_error( L, "Unsupported types!" );
+    }
+    gmsh::model::occ::synchronize( );
     const char* filename = luaL_checkstring( L, 1 );
     gmsh::write( filename );
 }
@@ -78,11 +161,8 @@ static LUA_CAD_API gmsh_add_circlearc( lua_State* L )
     int start_point  = get_table_field_number_value( L, "index", 1 );
     int center_point = get_table_field_number_value( L, "index", 2 );
     int end_point    = get_table_field_number_value( L, "index", 3 );
-    double nx        = luaL_checkinteger( L, 4 );
-    double ny        = luaL_checkinteger( L, 5 );
-    double nz        = luaL_checkinteger( L, 6 );
-    int index
-    = gmsh::model::geo::addCircleArc( start_point, center_point, end_point, -1, nx, ny, nz );
+    bool center      = lua_toboolean( L, 7 );
+    int index = gmsh::model::occ::addCircleArc( start_point, center_point, end_point, -1, center );
     lua_pushinteger( L, index );
     return 1;
 }
@@ -93,11 +173,7 @@ static LUA_CAD_API gmsh_add_ellipsearc( lua_State* L )
     int center_point = get_table_field_number_value( L, "index", 2 );
     int major_point  = get_table_field_number_value( L, "index", 3 );
     int end_point    = get_table_field_number_value( L, "index", 4 );
-    double nx        = luaL_checkinteger( L, 5 );
-    double ny        = luaL_checkinteger( L, 6 );
-    double nz        = luaL_checkinteger( L, 7 );
-    int index
-    = gmsh::model::geo::addEllipseArc( start_point, center_point, major_point, end_point, -1, nx, ny, nz );
+    int index = gmsh::model::occ::addEllipseArc( start_point, center_point, major_point, end_point );
     lua_pushinteger( L, index );
     return 1;
 }
@@ -200,7 +276,7 @@ static LUA_CAD_API gmsh_add_surface_filling( lua_State* L )
     int degree            = get_table_field_number_value( L, "degree", 1 );
     int numPointsOnCurves = get_table_field_number_value( L, "numPointsOnCurves", 1 );
     int numIter           = get_table_field_number_value( L, "numIter", 1 );
-    int anisotropic       = get_table_field_boolean_value( L, "anisotropic", 1 );
+    bool anisotropic      = get_table_field_boolean_value( L, "anisotropic", 1 );
     double tol2d          = get_table_field_number_value( L, "tol2d", 1 );
     double tol3d          = get_table_field_number_value( L, "tol3d", 1 );
     double tolAng         = get_table_field_number_value( L, "tolAng", 1 );
@@ -216,6 +292,21 @@ static LUA_CAD_API gmsh_add_surface_filling( lua_State* L )
     }
     int index = gmsh::model::occ::addSurfaceFilling(
     wire, -1, points, degree, numPointsOnCurves, numIter, anisotropic, tol2d, tol3d, tolAng, tolCurv, maxDegree, maxSegments );
+    lua_pushinteger( L, index );
+    return 1;
+}
+
+static LUA_CAD_API gmsh_add_wire( lua_State* L )
+{
+    bool checkClosed  = get_table_field_boolean_value( L, "checkClosed", 1 );
+    double buffer[64] = { 0 };
+    int length        = get_table_field_number_array( L, "points", 1, buffer );
+    std::vector< int > curives;
+    for ( int i = 0; i < length; i++ )
+    {
+        curives.push_back( buffer[i] );
+    }
+    int index = gmsh::model::occ::addWire( curives, checkClosed );
     lua_pushinteger( L, index );
     return 1;
 }
@@ -239,6 +330,7 @@ static const luaL_Reg gmshlib[] = { { "addPoint", gmsh_add_point },
                                     { "addSurfaceFilling", gmsh_add_surface_filling },
                                     { "addSurfaceLoop", gmsh_add_surface_loop },
                                     { "addVolume", gmsh_add_volume },
+                                    { "addWire", gmsh_add_wire },
                                     { NULL, NULL } };
 
 LUAMOD_API int luaopen_gmsh( lua_State* L )

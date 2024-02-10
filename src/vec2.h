@@ -1,8 +1,8 @@
 /*
  * @Author: songzihui 1751122876@qq.com
  * @Date: 2024-02-05 23:49:41
- * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-05 23:51:06
+ * @LastEditors: SongZihui-sudo 1751122876@qq.com
+ * @LastEditTime: 2024-02-10 21:46:07
  * @FilePath: /lua-cad/src/vec2.h
  * @Description: vector 2d
  *
@@ -13,7 +13,7 @@
 
 typedef struct vec2
 {
-    double m_xy[2]
+    double m_xy[2];
 } vec2;
 
 static void vec2_init(vec2* self, int c)

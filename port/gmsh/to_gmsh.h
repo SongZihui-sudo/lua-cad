@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-02-08 21:20:28
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-10 14:26:23
+ * @LastEditTime: 2024-02-10 21:52:45
  * @FilePath: /lua-cad/port/gmsh/to_gmsh.h
  * @Description:
  *
@@ -32,14 +32,19 @@ enum GMSH_CURVE
 
 extern "C"
 {
+#endif
 #include <lauxlib.h>
 #include <lua.h>
 #include <lua_table.h>
+#include <square.h>
 
-    void gmsh_save(lua_State* L);
+    void object_to_gmsh( lua_State* L );
+    void square_to_gmsh( square* obj );
+    void d2object_to_gmsh( D2OBJECT_BASE* obj );
+     void d3object_to_gmsh( D3OBJECT_BASE* obj );
+    void gmsh_save( lua_State* L );
     LUAMOD_API int luaopen_gmsh( lua_State* L );
 
-#endif
 #ifdef __cplusplus
 }
 #endif
