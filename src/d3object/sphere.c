@@ -3,16 +3,15 @@
 
 #include <stdlib.h>
 
-const char* SPHERER_ARG1;
-
 int sphere_init( lua_State* L )
 {
+    char name;
     double r_or_d = -1;
     lua_pushstring( L, "r" );
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        SPHERER_ARG1 = "r";
+        name         = 'r';
         r_or_d       = lua_tonumber( L, -1 );
     }
     lua_pushstring( L, "d" );
@@ -24,14 +23,15 @@ int sphere_init( lua_State* L )
             luaL_error( L, "r and d cannot be configured at the same time!" );
             return -1;
         }
-        SPHERER_ARG1 = "d";
+        name         = 'd';
         r_or_d       = lua_tonumber( L, -1 );
     }
     unsigned int i_bytes = sizeof( sphere );
     sphere* current;
-    current                         = dynast_cast( sphere, lua_newuserdata( L, i_bytes ) );
-    sphere_obj_init(current);
+    current = dynast_cast( sphere, lua_newuserdata( L, i_bytes ) );
+    sphere_obj_init( current );
     current->m_r_or_d               = r_or_d;
+    current->m_name                 = name;
     current->base.m_obj_base.m_code = NULL;
     current->base.m_obj_base.m_type = SPHERE;
     return 1;
@@ -40,7 +40,7 @@ int sphere_init( lua_State* L )
 vec3 calculate_vertices_sphere( lua_State* L, sphere* self, unsigned short index )
 {
     vec3 result;
-    vec3_init(&result, 0);
+    vec3_init( &result, 0 );
     vec3 sides;
     sides.m_xyz[0] = self->m_r_or_d;
     scale( &sides, self->base.m_scale );

@@ -6,15 +6,17 @@
 #include <vec3.h>
 
 #define SPHERE_R_OR_D( SPHERE ) SPHERE->m_r_or_d
+#define SPHERE_NAME(SPHERE) SPHERE->m_name
 
 typedef struct sphere
 {
     D3OBJECT_BASE base;
     double m_r_or_d;
+    char m_name;
 } sphere;
 
 #define sphere_obj_init( obj )                                                             \
-    D3OBJECT_BASE_INIT( &obj->base );                                                       \
+    D3OBJECT_BASE_INIT( &obj->base );                                                      \
     obj->m_r_or_d = -1;
 
 /**

@@ -3,9 +3,6 @@
 
 #include <stdlib.h>
 
-const char* CYLINDER_ARG1;
-const char* CYLINDER_ARG2;
-
 int cylinder_init( lua_State* L )
 {
     cylinder* temp = ( cylinder* )malloc( sizeof( cylinder ) );
@@ -19,8 +16,8 @@ int cylinder_init( lua_State* L )
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        CYLINDER_ARG1 = "r";
-        CYLINDER_ARG2 = "";
+        temp->m_name1 = "r";
+        temp->m_name2 = "";
         temp->m_r_d_1 = lua_tonumber( L, -1 );
         goto finish;
     }
@@ -28,21 +25,21 @@ int cylinder_init( lua_State* L )
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        CYLINDER_ARG1 = "d";
-        CYLINDER_ARG2 = "";
+        temp->m_name1 = "d";
+        temp->m_name2 = "";
         if ( temp->m_r_d_1 != -1 )
         {
             luaL_error( L, "r or d cannot be configured at the same time!" );
         }
-        temp->m_r_d_1 = lua_tonumber( L, -1 ) / 2;
+        temp->m_r_d_1 = lua_tonumber( L, -1 );
         goto finish;
     }
     lua_pushstring( L, "d1" );
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        CYLINDER_ARG1 = "d1";
-        temp->m_r_d_1 = lua_tonumber( L, -1 ) / 2;
+        temp->m_name1 = "d1";
+        temp->m_r_d_1 = lua_tonumber( L, -1 );
     }
     lua_pushstring( L, "d2" );
     lua_gettable( L, 1 );
@@ -51,8 +48,8 @@ int cylinder_init( lua_State* L )
         char buf[32];
         temp->m_r_d_2 = lua_tonumber( L, -1 );
         sprintf( buf, SINGLE_ARG_RULE1, "d2", temp->m_r_d_2 );
-        temp->m_r_d_2 = temp->m_r_d_2 / 2;
-        CYLINDER_ARG2 = buf;
+        temp->m_r_d_2 = temp->m_r_d_2;
+        temp->m_name2 = buf;
         if ( temp->m_r_d_1 != -1 )
         {
             goto finish;
@@ -70,7 +67,7 @@ int cylinder_init( lua_State* L )
         {
             luaL_error( L, "r1 or d1 cannot be configured at the same time!" );
         }
-        CYLINDER_ARG1 = "r1";
+        temp->m_name1 = "r1";
         temp->m_r_d_1 = lua_tonumber( L, -1 );
     }
     lua_pushstring( L, "r2" );
@@ -84,7 +81,7 @@ int cylinder_init( lua_State* L )
         char buf[32];
         temp->m_r_d_2 = lua_tonumber( L, -1 );
         sprintf( buf, SINGLE_ARG_RULE1, "r2", temp->m_r_d_2 );
-        CYLINDER_ARG2 = buf;
+        temp->m_name2 = buf;
         if ( temp->m_r_d_1 != -1 )
         {
             goto finish;

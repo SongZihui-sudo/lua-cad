@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-02-08 21:20:28
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-10 21:52:45
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-11 20:25:01
  * @FilePath: /lua-cad/port/gmsh/to_gmsh.h
  * @Description:
  *
@@ -37,9 +37,10 @@ extern "C"
 #include <lua.h>
 #include <lua_table.h>
 
+    void boolean_to_gmsh( BOOLEAN_BASE* obj );
     void object_to_gmsh( lua_State* L );
     void d2object_to_gmsh( D2OBJECT_BASE* obj );
-     void d3object_to_gmsh( D3OBJECT_BASE* obj );
+    void d3object_to_gmsh( D3OBJECT_BASE* obj );
     void gmsh_save( lua_State* L );
     LUAMOD_API int luaopen_gmsh( lua_State* L );
 

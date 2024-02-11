@@ -15,8 +15,9 @@ local circle_arc1 = gmsh.model.CircleArc.new(point1, point2, point3);
 local ellipse_arc1 = gmsh.model.EllipseArc.new(point1, point2, point3, point4);
 
 square1 = d2object.square({10, 10}, true);
+circle1 = d2object.circle({r = 10});
 
 gmsh.generate(3);
 gmsh.synchronize();
-export("export.msh", square1);
+export("export.msh", circle1);
 gmsh.finalize();

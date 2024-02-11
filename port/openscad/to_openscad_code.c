@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:22:34
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-09 23:07:41
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-11 22:35:25
  * @FilePath: /lua-cad/port/openscad/to_openscad_code.c
  * @Description:
  *
@@ -204,7 +204,7 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
 
 void openscad_save( lua_State* L )
 {
-    char* code;
+    const char* code;
     code             = check_code( L, 2 );
     const char* path = lua_tostring( L, 1 );
     // 写入文件

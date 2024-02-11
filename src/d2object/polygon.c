@@ -2,7 +2,7 @@
  * @Author: songzihui 1751122876@qq.com
  * @Date: 2024-02-06 00:44:59
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-06 11:23:26
+ * @LastEditTime: 2024-02-11 22:48:43
  * @FilePath: /lua-cad/src/d2object/polygon.c
  * @Description:
  *
@@ -12,15 +12,12 @@
 #include <polygon.h>
 #include <to_openscad_code.h>
 
-char POLYGON_ARG1[200];
-char POLYGON_ARG2[200];
-
 int polygon_init( lua_State* L )
 {
+    char POLYGON_ARG1[200] = {0};
+    char POLYGON_ARG2[200] = {0};
     // 读 points 表
-    vec2 points[64];
-    POLYGON_ARG1[0]        = ' ';
-    POLYGON_ARG2[0]        = ' ';
+    vec2 points[64];   
     const int points_count = luaL_len( L, 1 );
     for ( int i = 0; i < points_count; i++ )
     {
@@ -82,12 +79,14 @@ int polygon_init( lua_State* L )
     polygon* current;
     current = dynast_cast( polygon, lua_newuserdata( L, i_bytes ) );
     D3OBJECT_BASE_INIT( &current->base );
-    current->m_convexity = lua_tonumber(L, 3);
+    current->m_convexity = lua_tonumber( L, 3 );
     memcpy( current->m_paths, paths, sizeof( int ) * total_paths_size );
-    current->m_paths_count  = paths_count;
+    current->m_paths_count = paths_count;
     memcpy( current->m_points, points, sizeof( vec3 ) * points_count );
-    current->m_points_count = points_count;
+    current->m_points_count         = points_count;
     current->base.m_obj_base.m_type = POLYGON;
     current->base.m_obj_base.m_code = NULL;
+    strcpy(current->m_arg1, POLYGON_ARG1);
+    strcpy(current->m_arg2, POLYGON_ARG2);
     return 1;
 }

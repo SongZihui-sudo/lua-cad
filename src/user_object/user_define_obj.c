@@ -1,8 +1,8 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-01-26 20:10:42
- * @LastEditors: SongZihui-sudo 1751122876@qq.com
- * @LastEditTime: 2024-02-08 23:13:05
+ * @LastEditors: songzihui 1751122876@qq.com
+ * @LastEditTime: 2024-02-11 22:22:39
  * @FilePath: /lua-cad/src/user_object/user_define_obj.c
  * @Description: 用户自定义对象
  *
@@ -27,8 +27,12 @@ const char* get_user_obj_openscad_code( lua_State* L )
 {
     lua_pushnumber( L, 1 );
     lua_gettable( L, -2 );
-    const char* value = lua_tostring( L, -1 );
-    return value;
+    if ( !lua_isnil( L, -1 ) )
+    {
+        const char* value = lua_tostring( L, -1 );
+        return value;
+    }
+    return "";
 }
 
 LUAMOD_API int luaopen_user_define_obj( lua_State* L )

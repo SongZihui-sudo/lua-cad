@@ -4,14 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-char POLYHEDRON_ARG1[200];
-char POLYHEDRON_ARG2[200];
-
 int polyhedron_init( lua_State* L )
 {
     // 读 points 表
+    char POLYHEDRON_ARG1[100] = { 0 };
+    char POLYHEDRON_ARG2[100] = { 0 };
     vec3 points[64];
-    memset( POLYHEDRON_ARG1, ' ', 1 );
     const int points_count = luaL_len( L, 1 );
     for ( int i = 0; i < points_count; i++ )
     {
@@ -71,45 +69,42 @@ int polyhedron_init( lua_State* L )
     // 创建多变体对象
     unsigned int i_bytes = sizeof( polyhedron );
     polyhedron* current;
-    current                = dynast_cast( polyhedron, lua_newuserdata( L, i_bytes ) );
-    D3OBJECT_BASE_INIT(&current->base);
-    current->m_convexity = lua_tonumber(L, 3);
+    current = dynast_cast( polyhedron, lua_newuserdata( L, i_bytes ) );
+    D3OBJECT_BASE_INIT( &current->base );
+    current->m_convexity            = lua_tonumber( L, 3 );
     current->base.m_obj_base.m_type = POLYHEDRON;
     memcpy( current->m_points, points, sizeof( vec3 ) * points_count );
     memcpy( current->m_faces, faces, sizeof( int ) * total_counter_faces );
     current->m_points_count = points_count;
     current->m_face_count   = faces_count;
     current->m_face_count   = counter;
+    strcpy( current->m_arg1, POLYHEDRON_ARG1 );
+    strcpy( current->m_arg2, POLYHEDRON_ARG2 );
     return 1;
 }
 
 vec3 calculate_vertices_polyhedron( lua_State* L, polyhedron* self, unsigned short index )
 {
     vec3 result;
-    vec3_init(&result, 0);
+    vec3_init( &result, 0 );
     vec3 sides;
     pan( &result, self->base.m_offset );
     // 计算这些点的中心
-    double max_x = 0, max_y = 0, max_z = 0, min_x = 0x3f3f3f3f,
-           min_y = 0x3f3f3f3f, min_z = 0x3f3f3f3f;
+    double max_x = 0, max_y = 0, max_z = 0, min_x = 0x3f3f3f3f, min_y = 0x3f3f3f3f, min_z = 0x3f3f3f3f;
     for ( int i = 0; i < self->m_face_count; i++ )
     {
 #define xx( xyz, cmp, op )                                                                 \
-    if ( self->m_points[self->m_faces[index][i]].m_xyz[xyz] op cmp )                                     \
+    if ( self->m_points[self->m_faces[index][i]].m_xyz[xyz] op cmp )                       \
     {                                                                                      \
-        cmp = self->m_points[self->m_faces[index][i]].m_xyz[xyz];                                        \
+        cmp = self->m_points[self->m_faces[index][i]].m_xyz[xyz];                          \
     }
-        xx( 0, max_x, > )
-        xx(1, max_y, >)
-        xx(2, max_z, >)
-        xx(0, min_x, <)
-        xx(1, min_y, <)
-        xx(2, min_z, <)
+        xx( 0, max_x, > ) xx( 1, max_y, > ) xx( 2, max_z, > ) xx( 0, min_x, < )
+        xx( 1, min_y, < ) xx( 2, min_z, < )
 #undef xx
     }
-    result.m_xyz[0] = (max_x + min_x) / 2;
-    result.m_xyz[1] = (max_y + min_y) / 2;
-    result.m_xyz[2] = (max_z + min_z) / 2;
+    result.m_xyz[0] = ( max_x + min_x ) / 2;
+    result.m_xyz[1] = ( max_y + min_y ) / 2;
+    result.m_xyz[2] = ( max_z + min_z ) / 2;
     rotation( &result, self->base.m_rotate_a, self->base.m_rotate_v );
     return result;
 }

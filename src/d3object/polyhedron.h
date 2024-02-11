@@ -5,7 +5,9 @@
 #include <stdbool.h>
 #include <vec3.h>
 
-#define POLYHEDRON_CONVEXITY(obj) obj->m_convexity
+#define POLYHEDRON_CONVEXITY( obj ) obj->m_convexity
+#define POLYHEDRON_NAME1(obj) obj->m_arg1
+#define POLYHEDRON_NAME2(obj) obj->m_arg2
 
 typedef struct polyhedron
 {
@@ -15,6 +17,8 @@ typedef struct polyhedron
     int m_points_count;
     int m_face_count;
     int m_convexity;
+    char m_arg1[200];
+    char m_arg2[200];
 } polyhedron;
 
 /**

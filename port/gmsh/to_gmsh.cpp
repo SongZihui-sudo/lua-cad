@@ -2,7 +2,7 @@
  * @Author: SongZihui-sudo 1751122876@qq.com
  * @Date: 2024-02-08 21:20:28
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-02-11 01:14:15
+ * @LastEditTime: 2024-02-11 22:39:46
  * @FilePath: /lua-cad/port/gmsh/to_gmsh.cpp
  * @Description:
  *
@@ -11,6 +11,9 @@
 extern "C"
 {
 #include <circle.h>
+#include <cube.h>
+#include <cylinder.h>
+#include <sphere.h>
 #include <square.h>
 }
 #include <gmsh.h>
@@ -19,6 +22,8 @@ extern "C"
 #include <iostream>
 #include <string>
 #include <vector>
+
+static void transform_to_gmsh( TYPES transform_type ) {}
 
 static void square_to_gmsh( square* obj )
 {
@@ -42,14 +47,159 @@ static void square_to_gmsh( square* obj )
 
 static void circle_to_gmsh( circle* obj )
 {
+    double r = obj->m_value;
     if ( obj->m_r_d == 'd' )
     {
-        obj->m_value = obj->m_value / 2;
+        r = r / 2;
     }
     gmsh::model::occ::addCircle( obj->base.m_offset.m_xyz[0],
                                  obj->base.m_offset.m_xyz[1],
                                  obj->base.m_offset.m_xyz[2],
-                                 obj->m_value );
+                                 r );
+}
+
+void d2object_to_gmsh( D2OBJECT_BASE* obj )
+{
+    // 执行变换
+    std::vector< TYPES > buffer;
+    for ( size_t i = 0; i < obj->m_op_stack[0]; i++ )
+    {
+        for ( size_t j = 0; j < buffer.size( ); j++ )
+        {
+            if ( obj->m_op_stack[i] == buffer[j] )
+            {
+                goto continue_;
+            }
+        }
+        buffer.push_back( obj->m_op_stack[i] );
+        transform_to_gmsh( obj->m_op_stack[i] );
+    continue_:
+        continue;
+    }
+    switch ( obj->m_obj_base.m_type )
+    {
+        case SQUARE:
+            square_to_gmsh( dynast_cast( square, obj ) );
+            break;
+        case CIRCLE:
+            circle_to_gmsh( dynast_cast( circle, obj ) );
+            break;
+        case POLYGON:
+            std::cout << "For polygons, please use 'addPlaneSurface'!" << std::endl;
+            break;
+        default:
+            break;
+    }
+}
+
+static void cube_to_gmsh( cube* obj )
+{
+    if ( obj->base.m_center )
+    {
+        gmsh::model::occ::addBox( obj->base.m_offset.m_xyz[0] / 2,
+                                  obj->base.m_offset.m_xyz[1] / 2,
+                                  obj->base.m_offset.m_xyz[2] / 2,
+                                  obj->m_w_l_h.m_xyz[0],
+                                  obj->m_w_l_h.m_xyz[1],
+                                  obj->m_w_l_h.m_xyz[2] );
+    }
+    else
+    {
+        gmsh::model::occ::addBox( obj->base.m_offset.m_xyz[0],
+                                  obj->base.m_offset.m_xyz[1],
+                                  obj->base.m_offset.m_xyz[2],
+                                  obj->m_w_l_h.m_xyz[0],
+                                  obj->m_w_l_h.m_xyz[1],
+                                  obj->m_w_l_h.m_xyz[2] );
+    }
+}
+
+static void cylinder_to_gmsh( cylinder* obj )
+{
+    double z = obj->base.m_offset.m_xyz[2];
+    if ( obj->base.m_center )
+    {
+        z = z - obj->m_h / 2;
+    }
+    // 圆柱
+    if ( !strcmp( obj->m_name1, "d" ) || !strcmp( obj->m_name1, "r" ) )
+    {
+        double r = obj->m_r_d_1;
+        if ( !strcmp( obj->m_name1, "d" ) )
+        {
+            r = r / 2;
+        }
+        gmsh::model::occ::addCylinder(
+        obj->base.m_offset.m_xyz[0], obj->base.m_offset.m_xyz[1], obj->base.m_offset.m_xyz[2], 0, 0, 0, r );
+    }
+    // 圆锥
+    else
+    {
+        double r1 = obj->m_r_d_1;
+        double r2 = obj->m_r_d_2;
+        if ( !strcmp( obj->m_name1, "d1" ) )
+        {
+            r1 = r1 / 2;
+        }
+        if ( !strcmp( obj->m_name1, "d2" ) )
+        {
+            r2 = r2 / 2;
+        }
+        gmsh::model::occ::addCone(
+        obj->base.m_offset.m_xyz[0], obj->base.m_offset.m_xyz[1], obj->base.m_offset.m_xyz[2], 0, 0, 0, r1, r2 );
+    }
+}
+
+static void sphere_to_gmsh( sphere* obj )
+{
+    double r = obj->m_r_or_d;
+    if ( obj->m_name == 'd' )
+    {
+        r = r / 2;
+    }
+    gmsh::model::occ::addSphere( obj->base.m_offset.m_xyz[0],
+                                 obj->base.m_offset.m_xyz[1],
+                                 obj->base.m_offset.m_xyz[2],
+                                 r );
+}
+
+void d3object_to_gmsh( D3OBJECT_BASE* obj )
+{
+    // 执行变换
+    std::vector< TYPES > buffer;
+    for ( size_t i = 0; i < obj->m_op_stack[0]; i++ )
+    {
+        for ( size_t j = 0; j < buffer.size( ); j++ )
+        {
+            if ( obj->m_op_stack[i] == buffer[j] )
+            {
+                goto continue_;
+            }
+        }
+        buffer.push_back( obj->m_op_stack[i] );
+        transform_to_gmsh( obj->m_op_stack[i] );
+    continue_:
+        continue;
+    }
+    switch ( obj->m_obj_base.m_type )
+    {
+        case CUBE:
+            cube_to_gmsh( dynast_cast( cube, obj ) );
+            break;
+        case CYLINDER:
+            cylinder_to_gmsh( dynast_cast( cylinder, obj ) );
+            break;
+        case SPHERE:
+            sphere_to_gmsh( dynast_cast( sphere, obj ) );
+            break;
+        case POLYHEDRON:
+            std::cout << "Polyhedron can be realized directly by defining points, lines "
+                         "and surfaces in gmsh!"
+                      << std::endl;
+            break;
+        default:
+            break;
+    }
 }
 
 void object_to_gmsh( lua_State* L )
@@ -67,46 +217,17 @@ void object_to_gmsh( lua_State* L )
     {
         d3object_to_gmsh( dynast_cast( D3OBJECT_BASE, current ) );
     }
+    else if ( is_boolean( current->m_type ) )
+    {
+        boolean_to_gmsh( dynast_cast( BOOLEAN_BASE, current ) );
+    }
     else
     {
         luaL_error( L, "Unsupported types!" );
     }
 }
 
-void d3object_to_gmsh( D3OBJECT_BASE* obj )
-{
-    switch ( obj->m_obj_base.m_type )
-    {
-        case CUBE:
-            break;
-        case CYLINDER:
-            break;
-        case SPHERE:
-            break;
-        case POLYHEDRON:
-            break;
-        default:
-            break;
-    }
-}
-
-void d2object_to_gmsh( D2OBJECT_BASE* obj )
-{
-    switch ( obj->m_obj_base.m_type )
-    {
-        case SQUARE:
-            square_to_gmsh( dynast_cast( square, obj ) );
-            break;
-        case CIRCLE:
-            circle_to_gmsh( dynast_cast( circle, obj ) );
-            break;
-        case POLYGON:
-            std::cout << "For polygons, please use 'addPlaneSurface'!" << std::endl;
-            break;
-        default:
-            break;
-    }
-}
+void boolean_to_gmsh( BOOLEAN_BASE* obj ) {}
 
 void gmsh_save( lua_State* L )
 {

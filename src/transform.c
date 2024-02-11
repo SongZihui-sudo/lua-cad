@@ -5,11 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-char ROTATE_EXPORT_ARG1[64];
-char ROTATE_EXPORT_ARG2[64];
-char COLOR_EXPORT_ARG1[64];
-char COLOR_EXPORT_ARG2[64];
-
 void append_transform_openscad_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPES type )
 {
     D2OBJECT_BASE* self1;
@@ -31,7 +26,7 @@ void append_transform_openscad_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPE
                      obj->m_scale.m_xyz[2] );
             break;
         case ROTATE:
-            sprintf( temp, ROTATE_EXPORT_RULE, ROTATE_EXPORT_ARG1, ROTATE_EXPORT_ARG2 );
+            sprintf( temp, ROTATE_EXPORT_RULE, obj->ROTATE_EXPORT_ARG1, obj->ROTATE_EXPORT_ARG2 );
             break;
         case MIRROR:
             sprintf( temp,
@@ -41,7 +36,7 @@ void append_transform_openscad_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPE
                      obj->m_mirror.m_xyz[2] );
             break;
         case COLOR:
-            sprintf( temp, COLOR_EXPORT_RULE, COLOR_EXPORT_ARG1, COLOR_EXPORT_ARG2 );
+            sprintf( temp, COLOR_EXPORT_RULE, obj->COLOR_EXPORT_ARG1, obj->COLOR_EXPORT_ARG2 );
             break;
         case LINEAR_EXTRUDE:
             self1 = dynast_cast( D2OBJECT_BASE, obj );
@@ -143,10 +138,10 @@ int transform_rotate( lua_State* L )
     if ( lua_isnumber( L, 2 ) )
     {
         current->m_rotate_a.m_xyz[0] = luaL_checknumber( L, 2 );
-        sprintf( ROTATE_EXPORT_ARG1, SINGLE_ARG_RULE1, "a ", current->m_rotate_a.m_xyz[0] );
+        sprintf( current->ROTATE_EXPORT_ARG1, SINGLE_ARG_RULE1, "a ", current->m_rotate_a.m_xyz[0] );
         if ( !lua_istable( L, 3 ) )
         {
-            ROTATE_EXPORT_ARG2[0] = '\0';
+            current->ROTATE_EXPORT_ARG2[0] = '\0';
             goto finish;
         }
     }
@@ -160,7 +155,7 @@ int transform_rotate( lua_State* L )
             current->m_rotate_a.m_xyz[i] = temp_num;
             lua_pop( L, 1 );
         }
-        sprintf( ROTATE_EXPORT_ARG1,
+        sprintf( current->ROTATE_EXPORT_ARG1,
                  "[ %f, %f, %f ]",
                  current->m_rotate_a.m_xyz[0],
                  current->m_rotate_a.m_xyz[1],
@@ -176,7 +171,7 @@ int transform_rotate( lua_State* L )
             current->m_rotate_v.m_xyz[i] = temp_num;
             lua_pop( L, 1 );
         }
-        sprintf( ROTATE_EXPORT_ARG2,
+        sprintf( current->ROTATE_EXPORT_ARG2,
                  ", v = [ %f, %f, %f ]",
                  current->m_rotate_v.m_xyz[0],
                  current->m_rotate_v.m_xyz[1],
@@ -223,7 +218,7 @@ int color( lua_State* L )
         }
         if ( count == 3 )
         {
-            sprintf( COLOR_EXPORT_ARG1,
+            sprintf( current->COLOR_EXPORT_ARG1,
                      "[%f, %f, %f]",
                      current->m_color_arr[0],
                      current->m_color_arr[1],
@@ -231,20 +226,20 @@ int color( lua_State* L )
         }
         else
         {
-            sprintf( COLOR_EXPORT_ARG1,
+            sprintf( current->COLOR_EXPORT_ARG1,
                      "[%f, %f, %f, %f]",
                      current->m_color_arr[0],
                      current->m_color_arr[1],
                      current->m_color_arr[2],
                      current->m_color_arr[3] );
-            COLOR_EXPORT_ARG2[0] = '\0';
+            current->COLOR_EXPORT_ARG2[0] = '\0';
             goto finish;
         }
     }
     else if ( lua_isstring( L, 2 ) )
     {
         sprintf( current->m_color_str, "\"%s\"", lua_tostring( L, 2 ) );
-        sprintf( COLOR_EXPORT_ARG1, "%s", current->m_color_str );
+        sprintf( current->COLOR_EXPORT_ARG1, "%s", current->m_color_str );
     }
     else
     {
@@ -253,11 +248,11 @@ int color( lua_State* L )
     if ( lua_isnumber( L, 3 ) )
     {
         current->m_color_alpha = lua_tonumber( L, 3 );
-        sprintf( COLOR_EXPORT_ARG2, SINGLE_ARG_RULE1, ", alpha", current->m_color_alpha );
+        sprintf( current->COLOR_EXPORT_ARG2, SINGLE_ARG_RULE1, ", alpha", current->m_color_alpha );
     }
     else
     {
-        COLOR_EXPORT_ARG2[0] = '\0';
+        current->COLOR_EXPORT_ARG2[0] = '\0';
     }
 finish:
     current->m_op_stack[++current->m_op_stack[0]] = COLOR;

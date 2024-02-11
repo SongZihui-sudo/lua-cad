@@ -16,6 +16,8 @@
 #include <vec2.h>
 
 #define POLYGON_CONVEXITY( obj ) obj->m_convexity
+#define POLYGON_NAME1(obj) obj->m_arg1
+#define POLYGON_NAME2(obj) obj->m_arg2
 
 typedef struct polygon
 {
@@ -25,6 +27,8 @@ typedef struct polygon
     int m_points_count;
     int m_paths_count;
     int m_convexity;
+    char m_arg1[100];
+    char m_arg2[100];
 } polygon;
 
 int polygon_init( lua_State* L );
