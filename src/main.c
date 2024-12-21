@@ -14,7 +14,6 @@
 #include <lualib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #pragma comment( lib, "lua.lib" )
@@ -87,10 +86,8 @@ static int loadluaLine( lua_State* luaEnv, const char* line )
     return result;
 }
 
-#define LUA_COPYRIGHT LUA_RELEASE "  Copyright (C) 1994-2023 Lua.org, PUC-Rio"
-#define LUA_AUTHORS "R. Ierusalimschy, L. H. de Figueiredo, W. Celes"
-#define LUA_CAD_COPYRIGHT "Copyright (C) 2024 lua-cad"
-#define LUA_CAD_AUTHORS "SongZihui-sudo"
+#define LUA_CAD_COPYRIGHT "Copyright (C) 2024 lua-cad Lua for Openscad"
+#define LUA_CAD_AUTHORS "SongZihui-sudo 1751122876@qq.com https://szhwho.top"
 
 /**
  * @description: 打印版本信息
@@ -130,9 +127,9 @@ int main( int argc, char** argv )
         print_version( );
         while ( 1 )
         {
-            printf( "\033[0m\033[1;34mlua-cad\033[0m \033[0m\033[1;33m>>>\033[0m" );
+            printf( "\033[0m\033[1;34mlua-cad\033[0m \033[0m\033[1;33m>>>\033[0m " );
             char line[64];
-            gets( line );
+            fgets(line, sizeof(line), stdin);
             if ( !strcmp( line, "quit" ) || !strcmp( line, "\\q" ) )
             {
                 lua_close( L );
