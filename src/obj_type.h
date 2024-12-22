@@ -12,6 +12,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <string.h>
 
 #include <vec3.h>
 
@@ -161,11 +162,10 @@ static void D3OBJECT_BASE_INIT( D3OBJECT_BASE* obj )
 
 bool is_boolean(OBJ_TYPE type);
 
-
 bool is_d3object(OBJ_TYPE type);
-
 
 bool is_d2object(OBJ_TYPE type);
 
-
 bool is_transform(OBJ_TYPE type);
+
+bool is_user_obj( OBJ_TYPE type );

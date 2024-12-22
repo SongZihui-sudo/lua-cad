@@ -68,21 +68,22 @@ function user_obj_color(self, ...)
     end
 end
 
-function user_obj_to_code(self)
+function user_obj_cobin(self)
+    tmp_code = "";
     if type(self._offset) ~= "nil" then
         local fmt = transform.translate_fmt();
         local temp = string.format(fmt, self._offset[1], self._offset[2], self._offset[3]);
-        self[1] = temp .. self[1];
+        tmp_code = temp .. tmp_code;
     end
     if type(self._scale) ~= "nil" then
         local fmt = transform.scale_fmt();
         local temp = string.format(fmt, self._scale[1], self._scale[2], self._scale[3]);
-        self[1] = temp .. self[1];
+        tmp_code = temp .. tmp_code;
     end
     if type(self._mirror) ~= "nil" then
         local fmt = transform.mirror_fmt();
         local temp = string.format(fmt, self._mirror[1], self._mirror[2], self._mirror[3]);
-        self[1] = temp .. self[1];
+        tmp_code = temp .. tmp_code;
     end
     if self._isrotate then
         local fmt = transform.rotate_fmt();
@@ -108,7 +109,7 @@ function user_obj_to_code(self)
             rotate_arg2 = "v = [" .. rotate_arg2 .. "]";
         end
         local temp = string.format(fmt, rotate_arg1, rotate_arg2);
-        self[1] = temp .. self[1];
+        tmp_code = temp .. tmp_code;
     end
     if self._iscolor then
         local fmt = transform.color_fmt();
@@ -129,9 +130,18 @@ function user_obj_to_code(self)
             color_arg2 = ", alpha = " .. self._color_alpha;
         end
         local temp = string.format(fmt, color_arg1, color_arg2);
-        self[1] = temp .. self[1];
+        tmp_code = temp .. tmp_code;
     end
-    return self[1];
+    
+    if self.text == nil then
+        current_code = tmp_code .. self[1];
+        self[1] = current_code
+    else
+        current_code = tmp_code .. string.sub(self[1], #self.text + 1);
+        self[1] = current_code
+    end
+    self.text = tmp_code;
+    return 1;
 end
 
 user_obj_metatable = {
@@ -141,12 +151,7 @@ user_obj_metatable = {
         mirror = user_obj_mirror,
         rotate = user_obj_rotate,
         color = user_obj_color,
-        print = function(self)
-            for k, v in pairs(self) do
-                print(k, v);
-            end
-        end,
-        code = user_obj_to_code
+        cobin = user_obj_cobin
     }
 }
 

@@ -116,21 +116,18 @@ extern char COLOR_EXPORT_ARG2[64];
  * @description: 圆柱体的输出规则
  * @return {*}
  */
-extern const char* CYLINDER_ARG1;
-extern const char* CYLINDER_ARG2;
 #define CYLINDER_EXPORT_RULE "cylinder(h = %f, %s = %f, %s center = %s);\n"
 #define CYLINDER_ALL_EXPORT_RULE CYLINDER_EXPORT_RULE
 #define CYLINDER_EXPORT_ARGS( self )                                                       \
-    CYLINDER_H( self ), CYLINDER_ARG1, CYLINDER_R_D_1( self ), CYLINDER_ARG2, IS_CENTER( self->base.m_center )
+    CYLINDER_H( self ), CYLINDER_ARGS_ARRAY[self->arg1], CYLINDER_R_D_1( self ), CYLINDER_ARGS_ARRAY[self->arg2], IS_CENTER( self->base.m_center )
 
 /**
  * @description: 球体输出规则
  * @return {*}
  */
-extern const char* SPHERER_ARG1;
-#define SPHERE_EXPORT_RULE "sphere(%s = %f);\n"
+#define SPHERE_EXPORT_RULE "sphere(%c = %f);\n"
 #define SPHERE_ALL_EXPORT_RULE SPHERE_EXPORT_RULE
-#define SPHERE_EXPORT_ARGS( self ) SPHERER_ARG1, SPHERE_R_OR_D( self )
+#define SPHERE_EXPORT_ARGS( self ) self->arg, SPHERE_R_OR_D( self )
 
 /**
  * @description: 多面体输出规则

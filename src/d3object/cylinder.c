@@ -1,10 +1,20 @@
 #include <cylinder.h>
+#include <stdio.h>
 #include <to_openscad_code.h>
 
 #include <stdlib.h>
+#include <string.h>
 
-const char* CYLINDER_ARG1;
-const char* CYLINDER_ARG2;
+enum
+{
+    CYLINDER_ARG_R = 0,
+    CYLINDER_ARG_D,
+    CYLINDER_ARG_R1,
+    CYLINDER_ARG_R2,
+    CYLINDER_ARG_D1,
+    CYLINDER_ARG_D2,
+    CYLINDER_ARG_NONE
+} CYLINDER_ARGS_INDEX;
 
 int cylinder_init( lua_State* L )
 {
@@ -19,8 +29,8 @@ int cylinder_init( lua_State* L )
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        CYLINDER_ARG1 = "r";
-        CYLINDER_ARG2 = "";
+        temp->arg1 = CYLINDER_ARG_R;
+        temp->arg2 = CYLINDER_ARG_NONE;
         temp->m_r_d_1 = lua_tonumber( L, -1 );
         goto finish;
     }
@@ -28,8 +38,8 @@ int cylinder_init( lua_State* L )
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        CYLINDER_ARG1 = "d";
-        CYLINDER_ARG2 = "";
+        temp->arg1 = CYLINDER_ARG_D;
+        temp->arg2 = CYLINDER_ARG_NONE;
         if ( temp->m_r_d_1 != -1 )
         {
             luaL_error( L, "r or d cannot be configured at the same time!" );
@@ -41,18 +51,16 @@ int cylinder_init( lua_State* L )
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        CYLINDER_ARG1 = "d1";
+        temp->arg1 = CYLINDER_ARG_D1;
         temp->m_r_d_1 = lua_tonumber( L, -1 ) / 2;
     }
     lua_pushstring( L, "d2" );
     lua_gettable( L, 1 );
     if ( !lua_isnil( L, -1 ) )
     {
-        char buf[32];
         temp->m_r_d_2 = lua_tonumber( L, -1 );
-        sprintf( buf, SINGLE_ARG_RULE1, "d2", temp->m_r_d_2 );
         temp->m_r_d_2 = temp->m_r_d_2 / 2;
-        CYLINDER_ARG2 = buf;
+        temp->arg2 = CYLINDER_ARG_D2;
         if ( temp->m_r_d_1 != -1 )
         {
             goto finish;
@@ -70,7 +78,7 @@ int cylinder_init( lua_State* L )
         {
             luaL_error( L, "r1 or d1 cannot be configured at the same time!" );
         }
-        CYLINDER_ARG1 = "r1";
+        temp->arg1 = CYLINDER_ARG_R1;
         temp->m_r_d_1 = lua_tonumber( L, -1 );
     }
     lua_pushstring( L, "r2" );
@@ -81,10 +89,8 @@ int cylinder_init( lua_State* L )
         {
             luaL_error( L, "r2 or d2 cannot be configured at the same time!" );
         }
-        char buf[32];
         temp->m_r_d_2 = lua_tonumber( L, -1 );
-        sprintf( buf, SINGLE_ARG_RULE1, "r2", temp->m_r_d_2 );
-        CYLINDER_ARG2 = buf;
+        temp->arg2 = CYLINDER_ARG_R2;
         if ( temp->m_r_d_1 != -1 )
         {
             goto finish;
