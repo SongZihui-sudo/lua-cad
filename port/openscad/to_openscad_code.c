@@ -15,6 +15,8 @@
 #include <to_openscad_code.h>
 #include <transform.h>
 
+char* CYLINDER_ARGS_ARRAY[7] = {"r", "d", "r1", "r2","d1", "d2", " "};
+
 char* LAYOUT_EXPORT_RULE[]
 = { "difference()\n{\n%s\n}\n", "union()\n{\n%s\n}\n", "intersection(){\n%s\n}",
     "fill(){\n%s\n}",           "hull(){\n%s\n}",      "minkowski(){\n%s\n}",

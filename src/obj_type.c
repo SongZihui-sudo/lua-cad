@@ -46,3 +46,12 @@ bool is_transform( OBJ_TYPE type )
     }
     return false;
 }
+
+bool is_user_obj( OBJ_TYPE type )
+{
+    if ( type == USER_DEFINE )
+    {
+        return true;
+    }
+    return false;
+}

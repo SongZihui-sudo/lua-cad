@@ -12,7 +12,9 @@
 #include <lua-cad.h>
 #include <lua.h>
 #include <obj_type.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <to_openscad_code.h>
 #include <user_define_obj.h>
 

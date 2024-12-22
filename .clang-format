@@ -47,6 +47,5 @@ SpacesInAngles: true
 SpacesInCStyleCastParentheses: true
 SpacesInContainerLiterals: true
 SpacesInParentheses: true
-AccessModifierOffset: -4
 AlwaysBreakAfterDefinitionReturnType:	None
 AlwaysBreakAfterReturnType:	None

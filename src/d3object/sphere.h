@@ -11,6 +11,7 @@ typedef struct sphere
 {
     D3OBJECT_BASE base;
     double m_r_or_d;
+    char arg;
 } sphere;
 
 #define sphere_obj_init( obj )                                                             \

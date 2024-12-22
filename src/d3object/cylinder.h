@@ -1,5 +1,6 @@
 #pragma once
 
+#include "to_openscad_code.h"
 #include <lauxlib.h>
 #include <obj_type.h>
 #include <stdbool.h>
@@ -15,6 +16,8 @@ typedef struct cylinder
     double m_h;
     double m_r_d_1;
     double m_r_d_2;
+    short arg1;
+    short arg2;
 } cylinder;
 
 /**
