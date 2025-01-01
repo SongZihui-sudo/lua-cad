@@ -9,11 +9,16 @@
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
 
+#include "lua.h"
+#include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <boolean.h>
 #include <to_openscad_code.h>
 #include <user_define_obj.h>
+
+double OFFSET_ARG;
 
 /**
  * @description: 布尔操作
@@ -61,6 +66,7 @@ int minkowski(lua_State* L)
 int offset(lua_State* L)
 {
     boolean_init( L, OFFSET );
+    OFFSET_ARG = lua_tonumber(L, 2);
     return 1;
 }
 
@@ -79,7 +85,7 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
         lua_pushnumber( L, i + 1 );
         lua_gettable( L, 1 );
         OBJ_TYPE* temp = NULL;
-        if (!lua_istable(L, -1)) {
+        if (lua_isuserdata(L, -1)) {
             // 标准对象可以直接读
             temp   = lua_touserdata( L, -1 );
         }

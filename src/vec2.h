@@ -13,7 +13,7 @@
 
 typedef struct vec2
 {
-    double m_xy[2]
+    double m_xy[2];
 } vec2;
 
 static void vec2_init(vec2* self, int c)

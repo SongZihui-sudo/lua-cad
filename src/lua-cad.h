@@ -12,6 +12,7 @@
 #pragma once
 
 #include <lauxlib.h>
+#include <user_define_obj.h>
 
 /**
  * @description: 打印当前对象的 3d 代码

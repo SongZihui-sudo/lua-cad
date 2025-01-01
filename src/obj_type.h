@@ -60,7 +60,7 @@ enum TYPES
 /* ouput mode */
 #define OUPUT_MODE_OPENSCAD "openscad"
 
-#define CODE_LENGTH 3000
+#define CODE_LENGTH 4096
 
 #define dynast_cast( DEST, base ) ( DEST* )( base )
 

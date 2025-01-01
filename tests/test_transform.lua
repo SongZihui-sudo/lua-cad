@@ -59,11 +59,11 @@ print(code(hull1));
 minkowski1 = transform.minkowski({cube1});
 print(code(minkowski1));
 
-offset1 = transform.offset({cube1}, 1);
-print(code(offset1));
-
 offset1 = transform.offset({cube1}, 2);
 print(code(offset1));
+
+offset2 = transform.offset({cube1}, 3);
+print(code(offset2));
 
 transform.color(cube1, "xxx");
 print(code(cube1));
@@ -93,8 +93,14 @@ test1.rotate(test1, 1, {10, 10, 10});
 test1.rotate(test1, {4, 5, 6});
 
 test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
-
-test1.rotate(test1, 1, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
+test1.rotate(test1, {1, 2, 3}, {4, 5, 6});
 
 test1.color(test1, {1, 2, 3});
 

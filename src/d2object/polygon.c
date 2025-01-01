@@ -9,6 +9,8 @@
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */
 
+#include <stdlib.h>
+
 #include <polygon.h>
 #include <to_openscad_code.h>
 
