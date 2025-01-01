@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @description: 3 维向量
+ * @description: 3D Vector
  * @return {*}
  */
 typedef struct vec3
@@ -21,7 +21,7 @@ static void vec3_init( vec3* obj, int c )
 }
 
 /**
- * @description: 缩放指定的比例
+ * @description: Scale to a specified ratio
  * @param {vec3} src
  * @param {vec3} to
  * @return {*}
@@ -29,7 +29,7 @@ static void vec3_init( vec3* obj, int c )
 int scale( vec3* src, vec3 to );
 
 /**
- * @description: 平移
+ * @description: Pan
  * @param {vec3} cur
  * @param {vec3} to
  * @return {*}
@@ -37,7 +37,7 @@ int scale( vec3* src, vec3 to );
 int pan( vec3* cur, vec3 to );
 
 /**
- * @description: 旋转变换
+ * @description: Rotation Transformation
  * @param {vec3*} src
  * @param {vec3} a
  * @param {vec3} v
@@ -47,7 +47,7 @@ int pan( vec3* cur, vec3 to );
 int rotation( vec3* src, vec3 a, vec3 v );
 
 /**
- * @description: 计算两个三维坐标点距离
+ * @description: Calculate the distance between two 3D coordinate points
  * @param {vec3} v1
  * @param {vec3} v2
  * @return {*}
@@ -55,7 +55,7 @@ int rotation( vec3* src, vec3 a, vec3 v );
 double distance(vec3 v1, vec3 v2);
 
 /**
- * @description: 计算两个三维向量间的夹角
+ * @description: Calculate the angle between two 3D vectors
  * @param {vec3} v1
  * @param {vec3} v2
  * @return {*}
@@ -63,7 +63,7 @@ double distance(vec3 v1, vec3 v2);
 double angle(vec3 v1, vec3 v2);
 
 /**
- * @description: 两个三维向量点乘
+ * @description: Dot product of two 3D vectors
  * @param {vec3} v1
  * @param {vec3} v2
  * @return {*}

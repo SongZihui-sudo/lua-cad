@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 00:03:24
  * @FilePath: /lua-cad/src/d3object.c
- * @Description: 
+ * @Description: 3d object library
  * 
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved. 
  */
@@ -42,7 +42,7 @@ int d3object_datum( lua_State* L )
         default:
             luaL_error( L, "Unkown Object Type! 2D objects are not supported!" );
     }
-    // 创建一个基准对象
+    // create a new datum
     unsigned int i_bytes = sizeof( datum );
     datum* current_datum;
     current_datum                         = dynast_cast( datum, lua_newuserdata( L, i_bytes ) );

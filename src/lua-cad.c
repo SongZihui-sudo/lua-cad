@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-07 13:44:46
  * @FilePath: /lua-cad/src/lua-cad.c
- * @Description: 一些全局函数的实现
+ * @Description: some global functions
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
@@ -71,7 +71,7 @@ int lua_cad_export( lua_State* L )
     char* code;
     code             = check_code( L, 2 );
     const char* path = lua_tostring( L, 1 );
-    // 写入文件
+    // write code to file
     FILE* fptr;
     fptr = fopen( path, "w" );
     if ( fptr == NULL )

@@ -21,21 +21,21 @@ typedef struct datum
 } datum;
 
 /**
- * @description: 计算相对于基准平面中心位置的点坐标
+ * @description: calculate the relative position of the datum
  * @param {lua_State*} L
  * @return {*}
  */
 int relative_position(lua_State* L);
 
 /**
- * @description: 测量给定点距离基准平面中心的距离
+ * @description: measure the distance between the given vector and the datum
  * @param {lua_State*} L
  * @return {*}
  */
 int distance_to_datum(lua_State* L);
 
 /**
- * @description: 测量给定向量于基准平面间的角度
+ * @description: measure the angle between the given vector and the datum
  * @param {lua_State*} L
  * @return {*}
  */

@@ -9,7 +9,7 @@ char POLYHEDRON_ARG2[200];
 
 int polyhedron_init( lua_State* L )
 {
-    // 读 points 表
+    // read points table
     vec3 points[64];
     memset( POLYHEDRON_ARG1, ' ', 1 );
     const int points_count = luaL_len( L, 1 );
@@ -34,7 +34,7 @@ int polyhedron_init( lua_State* L )
         lua_pop( L, 1 );
     }
     POLYHEDRON_ARG1[strlen( POLYHEDRON_ARG1 ) - 1] = '\0';
-    // 读 faces 表
+    // read faces table
     int* faces[64];
     const int faces_count = luaL_len( L, 2 );
     int counter;
@@ -68,7 +68,7 @@ int polyhedron_init( lua_State* L )
         lua_pop( L, 1 );
     }
     POLYHEDRON_ARG2[strlen( POLYHEDRON_ARG2 ) - 1] = '\0';
-    // 创建多变体对象
+    // create polyhedron
     unsigned int i_bytes = sizeof( polyhedron );
     polyhedron* current;
     current                = dynast_cast( polyhedron, lua_newuserdata( L, i_bytes ) );
@@ -89,7 +89,7 @@ vec3 calculate_vertices_polyhedron( lua_State* L, polyhedron* self, unsigned sho
     vec3_init(&result, 0);
     vec3 sides;
     pan( &result, self->base.m_offset );
-    // 计算这些点的中心
+    // calculate the center of the face
     double max_x = 0, max_y = 0, max_z = 0, min_x = 0x3f3f3f3f,
            min_y = 0x3f3f3f3f, min_z = 0x3f3f3f3f;
     for ( int i = 0; i < self->m_face_count; i++ )

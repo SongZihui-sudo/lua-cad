@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-05 23:48:25
  * @FilePath: /lua-cad/src/datum.c
- * @Description: 
+ * @Description: datum library
  * 
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved. 
  */
@@ -25,7 +25,7 @@ int relative_position( lua_State* L )
     }
     const char* direction = lua_tostring( L, 2 );
     double offset         = luaL_checknumber( L, 3 );
-    // 返回一个基准对象
+    // return a new datum
     unsigned int i_bytes = sizeof( datum );
     datum* current;
     current                    = dynast_cast( datum, lua_newuserdata( L, i_bytes ) );

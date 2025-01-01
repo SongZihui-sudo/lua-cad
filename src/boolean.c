@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-03 13:34:45
  * @FilePath: /lua-cad/src/boolean.c
- * @Description: bool 操作
+ * @Description: bool operation
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
@@ -21,7 +21,7 @@
 double OFFSET_ARG;
 
 /**
- * @description: 布尔操作
+ * @description: boolean operation difference
  * @return {*}
  */
 static const luaL_Reg booleanlib[]
@@ -77,8 +77,8 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
     current                    = dynast_cast( BOOLEAN_BASE, lua_newuserdata( L, i_bytes ) );
     current->m_obj_base.m_type = type;
     current->m_count           = 0;
-    // 读一个 table
-    // 读输入的参数
+    // read the first parameter
+    // read the first parameter
     const int count = luaL_len( L, 1 );
     for ( int i = 0; i < count; i++ )
     {
@@ -86,11 +86,11 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
         lua_gettable( L, 1 );
         OBJ_TYPE* temp = NULL;
         if (lua_isuserdata(L, -1)) {
-            // 标准对象可以直接读
+            // read stadard object
             temp   = lua_touserdata( L, -1 );
         }
         else {
-            // 读自定义对象表
+            // read user define object
             D3OBJECT_BASE* user_define = dynast_cast(D3OBJECT_BASE, malloc(sizeof(D3OBJECT_BASE)));
             D3OBJECT_BASE_INIT(user_define);
             user_define->m_obj_base.m_type = USER_DEFINE;
@@ -104,11 +104,6 @@ void boolean_init( lua_State* L, OBJ_TYPE type )
     }
 }
 
-/**
- * @description: 创建库
- * @param {lua_State*} L
- * @return {*}
- */
 LUAMOD_API int luaopen_boolean( lua_State* L )
 {
     luaL_newlib( L, booleanlib );

@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 14:47:46
  * @FilePath: /lua-cad/src/d2object/circle.c
- * @Description:
+ * @Description: Circle Object
  *
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */
@@ -15,7 +15,7 @@ int circle_init( lua_State* L )
 {
     char flag;
     double value;
-    // 读取半径或者直径
+    // Read radius or diameter
     lua_pushstring( L, "r" );
     lua_gettable(L, 1);
     if ( !lua_isnil( L, -1 ) )

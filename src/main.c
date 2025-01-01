@@ -25,7 +25,7 @@
 static const char* progname = LUA_PROGNAME;
 
 /**
- * @description: 加载 lua 文件
+ * @description: load lua file
  * @param {lua_State*} luaEnv
  * @param {char*} fileName
  * @return {*}
@@ -38,7 +38,7 @@ bool loadLuaFile( lua_State* luaEnv, const char* fileName )
 }
 
 /**
- * @description: 打印错误信息
+ * @description: print error message
  * @param {char*} pname
  * @param {char*} msg
  * @return {*}
@@ -51,7 +51,7 @@ static void l_message( const char* pname, const char* msg )
 }
 
 /**
- * @description: 读错误信息
+ * @description: read error message
  * @param {lua_State*} L
  * @param {int} status
  * @return {*}
@@ -68,7 +68,7 @@ static int report( lua_State* L, int status )
 }
 
 /**
- * @description: 运行一行 lua
+ * @description: run single line lua
  * @param {lua_State*} luaEnv
  * @param {char*} line
  * @return {*}
@@ -90,7 +90,7 @@ static int loadluaLine( lua_State* luaEnv, const char* line )
 #define LUA_CAD_AUTHORS "SongZihui-sudo 1751122876@qq.com https://szhwho.top"
 
 /**
- * @description: 打印版本信息
+ * @description: print version message
  * @return {*}
  */
 static void print_version( void )
@@ -118,7 +118,7 @@ int main( int argc, char** argv )
 
     if ( argc > 1 )
     {
-        // 加载脚本到Lua环境中.
+        // load the script into the Lua environment
         int status = loadLuaFile( L, argv[1] );
         report( L, status );
     }

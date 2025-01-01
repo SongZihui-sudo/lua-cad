@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-07 13:41:53
  * @FilePath: /lua-cad/src/obj_type.c
- * @Description:
+ * @Description: object type define
  *
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */

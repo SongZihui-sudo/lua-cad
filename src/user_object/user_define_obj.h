@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-03 13:02:50
  * @FilePath: /lua-cad/src/user_object/user_define_obj.h
- * @Description: 用户自定义对象
+ * @Description: user define object
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
@@ -25,14 +25,14 @@ typedef struct user_define_objects
 extern user_define_objects user_objs;
 
 /**
- * @description: 引入其他文件中用户定义的对象
+ * @description: import the user define object from other file
  * @param {lua_State*} L
  * @return {*}
  */
 int user_define_from_file( lua_State* L );
 
 /**
- * @description: 读 user_obj 表中的 code 字段
+ * @description: read the code field in the user_obj table
  * @param {lua_State*} L
  * @return {*}
  */

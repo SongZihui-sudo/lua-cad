@@ -11,7 +11,7 @@ function chunk_tocode(self)
         end
         buf_code = buf_code .. current_code;
     end
-    -- 去掉 \0
+    -- delete \0
     local temp = '';
     for name in string.gmatch(buf_code,"[^%z]") do
         temp = temp..name;

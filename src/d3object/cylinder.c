@@ -126,8 +126,8 @@ vec3 calculate_vertices_cylinder( lua_State* L, cylinder* self, unsigned short i
     case case_num:                                                                         \
         result.m_xyz[xyz] += self->m_h / 2;                                                \
         break;
-            xx( 1, +=, 2 ); // 顶
-            xx( 2, -=, 2 ); // 底
+            xx( 1, +=, 2 ); // top
+            xx( 2, -=, 2 ); // bottom
 #undef xx
             default:
                 luaL_error( L, "Datum index out of bounds!" );

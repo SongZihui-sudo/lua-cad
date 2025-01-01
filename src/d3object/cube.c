@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-05 23:58:14
  * @FilePath: /lua-cad/src/d3object/cube.c
- * @Description: 立方体对象
+ * @Description: cube object
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
@@ -17,7 +17,7 @@
 
 int cube_init( lua_State* L )
 {
-    // 读输入的参数
+    // read the parameters from the lua stack
     const int count = 3;
     vec3 temp_vec;
     for ( int i = 0; i < count; i++ )
@@ -29,7 +29,7 @@ int cube_init( lua_State* L )
         lua_pop( L, 1 );
     }
     bool is_center = lua_toboolean( L, 2 );
-    // 创建一个立方体对象
+    // create a new cube object
     unsigned int i_bytes = sizeof( cube );
     cube* current;
     current = dynast_cast( cube, lua_newuserdata( L, i_bytes ) );
@@ -56,12 +56,12 @@ vec3 calculate_vertices_cube( lua_State* L, cube* self, unsigned short index )
     case case_num:                                                                         \
         result.m_xyz[xyz] op sides.m_xyz[xyz] / 2;                                         \
         break;
-            xx( 1, +=, 2 ) // 顶
-            xx( 2, -=, 2 ) // 底
-            xx( 3, -=, 1 ) // 左
-            xx( 4, +=, 1 ) // 右
-            xx( 5, +=, 0 ) // 前
-            xx( 6, -=, 0 ) // 后
+            xx( 1, +=, 2 ) // top
+            xx( 2, -=, 2 ) // bottom
+            xx( 3, -=, 1 ) // left
+            xx( 4, +=, 1 ) // right
+            xx( 5, +=, 0 ) // front
+            xx( 6, -=, 0 ) // back
 #undef xx
             default : luaL_error( L, "Datum index out of bounds!" );
         }
@@ -75,14 +75,14 @@ vec3 calculate_vertices_cube( lua_State* L, cube* self, unsigned short index )
         result.m_xyz[xyz1] += sides.m_xyz[xyz1] / 2;                                       \
         result.m_xyz[xyz2] += sides.m_xyz[xyz2] / 2;
             xx( 1, 0, 1 ) result.m_xyz[2] += sides.m_xyz[2];
-            break;               // 顶
-            xx( 2, 0, 1 ) break; // 底
-            xx( 3, 0, 2 ) break; // 左
+            break;               // top
+            xx( 2, 0, 1 ) break; // bottom
+            xx( 3, 0, 2 ) break; // left
             xx( 4, 0, 2 ) result.m_xyz[1] += sides.m_xyz[1];
             break; // 右
             xx( 5, 1, 2 ) result.m_xyz[0] += sides.m_xyz[0];
-            break;               // 前
-            xx( 6, 1, 2 ) break; // 后
+            break;               // front
+            xx( 6, 1, 2 ) break; // back
 #undef xx
             default:
                 luaL_error( L, "Datum index out of bounds!" );
