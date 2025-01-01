@@ -21,7 +21,7 @@ typedef struct cylinder
 } cylinder;
 
 /**
- * @description: 圆柱体对象初始化
+ * @description: init cylinder object
  * @return {*}
  */
 #define cylinder_obj_init( obj )                                                           \
@@ -31,14 +31,14 @@ typedef struct cylinder
     D3OBJECT_BASE_INIT( &obj->base );
 
 /**
- * @description: 初始化圆柱体
+ * @description: create cylinder object
  * @param {lua_State*} L
  * @return {*}
  */
 int cylinder_init( lua_State* L );
 
 /**
- * @description: 计算圆柱体的顶点
+ * @description: set cylinder height
  * @param {sphere*} self
  * @param {unsigned short} index
  * @return {*}

@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-05 23:47:55
  * @FilePath: /lua-cad/src/vec3.c
- * @Description: 
+ * @Description: vector 3d
  * 
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved. 
  */
@@ -44,7 +44,7 @@ int pan( vec3* cur, vec3 to )
 }
 
 /**
- * @description: 相对一个特定的坐标轴的特定方向旋转
+ * @description: Rotate in a specific direction about a specific axis 
  * @param {vec3*} src
  * @param {double} angle
  * @param {vec3} v
@@ -52,7 +52,7 @@ int pan( vec3* cur, vec3 to )
  */
 int rotation_direct( vec3* src, double angle, vec3 v ) 
 {
-    TODO相对一个特定的坐标轴的特定方向旋转:
+    TODORotate_in_a_specific_direction_about_a_specific_axis:
     return 1;
 }
 

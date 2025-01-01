@@ -73,7 +73,7 @@ void append_transform_openscad_code( lua_State* L, D3OBJECT_BASE* obj, enum TYPE
 
 int transform( lua_State* L, enum TYPES type, D3OBJECT_BASE* obj )
 {
-    // 读输入的参数
+    // read input args
     const int count    = 3;
     const char* xyz[3] = { "x", "y", "z" };
     for ( int i = 0; i < count; i++ )

@@ -4,7 +4,7 @@
  * @LastEditors: SongZihui-sudo 1751122876@qq.com
  * @LastEditTime: 2024-01-31 17:32:32
  * @FilePath: /lua-cad/src/base_object/cube.h
- * @Description: cube 对象
+ * @Description: cube object
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
@@ -17,7 +17,7 @@
 #include <vec3.h>
 
 /**
- * @description: 获取立方体内对象
+ * @description: get cube width, length, height
  * @return {*}
  */
 #define CUBE_WIDTH( obj ) obj->m_w_l_h.m_xyz[0]
@@ -28,7 +28,7 @@
 typedef struct cube
 {
     D3OBJECT_BASE base;
-    vec3 m_w_l_h; // 长，宽，高
+    vec3 m_w_l_h; // length, width, height
 } cube;
 
 #define cube_obj_init( obj )                                                               \
@@ -36,7 +36,7 @@ typedef struct cube
     D3OBJECT_BASE_INIT( &obj->base );
 
 /**
- * @description: 计算立方体的顶点
+ * @description: calculate cube vertices
  * @param {lua_State*} L
  * @param {cube*} self
  * @param {unsigned short} index
@@ -44,25 +44,25 @@ typedef struct cube
  */
 vec3 calculate_vertices_cube( lua_State* L, cube* self, unsigned short index );
 /*
-    就是立方体的八个顶点，加六个平面的中心
-    前面右上 case 1:
-    前面左上 case 2:
-    前面右下 case 3:
-    前面左上 case 4:
-    后面右上 case 5:
-    后面左上 case 6:
-    后面右下 case 7:
-    后面左下 case 8:
-    顶 case 9:
-    底 case 10:
-    左 case 11:
-    右 case 12:
-    前 case 13:
-    后 case 14:
+    That is, the eight vertices of the cube, plus the centers of the six planes
+    Front upper right case 1:
+    Front upper left case 2:
+    Front lower right case 3:
+    Front upper left case 4:
+    Back upper right case 5:
+    Back upper left case 6:
+    Back lower right case 7:
+    Back lower left case 8:
+    Top case 9:
+    Bottom case 10:
+    Left case 11:
+    Right case 12:
+    Front case 13:
+    Back case 14:
 */
 
 /**
- * @description: 初始化立方体
+ * @description: Initialize the cube
  * @param {lua_State*} L
  * @return {*}
  */

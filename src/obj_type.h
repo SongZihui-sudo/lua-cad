@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 13:25:58
  * @FilePath: /lua-cad/src/obj_type.h
- * @Description: 对象种类与基类的定义
+ * @Description: object type and base class definition
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
@@ -60,12 +60,12 @@ enum TYPES
 /* ouput mode */
 #define OUPUT_MODE_OPENSCAD "openscad"
 
-#define CODE_LENGTH 3000
+#define CODE_LENGTH 4096
 
 #define dynast_cast( DEST, base ) ( DEST* )( base )
 
 /**
- * @description: 对象基类
+ * @description: object base class
  * @return {*}
  */
 typedef struct OBJ_BASE
@@ -75,7 +75,7 @@ typedef struct OBJ_BASE
 } OBJ_BASE;
 
 /**
- * @description: bool 对象基类
+ * @description: bool object base class
  * @return {*}
  */
 typedef struct BOOLEAN_BASE
@@ -86,7 +86,7 @@ typedef struct BOOLEAN_BASE
 } BOOLEAN_BASE;
 
 /**
- * @description: 3D 对象基类
+ * @description: 3D object base class
  * @return {*}
  */
 typedef struct D3OBJECT_BASE
@@ -108,7 +108,7 @@ typedef struct D3OBJECT_BASE
 } D3OBJECT_BASE;
 
 /**
- * @description: 2D 对象基类
+ * @description: 2D object base class
  * @return {*}
  */
 typedef struct D2OBJECT_BASE

@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 00:29:56
  * @FilePath: /lua-cad/src/d2object/circle.h
- * @Description: circle
+ * @Description: Circle object
  *
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */

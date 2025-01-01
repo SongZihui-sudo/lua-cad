@@ -51,12 +51,12 @@ vec3 calculate_vertices_sphere( lua_State* L, sphere* self, unsigned short index
     case case_num:                                                                         \
         result.m_xyz[xyz] op sides.m_xyz[0];                                               \
         break;
-        xx( 1, 2, += ) // 顶
-        xx( 2, 2, -= ) // 底
-        xx( 3, 1, -= ) // 左
-        xx( 4, 1, += ) // 右
-        xx( 5, 0, += ) // 前
-        xx( 6, 0, -= ) // 后
+        xx( 1, 2, += ) // top
+        xx( 2, 2, -= ) // bottom
+        xx( 3, 1, -= ) // left
+        xx( 4, 1, += ) // right
+        xx( 5, 0, += ) // front
+        xx( 6, 0, -= ) // back
 #undef xx
         default : luaL_error( L, "Datum index out of bounds!" );
     }

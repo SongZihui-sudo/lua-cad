@@ -4,10 +4,12 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 11:23:26
  * @FilePath: /lua-cad/src/d2object/polygon.c
- * @Description:
+ * @Description: Polygon Object
  *
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */
+
+#include <stdlib.h>
 
 #include <polygon.h>
 #include <to_openscad_code.h>
@@ -17,7 +19,7 @@ char POLYGON_ARG2[200];
 
 int polygon_init( lua_State* L )
 {
-    // 读 points 表
+    // read points table
     vec2 points[64];
     POLYGON_ARG1[0]        = ' ';
     POLYGON_ARG2[0]        = ' ';
@@ -43,7 +45,7 @@ int polygon_init( lua_State* L )
         lua_pop( L, 1 );
     }
     POLYGON_ARG1[strlen( POLYGON_ARG1 ) - 1] = '\0';
-    // 读 paths 表
+    // read paths table
     int* paths[64];
     const int paths_count = luaL_len( L, 2 );
     int counter;
@@ -77,7 +79,7 @@ int polygon_init( lua_State* L )
         lua_pop( L, 1 );
     }
     POLYGON_ARG2[strlen( POLYGON_ARG2 ) - 1] = '\0';
-    // 创建一个多边形对象
+    // create polygon object
     unsigned int i_bytes = sizeof( polygon );
     polygon* current;
     current = dynast_cast( polygon, lua_newuserdata( L, i_bytes ) );

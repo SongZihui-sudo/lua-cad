@@ -8,8 +8,10 @@
  *
  * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
+#include "lua.h"
 #include <lauxlib.h>
 #include <obj_type.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <to_openscad_code.h>
@@ -24,8 +26,8 @@ char* LAYOUT_EXPORT_RULE[]
 
 void transform_to_openscad_code( lua_State* L, D3OBJECT_BASE* base )
 {
-    int buffer[20];
-    buffer[0] = 0;
+    int* buffer = dynast_cast(int, malloc( sizeof( int ) * 20 ));
+    memset(buffer, 0, 20);
     for ( int i = 1; i <= base->m_op_stack[0]; i++ )
     {
         for ( int j = 0; j <= buffer[0]; j++ )
@@ -40,6 +42,7 @@ void transform_to_openscad_code( lua_State* L, D3OBJECT_BASE* base )
     continue_:
         continue;
     }
+    free(buffer);
 }
 
 void obj_to_openscad_code( lua_State* L, D3OBJECT_BASE* base )
@@ -48,7 +51,7 @@ void obj_to_openscad_code( lua_State* L, D3OBJECT_BASE* base )
     {
         luaL_error( L, "The pointer is empty and an error has occurred!" );
     }
-    char temp[CODE_LENGTH] = " ";
+    char* temp = dynast_cast( char, malloc( sizeof( char ) * CODE_LENGTH ) );
     cube* self1;
     cylinder* self2;
     sphere* self3;
@@ -92,28 +95,25 @@ void obj_to_openscad_code( lua_State* L, D3OBJECT_BASE* base )
         default:
             luaL_error( L, "Unknown object!" );
     }
-    base->m_obj_base.m_code = dynast_cast( char, malloc( sizeof( temp ) ) );
+    base->m_obj_base.m_code = dynast_cast( char, malloc(  CODE_LENGTH * sizeof(char) ) );
     strcpy( base->m_obj_base.m_code, temp );
     transform_to_openscad_code( L, base );
-    temp[0] = ' ';
-    temp[1] = '\0';
+    free(temp);
 }
 
 void boolean_to_openscad_code( lua_State* L, OBJ_TYPE* self )
 {
-    char temp[CODE_LENGTH];
-    temp[0] = ' ';
+    char* temp = dynast_cast( char, malloc( sizeof( char ) * CODE_LENGTH ) );
     memset( temp, 0, 5 );
     if ( !self )
     {
         return;
-    }
+    } 
     layout_to_code( L, ( OBJ_TYPE* )self, temp );
     struct OBJ_BASE* base = dynast_cast( OBJ_BASE, self );
-    base->m_code          = dynast_cast( char, malloc( sizeof( temp ) ) );
+    base->m_code          = dynast_cast( char, malloc( CODE_LENGTH * sizeof(char) ) );
     sprintf( base->m_code, LAYOUT_EXPORT_RULE[*self - BOOLEAN_BEGIN - 1], temp );
-    temp[0] = ' ';
-    temp[1] = '\0';
+    free(temp);
 }
 
 void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
@@ -126,22 +126,18 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
     BOOLEAN_BASE* temp1;
     D3OBJECT_BASE* temp2;
     unsigned int count;
-    double offset;
-    char buffer_offset[32];
-    char buffer2[128];
-    buffer2[0] = '\0';
+    char* buffer_offset;
+    char* buffer2 = dynast_cast(char, malloc( sizeof(char) * 128 ));
     switch ( *self )
     {
         case OFFSET:
-            buffer_offset[0] = '\0';
-            offset           = lua_tonumber( L, 2 );
-            sprintf( buffer_offset, SINGLE_ARG_RULE1, "r", offset );
-
-            sprintf( buffer2,
-                     LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN],
-                     buffer_offset,
-                     "%s" );
-            LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN] = buffer2;
+            LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN] = "offset(%s){\n%s\n}";
+            buffer_offset = dynast_cast(char, malloc(32));
+            sprintf( buffer_offset, SINGLE_ARG_RULE1, "r", OFFSET_ARG );
+            sprintf( buffer2, LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN], buffer_offset, "%s" );
+            LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN] = dynast_cast(char, dynast_cast(char, malloc( sizeof(char) * strlen(buffer2) )));
+            strcpy(LAYOUT_EXPORT_RULE[OFFSET - 1 - BOOLEAN_BEGIN], buffer2);
+            free(buffer_offset);
         case MINKOWSKI:
         case HULL:
         case FILL:
@@ -156,26 +152,29 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
                 if ( is_boolean( *children[i] ) )
                 {
                     layout_to_code( L, children[i], temp );
-                    char temp_buffer[CODE_LENGTH];
+                    char* temp_buffer = dynast_cast(char, malloc( sizeof(char) * CODE_LENGTH ));
                     sprintf( temp_buffer, LAYOUT_EXPORT_RULE[*children[i] - 1 - BOOLEAN_BEGIN], temp );
                     strcpy( temp, temp_buffer );
+                    free(temp_buffer);
                 }
                 else if ( *children[i] == USER_DEFINE )
                 {
                     temp2        = dynast_cast( D3OBJECT_BASE, children[i] );
                     char* buffer = temp2->m_obj_base.m_code;
-                    char temp_buffer[CODE_LENGTH];
+                    char* temp_buffer = dynast_cast(char, malloc( sizeof(char) * CODE_LENGTH ));
                     sprintf( temp_buffer, "%s%s", temp, buffer );
                     strcpy( temp, temp_buffer );
+                    free(temp_buffer);
                 }
                 else
                 {
                     temp2 = dynast_cast( D3OBJECT_BASE, children[i] );
                     obj_to_openscad_code( L, temp2 );
                     char* buffer = temp2->m_obj_base.m_code;
-                    char temp_buffer[CODE_LENGTH];
+                    char* temp_buffer = dynast_cast(char, malloc( sizeof(char) * CODE_LENGTH ));
                     sprintf( temp_buffer, "%s%s", temp, buffer );
                     strcpy( temp, temp_buffer );
+                    free(temp_buffer);
                 }
             }
             break;
@@ -195,4 +194,5 @@ void layout_to_code( lua_State* L, OBJ_TYPE* self, char* temp )
             luaL_error( L, "Unknown object type!" );
             return;
     }
+    free(buffer2);
 }

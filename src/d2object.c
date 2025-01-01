@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 14:22:49
  * @FilePath: /lua-cad/src/d2object.c
- * @Description:
+ * @Description: 2d object
  *
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */
@@ -38,9 +38,9 @@ static int transform_linear_extrude( lua_State* L )
 {
     // d2object
     D2OBJECT_BASE* current = lua_touserdata( L, 1 );
-    // 读 height
+    // read height
     get_field_table(L, &current->linear_extrude.height, "height", 2);
-    // 读 center
+    // read center
     lua_pushstring( L, "center" );
     lua_gettable(L, 2);
     if ( !lua_isnil( L, -1 ) )
@@ -53,7 +53,7 @@ static int transform_linear_extrude( lua_State* L )
         luaL_error( L, "%s Field is Null!", "center" );
     }
     lua_pop(L, 1);
-    // 读 convexity
+    // read convexity
     get_field_table(L, &current->linear_extrude.convexity, "convexity", 2);
     get_field_table(L, &current->linear_extrude.twist, "twist", 2);
     get_field_table(L, &current->linear_extrude.scale, "scale", 2);

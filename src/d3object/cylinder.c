@@ -1,3 +1,4 @@
+#include "obj_type.h"
 #include <cylinder.h>
 #include <stdio.h>
 #include <to_openscad_code.h>
@@ -18,7 +19,7 @@ enum
 
 int cylinder_init( lua_State* L )
 {
-    cylinder* temp = ( cylinder* )malloc( sizeof( cylinder ) );
+    cylinder* temp =  dynast_cast(cylinder, malloc( sizeof( cylinder ) ));
     cylinder_obj_init( temp );
     // 读参数列表
     temp->base.m_center = lua_toboolean( L, 2 );
@@ -100,8 +101,7 @@ finish:
     temp->base.m_obj_base.m_code = NULL;
     temp->base.m_obj_base.m_type = CYLINDER;
     unsigned int i_bytes = sizeof( cylinder );
-    cylinder* current;
-    current = dynast_cast( cylinder, lua_newuserdata( L, i_bytes ) );
+    cylinder* current = dynast_cast( cylinder, lua_newuserdata( L, i_bytes ) );
     memcpy( current, temp, sizeof( cylinder ) );
     current->base.m_obj_base.m_type = CYLINDER;
     free( temp );
@@ -126,8 +126,8 @@ vec3 calculate_vertices_cylinder( lua_State* L, cylinder* self, unsigned short i
     case case_num:                                                                         \
         result.m_xyz[xyz] += self->m_h / 2;                                                \
         break;
-            xx( 1, +=, 2 ); // 顶
-            xx( 2, -=, 2 ); // 底
+            xx( 1, +=, 2 ); // top
+            xx( 2, -=, 2 ); // bottom
 #undef xx
             default:
                 luaL_error( L, "Datum index out of bounds!" );

@@ -1,10 +1,10 @@
-local cylinder1 = d3object.cylinder({h = 1,  r = 10}, true );
+cylinder1 = d3object.cylinder({h = 1,  r = 10}, true );
 -- or
-local cylinder2 = d3object.cylinder({h = 1,  d = 20}, false );
+cylinder2 = d3object.cylinder({h = 1,  d = 20}, false );
 -- or
-local cylinder3 = d3object.cylinder({h = 1,  r1 = 10, r2 = 20}, true );
+cylinder3 = d3object.cylinder({h = 1,  r1 = 10, r2 = 20}, true );
 -- or
-local cylinder4 = d3object.cylinder({h = 1,  d1 = 20, d2 = 40}, false );
+cylinder4 = d3object.cylinder({h = 1,  d1 = 20, d2 = 40}, false );
 
 code1 = code(cylinder1);
 code2 = code(cylinder2);

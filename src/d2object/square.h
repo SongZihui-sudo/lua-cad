@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 13:15:17
  * @FilePath: /lua-cad/src/d2object/square.h
- * @Description: square
+ * @Description: square object
  *
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */
@@ -25,7 +25,7 @@ typedef struct square
 } square;
 
 /**
- * @description: 初始化 square
+ * @description: init square
  * @param {lua_State*} L
  * @return {*}
  */

@@ -165,3 +165,5 @@ extern char POLYGON_ARG2[200];
  * @return {*}
  */
 #define ROTATE_EXTRUDE_EXPORT_RULE "rotate_extrude(angle = %f, convexity = %f)\n"
+
+extern double OFFSET_ARG;

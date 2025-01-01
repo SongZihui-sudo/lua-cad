@@ -19,14 +19,14 @@ typedef struct sphere
     obj->m_r_or_d = -1;
 
 /**
- * @description: 初始化球体
+ * @description: init sphere
  * @param {lua_State*} L
  * @return {*}
  */
 int sphere_init( lua_State* L );
 
 /**
- * @description: 计算球体顶点
+ * @description: calculate vertices of sphere
  * @param {sphere*} self
  * @param {unsigned short} index
  * @return {*}

@@ -4,7 +4,7 @@
  * @LastEditors: songzihui 1751122876@qq.com
  * @LastEditTime: 2024-02-06 12:18:52
  * @FilePath: /lua-cad/src/d2object/polygon.h
- * @Description: polygon
+ * @Description: polygon object
  *
  * Copyright (c) 2024 by songzihui 1751122876@qq.com, All Rights Reserved.
  */

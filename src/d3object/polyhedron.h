@@ -18,14 +18,14 @@ typedef struct polyhedron
 } polyhedron;
 
 /**
- * @description: 初始化 多面体
+ * @description: Initialize the polyhedron
  * @param {lua_State*} L
  * @return {*}
  */
 int polyhedron_init( lua_State* L );
 
 /**
- * @description: 多面体的顶点
+ * @description: Calculate the vertices of the polyhedron
  * @param {polyhedron*} self
  * @param {unsigned short} index
  * @return {*}
