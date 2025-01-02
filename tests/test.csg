@@ -1,0 +1,5 @@
+difference() {
+	cube(size = [10, 10, 10], center = false);
+	sphere($fn = 0, $fa = 12, $fs = 2, r = 15);
+}
+

@@ -14,6 +14,9 @@
 #include <lauxlib.h>
 #include <user_define_obj.h>
 
+extern char* openscad_path;
+extern char* hob3l_path;
+
 /**
  * @description: print the 3d code of the current object
  * @param {lua_State*} L
@@ -42,13 +45,17 @@ int import_module( lua_State* L );
  */
 int render( lua_State* L );
 
+int set_openscad_path( lua_State* L );
+
+int set_hob3l_path( lua_State* L );
+
 /**
  * @description: some global functions
  * @return {*}
  */
-#define LUA_CAD_FUNCTIONS                                                                  \
-    { "export", lua_cad_export }, { "code", code }, { "include", include_code },           \
-    { "import", import_module },                                                           \
-    {                                                                                      \
-        "render", render                                                                   \
+#define LUA_CAD_FUNCTIONS                                                                          \
+    { "export", lua_cad_export }, { "code", code }, { "include", include_code },                   \
+    { "import", import_module }, { "render", render }, { "set_openscad", set_openscad_path }, \
+    {                                                                                              \
+        "set_hob3l", set_hob3l_path                                                           \
     }
