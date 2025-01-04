@@ -11,8 +11,15 @@ add_includedirs("./src/d2object")
 add_includedirs("./src/user_object")
 add_includedirs("./port/openscad")
 
+target("lua")
+    set_kind("static")
+    add_files("lua/*.c|onelua.c|lua.c")
+
 -- Compilation settings
 target("lua-cad")
+    if is_plat("windows") then
+        add_deps("lua")
+    end
     set_kind("binary")
     add_files("port/openscad/*.c")
     add_files("lua/*.c|onelua.c|lua.c")
