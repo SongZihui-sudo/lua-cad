@@ -1,12 +1,11 @@
 /*
  * @Author: SongZihui-sudo 1751122876@qq.com
- * @Date: 2024-01-26 20:10:42
+ * @Date: 2025-01-5 15:06
  * @LastEditors: songzihui 1751122876@qq.com
- * @LastEditTime: 2024-01-27 21:58:48
- * @FilePath: /lua-cad/src/main.c
- * @Description: main.c
+ * @FilePath: /lua-cad/src/main.cpp
+ * @Description: main.cpp
  *
- * Copyright (c) 2024 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
+ * Copyright (c) 2025 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
 
 extern "C" {
@@ -94,7 +93,7 @@ static int loadluaLine( lua_State* luaEnv, const char* line )
     return result;
 }
 
-#define LUA_CAD_COPYRIGHT "Copyright (C) 2024 lua-cad Lua for Openscad"
+#define LUA_CAD_COPYRIGHT "Copyright (C) 2024 - 2025 lua-cad Lua for Openscad"
 #define LUA_CAD_AUTHORS "SongZihui-sudo 1751122876@qq.com https://szhwho.top"
 
 /**
@@ -125,6 +124,7 @@ int main( int argc, char** argv )
 
     lua_State* L = luaL_newstate( );
     luaL_openlibs( L );
+
     QCommandLineParser parser;
     parser.setApplicationDescription("Lua-cad\nUsage: lua-cad [Options\lua_file]");
     parser.addHelpOption();
@@ -171,6 +171,7 @@ int main( int argc, char** argv )
         }   
         }
     }
+    
     lua_close( L );
 
     return 0;

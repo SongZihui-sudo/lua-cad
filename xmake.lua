@@ -16,6 +16,7 @@ gui = true
 target("lua")
     set_kind("static")
     add_files("lua/*.c|onelua.c|lua.c")
+target_end()
 
 -- Compilation settings
 target("lua-cad")
@@ -25,7 +26,7 @@ target("lua-cad")
     if gui then
         add_rules("qt.widgetapp")
         add_files("src/lua-cad-desktop/mainwindow.ui")
-        add_files("src/lua-cad-desktop/mainwindow.h")
+        add_files("src/lua-cad-desktop/*.h")
         add_files("src/lua-cad-desktop/*.cpp|main.cpp")
         add_files("src/*.cpp")
         add_ldflags("/SUBSYSTEM:CONSOLE")

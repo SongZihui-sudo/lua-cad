@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "codeEditer.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -19,6 +21,22 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    CodeEditor* editor;
+
+    QAction* openAction;
+    QAction* saveAction;
+
+    QAction* scadAction;
+    QAction* renderAction;
+
+private:
+    void createMenus( );
+    void createToolBars( );
+
+private slots:
+    void openFile( );
+    void saveFile( );
+
 };
 
 #endif // MAINWINDOW_H
