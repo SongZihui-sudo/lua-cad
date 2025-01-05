@@ -4,7 +4,6 @@
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 #include <QRegularExpression>
-#include <QDebug>
 
 // Code heightlight
 class LuaCadSyntaxHighlighter : public QSyntaxHighlighter
@@ -67,7 +66,7 @@ public:
     explicit CodeEditor( QWidget* parent = nullptr )
     : QPlainTextEdit( parent )
     {
-        setFont( QFont( "Courier", 12 ) );
+        setFont( QFont( "Courier", 15 ) );
         setTabStopDistance( 4 * fontMetrics( ).horizontalAdvance( ' ' ) );
         connect( this, &QPlainTextEdit::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine );
         highlightCurrentLine( ); // 初始化高亮当前行

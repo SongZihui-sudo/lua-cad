@@ -30,7 +30,8 @@ void LuaCadSyntaxHighlighter::setupHighlightingRules( )
     = { "\\band\\b",  "\\bbreak\\b",  "\\bdo\\b", "\\belse\\b",  "\\belseif\\b",
         "\\bfunction\\b", "\\bfor\\b", "\\bfalse\\b",  "\\bend\\b", "\\bif\\b", 
         "\\bin\\b", "\\blocal\\b", "\\bnil\\b", "\\bnot\\b", "\\bor\\b", "\\brepeat\\b",  
-        "\\breturn\\b", "\\bthen\\b", "\\btrue\\b", "\\buntl\\b", "\\bwhile\\b" };
+        "\\breturn\\b", "\\bthen\\b", "\\btrue\\b", "\\buntl\\b", "\\bwhile\\b" 
+    };
     for ( const QString& pattern : keywordPatterns )
     {
         HighlightingRule rule;
@@ -62,9 +63,9 @@ void LuaCadSyntaxHighlighter::setupHighlightingRules( )
     highlightingRules.append( stringRule );
 
     // User defined object highlighting
-    userObjFormat.setForeground( Qt::darkYellow );
+    userObjFormat.setForeground( Qt::darkMagenta );
     HighlightingRule userObjRule;
-    userObjRule.pattern = QRegularExpression( "\$\$[^$]*\$\$" );
+    userObjRule.pattern = QRegularExpression("\\$.*\\$" );
     userObjRule.format  = userObjFormat;
     highlightingRules.append( userObjRule );
 
