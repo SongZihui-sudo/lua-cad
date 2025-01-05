@@ -11,6 +11,8 @@ add_includedirs("./src/d2object")
 add_includedirs("./src/user_object")
 add_includedirs("./port/openscad")
 
+gui = true
+
 target("lua")
     set_kind("static")
     add_files("lua/*.c|onelua.c|lua.c")
@@ -20,10 +22,21 @@ target("lua-cad")
     if is_plat("windows") then
         add_deps("lua")
     end
+    if gui then
+        add_rules("qt.widgetapp")
+        add_files("src/lua-cad-desktop/mainwindow.ui")
+        add_files("src/lua-cad-desktop/mainwindow.h")
+        add_files("src/lua-cad-desktop/*.cpp|main.cpp")
+        add_files("src/*.cpp")
+        add_ldflags("/SUBSYSTEM:CONSOLE")
+        add_frameworks("widgets")
+    else
+        add_files("src/main.c")
+    end
     set_kind("binary")
     add_files("port/openscad/*.c")
     add_files("lua/*.c|onelua.c|lua.c")
-    add_files("src/*.c|lua-cad.c")
+    add_files("src/*.c|lua-cad.c|main.c")
     add_files("src/d3object/*.c")
     add_files("src/d2object/*.c")
     add_files("src/user_object/*.c")

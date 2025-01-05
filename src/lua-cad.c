@@ -134,7 +134,7 @@ static const void* lua_get_value( lua_State* L, char* key, short index )
         lua_pop( L, 1 );
         return ret;
     }
-    return nullptr;
+    return NULL;
 }
 
 int render( lua_State* L )
