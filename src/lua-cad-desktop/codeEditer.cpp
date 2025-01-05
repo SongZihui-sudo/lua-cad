@@ -1,5 +1,53 @@
 #include "codeEditer.h"
 
+QSize LineNumberArea::sizeHint( ) { return QSize( codeEditor->lineNumberAreaWidth( ), 0 ); }
+
+void LineNumberArea::paintEvent( QPaintEvent* event ) { codeEditor->lineNumberAreaPaintEvent( event ); }
+
+void CodeEditor::lineNumberAreaPaintEvent( QPaintEvent* event )
+{
+    QPainter painter( lineNumber );
+    painter.fillRect( event->rect( ), Qt::darkCyan );
+    QFont font( "Courier", 12 ); // 字体：Courier，大小：10
+    font.setBold( true );        // 加粗
+    painter.setFont( font );
+
+    QTextBlock block = firstVisibleBlock( );
+    int blockNumber  = block.blockNumber( );
+    int top = qRound( blockBoundingGeometry( block ).translated( contentOffset( ) ).top( ) );
+    int bottom = top + qRound( blockBoundingRect( block ).height( ) );
+
+    while ( block.isValid( ) && top <= event->rect( ).bottom( ) )
+    {
+        if ( block.isVisible( ) && bottom >= event->rect( ).top( ) )
+        {
+            QString number = QString::number( blockNumber + 1 );
+            painter.setPen( Qt::white );
+            painter.drawText( 0, top, lineNumber->width( ), fontMetrics( ).height( ), Qt::AlignRight, number );
+        }
+
+        block  = block.next( );
+        top    = bottom;
+        bottom = top + qRound( blockBoundingRect( block ).height( ) );
+        ++blockNumber;
+    }
+}
+
+int CodeEditor::lineNumberAreaWidth( )
+{ 
+    int digits = 1;
+    int max    = qMax( 1, blockCount( ) );
+    while ( max >= 10 )
+    {
+        max /= 10;
+        ++digits;
+    }
+
+    int space = 3 + fontMetrics( ).horizontalAdvance( QLatin1Char( '9' ) ) * digits;
+
+    return space;
+}
+
 void CodeEditor::highlightCurrentLine( )
 {
     // 清除之前的高亮

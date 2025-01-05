@@ -9,11 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    QWidget* editorContiner = new QWidget( parent );
     ui->setupUi(this);
-    editor = new CodeEditor( this );
+    editor = new CodeEditor( editorContiner );
     LuaCadSyntaxHighlighter* highlighter = new LuaCadSyntaxHighlighter( editor->document( ) );
-
-    setCentralWidget( editor );
 
     openAction = new QAction( "Open", this );
     connect( openAction, &QAction::triggered, this, &MainWindow::openFile );
@@ -25,6 +24,12 @@ MainWindow::MainWindow(QWidget *parent)
     renderAction = new QAction( "Render", this );
 
     createMenus( );
+
+    QVBoxLayout* layout = new QVBoxLayout( editorContiner );
+    layout->setContentsMargins( 0, 0, 0, 0 ); // 去除内边距
+    layout->addWidget( editor );              // 将编辑器添加到布局中
+    editorContiner->setLayout( layout );      // 应用布局到容器
+    setCentralWidget( editorContiner );
 
     setWindowTitle( "Lua-cad, lua for 3D" );
     resize( 800, 600 );
