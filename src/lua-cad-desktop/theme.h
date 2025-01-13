@@ -21,7 +21,7 @@ public:
         currentColor            = QColor( 220, 220, 255 );
         fontSize                = 12;
         tabSize                 = 4;
-        backgroundColor         = Qt::blue;
+        backgroundColor         = Qt::white;
     };
 
     ~theme()

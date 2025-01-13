@@ -35,7 +35,6 @@ public:
 public:
     void highlightBlock( const QString& text ) override
     {
-        qDebug( ) << text;
         for ( const HighlightingRule& rule : highlightingRules )
         {
             QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch( text );
@@ -133,11 +132,12 @@ public:
         
         connect( this, &QPlainTextEdit::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine );
       
-        highlightCurrentLine( );
+        QPalette p = this->palette( );
+        p.setColor( QPalette::Active, QPalette::Base, backgroundColor );
+        p.setColor( QPalette::Inactive, QPalette::Base, backgroundColor );
+        this->setPalette( p );
 
-        QPalette palette;
-        palette.setColor( QPalette::Window, backgroundColor );
-        parent->setPalette( palette );
+        highlightCurrentLine( );
     }
 
     int lineNumberAreaWidth( );
