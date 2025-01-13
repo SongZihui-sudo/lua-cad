@@ -1,9 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "theme.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QToolBar>
+
+extern "C" {
+    #include <lua.h>
+    #include <lua-cad.h>
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,8 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     QWidget* editorContiner = new QWidget( parent );
     ui->setupUi(this);
-    editor = new CodeEditor( editorContiner );
-    LuaCadSyntaxHighlighter* highlighter = new LuaCadSyntaxHighlighter( editor->document( ) );
+    
+    theme* currentTheme = new theme("./");
+
+    editor = new CodeEditor( currentTheme, editorContiner );
+    LuaCadSyntaxHighlighter* highlighter
+    = new LuaCadSyntaxHighlighter( currentTheme, editor->document( ) );
 
     openAction = new QAction( "Open", this );
     connect( openAction, &QAction::triggered, this, &MainWindow::openFile );
@@ -22,6 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     scadAction = new QAction( "to Scad Code", this );
     renderAction = new QAction( "Render", this );
+
+    versionAction = new QAction( "Version", this );
+    connect( versionAction, &QAction::triggered, this, &MainWindow::showVersion );
 
     createMenus( );
 
@@ -85,6 +98,13 @@ void MainWindow::saveFile( )
     }
 }
 
+void MainWindow::showVersion( ) 
+{ 
+    QString content = QString( LUA_COPYRIGHT ) + "\n" + QString(LUA_AUTHORS) + "\n"  \
+        + QString( LUA_CAD_COPYRIGHT ) + "\n" + QString( LUA_CAD_AUTHORS );
+    QMessageBox::information( this, "Lua-cad Version", content );
+}
+
 void MainWindow::createMenus( )
 {
     QMenu* fileMenu = menuBar( )->addMenu( "File" );
@@ -93,6 +113,8 @@ void MainWindow::createMenus( )
     QMenu* RunMenu = menuBar( )->addMenu( "Run" );
     RunMenu->addAction( scadAction );
     RunMenu->addAction( renderAction );
+    QMenu* HelpMenu = menuBar( )->addMenu( "Help" );
+    HelpMenu->addAction( versionAction );
 }
 
 void MainWindow::createToolBars( )

@@ -26,6 +26,8 @@ private:
     QAction* openAction;
     QAction* saveAction;
 
+    QAction* versionAction;
+
     QAction* scadAction;
     QAction* renderAction;
 
@@ -36,7 +38,7 @@ private:
 private slots:
     void openFile( );
     void saveFile( );
-
+    void showVersion( );
 };
 
 #endif // MAINWINDOW_H

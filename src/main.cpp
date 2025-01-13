@@ -15,6 +15,7 @@ extern "C" {
     #include <stdbool.h>
     #include <stdio.h>
     #include <string.h>
+    #include <lua-cad.h>
 }
 
 #include <QCommandLineParser>
@@ -93,9 +94,6 @@ static int loadluaLine( lua_State* luaEnv, const char* line )
     return result;
 }
 
-#define LUA_CAD_COPYRIGHT "Copyright (C) 2024 - 2025 lua-cad Lua for Openscad"
-#define LUA_CAD_AUTHORS "SongZihui-sudo 1751122876@qq.com https://szhwho.top"
-
 /**
  * @description: print version message
  * @return {*}
@@ -156,19 +154,19 @@ int main( int argc, char** argv )
         else
         {
             print_version( );
-        while ( 1 )
-        {
-            printf( "\033[0m\033[1;34mlua-cad\033[0m \033[0m\033[1;33m>>>\033[0m " );
-            char line[64];
-            fgets(line, sizeof(line), stdin);
-            if ( !strcmp( line, "quit" ) || !strcmp( line, "\\q" ) )
+            while ( 1 )
             {
-                lua_close( L );
-                return 0;
-            }
-            int status = loadluaLine( L, line );
-            report( L, status );
-        }   
+                printf( "\033[0m\033[1;34mlua-cad\033[0m \033[0m\033[1;33m>>>\033[0m " );
+                char line[64];
+                fgets(line, sizeof(line), stdin);
+                if ( !strcmp( line, "quit" ) || !strcmp( line, "\\q" ) )
+                {
+                    lua_close( L );
+                    return 0;
+                }
+                int status = loadluaLine( L, line );
+                report( L, status );
+            }   
         }
     }
     

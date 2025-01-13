@@ -14,6 +14,18 @@
 #include <lauxlib.h>
 #include <user_define_obj.h>
 
+#define LUA_CAD_VERSION_MAJOR "1"
+#define LUA_CAD_VERSION_MINOR "2"
+#define LUA_CAD_VERSION_RELEASE "0"
+
+#define LUA_CAD_NUM 4
+#define LUA_CAD_VERSION_RELEASE_NUM ( LUA_CAD_VERSION_NUM * 100 + 7 )
+
+#define LUA_CAD_VERSION "Lua-Cad " LUA_CAD_VERSION_MAJOR "." LUA_CAD_VERSION_MINOR
+#define LUA_CAD_RELEASE LUA_CAD_VERSION "." LUA_CAD_VERSION_RELEASE
+#define LUA_CAD_COPYRIGHT LUA_CAD_RELEASE " Copyright (C) 2024 - 2025 lua-cad Lua for 3D"
+#define LUA_CAD_AUTHORS "SongZihui 1751122876@qq.com https://szhwho.top"
+
 extern char* openscad_path;
 extern char* hob3l_path;
 

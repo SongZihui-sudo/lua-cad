@@ -6,6 +6,9 @@
 #include <QRegularExpression>
 #include <QDebug>
 #include <QPainter>
+#include <QMap>
+
+#include "theme.h"
 
 class CodeEditor;
 
@@ -15,9 +18,17 @@ class LuaCadSyntaxHighlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    explicit LuaCadSyntaxHighlighter( QTextDocument* parent = nullptr )
+    explicit LuaCadSyntaxHighlighter( theme* cur_theme, QTextDocument* parent = nullptr )
     : QSyntaxHighlighter( parent )
     {
+        keywordColor = cur_theme->keywordColor;
+        classColor   = cur_theme->classColor;
+        commentColor = cur_theme->commentColor;
+        stringColor = cur_theme->stringColor;
+        userobjColor = cur_theme->userobjColor;
+        numberColor = cur_theme->numberColor;
+        multiLineCommentColor = cur_theme->multiLineCommentColor;
+
         setupHighlightingRules( );
     }
 
@@ -57,6 +68,15 @@ private:
     QRegularExpression commentStartExpression;
     QRegularExpression commentEndExpression;
 
+    QColor keywordColor;
+    QColor classColor;
+    QColor commentColor;
+    QColor stringColor;
+    QColor userobjColor;
+    QColor numberColor;
+    QColor multiLineCommentColor;
+
+private:
     void highlightMultilineComments( const QString& text );
 
     void setupHighlightingRules( );
@@ -66,10 +86,11 @@ private:
 class LineNumberArea : public QWidget
 {
 public:
-    LineNumberArea( QWidget* parent,  CodeEditor* editor = nullptr )
-: QWidget(  parent )
-    , codeEditor( editor )
+    LineNumberArea( QWidget* parent, QColor lineNumberAreaColor, QColor lineNumberAreaTextColor, CodeEditor* editor = nullptr )
+    : QWidget(  parent ) , codeEditor( editor )
     {
+        lineNumberAreaTextColor = lineNumberAreaTextColor;
+        lineNumberAreaColor = lineNumberAreaColor;
     }
 
 protected:
@@ -79,6 +100,8 @@ protected:
 
 private:
     CodeEditor* codeEditor;
+    QColor lineNumberAreaColor;
+    QColor lineNumberAreaTextColor;
 };
 
 // code editor
@@ -87,10 +110,17 @@ class CodeEditor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    explicit CodeEditor( QWidget* parent = nullptr )
+    explicit CodeEditor( theme* cur_theme, QWidget* parent = nullptr )
     : QPlainTextEdit( parent )
     {
-        lineNumber = new LineNumberArea(parent, this );
+        backgroundColor         = cur_theme->backgroundColor;
+        lineNumberAreaTextColor = cur_theme->lineNumberAreaTextColor;
+        lineNumberAreaColor     = cur_theme->lineNumberAreaColor;
+        currentColor            = cur_theme->currentColor;
+        fontSize                = cur_theme->fontSize;
+        tabSize                 = cur_theme->tabSize;
+
+        lineNumber = new LineNumberArea( parent, lineNumberAreaColor, lineNumberAreaTextColor, this );
 
         connect( this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth );
         connect( this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea );
@@ -98,16 +128,28 @@ public:
 
         updateLineNumberAreaWidth( 0 );
 
-        setFont( QFont( "Courier", 12 ) );
-        setTabStopDistance( 4 * fontMetrics( ).horizontalAdvance( ' ' ) );
+        setFont( QFont( "Courier", fontSize ) );
+        setTabStopDistance( tabSize * fontMetrics( ).horizontalAdvance( ' ' ) );
+        
         connect( this, &QPlainTextEdit::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine );
-        highlightCurrentLine( ); // 初始化高亮当前行
+      
+        highlightCurrentLine( );
+
+        QPalette palette;
+        palette.setColor( QPalette::Window, backgroundColor );
+        parent->setPalette( palette );
     }
 
     int lineNumberAreaWidth( );
 
 private:
+    QColor backgroundColor;
+    QColor currentColor;
+    qint16 fontSize;
+    QColor lineNumberAreaColor;
     QWidget* lineNumber;
+    QColor lineNumberAreaTextColor;
+    qint16 tabSize;
 
     void resizeEvent( QResizeEvent* e )
     {

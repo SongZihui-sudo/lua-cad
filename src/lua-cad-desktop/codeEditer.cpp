@@ -7,9 +7,9 @@ void LineNumberArea::paintEvent( QPaintEvent* event ) { codeEditor->lineNumberAr
 void CodeEditor::lineNumberAreaPaintEvent( QPaintEvent* event )
 {
     QPainter painter( lineNumber );
-    painter.fillRect( event->rect( ), Qt::darkCyan );
-    QFont font( "Courier", 12 ); // 字体：Courier，大小：10
-    font.setBold( true );        // 加粗
+    painter.fillRect( event->rect( ), lineNumberAreaColor );
+    QFont font( "Courier", fontSize );
+    font.setBold( true );        // bold
     painter.setFont( font );
 
     QTextBlock block = firstVisibleBlock( );
@@ -56,7 +56,7 @@ void CodeEditor::highlightCurrentLine( )
     if ( !isReadOnly( ) )
     {
         QTextEdit::ExtraSelection selection;
-        selection.format.setBackground( QColor( 220, 220, 255 ) ); // 高亮背景颜色
+        selection.format.setBackground( currentColor ); // 高亮背景颜色
         selection.format.setProperty( QTextFormat::FullWidthSelection, true );
 
         // 获取当前行光标
@@ -72,7 +72,7 @@ void CodeEditor::highlightCurrentLine( )
 void LuaCadSyntaxHighlighter::setupHighlightingRules( )
 {
     // Keyword highlighting
-    keywordFormat.setForeground( Qt::blue );
+    keywordFormat.setForeground( keywordColor );
     keywordFormat.setFontWeight( QFont::Bold );
     QStringList keywordPatterns
     = { "\\band\\b",  "\\bbreak\\b",  "\\bdo\\b", "\\belse\\b",  "\\belseif\\b",
@@ -89,7 +89,7 @@ void LuaCadSyntaxHighlighter::setupHighlightingRules( )
     }
 
     // Class name highlighting
-    classFormat.setForeground( Qt::darkMagenta );
+    classFormat.setForeground( classColor );
     classFormat.setFontWeight( QFont::Bold );
     HighlightingRule classRule;
     classRule.pattern = QRegularExpression( "\\bQ[A-Za-z]+\\b" );
@@ -97,35 +97,35 @@ void LuaCadSyntaxHighlighter::setupHighlightingRules( )
     highlightingRules.append( classRule );
 
     // Single line comment highlighting
-    singleLineCommentFormat.setForeground( Qt::darkGreen );
+    singleLineCommentFormat.setForeground( commentColor );
     HighlightingRule singleLineCommentRule;
     singleLineCommentRule.pattern = QRegularExpression( "//[^\n]*" );
     singleLineCommentRule.format  = singleLineCommentFormat;
     highlightingRules.append( singleLineCommentRule );
 
     // String highlighting
-    stringFormat.setForeground( Qt::darkRed );
+    stringFormat.setForeground( stringColor );
     HighlightingRule stringRule;
     stringRule.pattern = QRegularExpression( "\".*\"" );
     stringRule.format  = stringFormat;
     highlightingRules.append( stringRule );
 
     // User defined object highlighting
-    userObjFormat.setForeground( Qt::darkMagenta );
+    userObjFormat.setForeground( userobjColor );
     HighlightingRule userObjRule;
     userObjRule.pattern = QRegularExpression("\\$.*\\$" );
     userObjRule.format  = userObjFormat;
     highlightingRules.append( userObjRule );
 
     // Digital Highlight
-    numberFormat.setForeground( Qt::darkBlue );
+    numberFormat.setForeground( numberColor );
     HighlightingRule numberRule;
     numberRule.pattern = QRegularExpression( "\\b\\d+\\b" );
     numberRule.format  = numberFormat;
     highlightingRules.append( numberRule );
 
     // Multi-line comment highlighting
-    multiLineCommentFormat.setForeground( Qt::darkGray );
+    multiLineCommentFormat.setForeground( multiLineCommentColor );
     commentStartExpression = QRegularExpression( "/\\*" );
     commentEndExpression   = QRegularExpression( "\\*/" );
 }
