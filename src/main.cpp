@@ -120,9 +120,6 @@ int main( int argc, char** argv )
 {
     QApplication a(argc, argv);
 
-    lua_State* L = luaL_newstate( );
-    luaL_openlibs( L );
-
     QCommandLineParser parser;
     parser.setApplicationDescription("Lua-cad\nUsage: lua-cad [Options\lua_file]");
     parser.addHelpOption();
@@ -145,6 +142,9 @@ int main( int argc, char** argv )
     }
     else
     {
+        lua_State* L = luaL_newstate( );
+        luaL_openlibs( L );
+
         if (argc > 1)
         {
             // load the script into the Lua environment
@@ -168,9 +168,8 @@ int main( int argc, char** argv )
                 report( L, status );
             }   
         }
+        lua_close( L );
     }
-    
-    lua_close( L );
-
+   
     return 0;
 }

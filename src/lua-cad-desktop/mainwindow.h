@@ -25,20 +25,18 @@ private:
 
     QAction* openAction;
     QAction* saveAction;
-
+    QAction* runAction;
     QAction* versionAction;
-
-    QAction* scadAction;
-    QAction* renderAction;
 
 private:
     void createMenus( );
     void createToolBars( );
 
 private slots:
-    void openFile( );
-    void saveFile( );
+    QString openFile( );
+    QString saveFile( );
     void showVersion( );
+    void run( );
 };
 
 #endif // MAINWINDOW_H
