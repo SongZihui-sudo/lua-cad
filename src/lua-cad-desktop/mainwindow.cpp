@@ -21,8 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
     theme* currentTheme = new theme("./");
 
     editor = new CodeEditor( currentTheme, editorContiner );
-    LuaCadSyntaxHighlighter* highlighter
-    = new LuaCadSyntaxHighlighter( currentTheme, editor->document( ) );
 
     openAction = new QAction( "Open", this );
     connect( openAction, &QAction::triggered, this, &MainWindow::openFile );

@@ -126,8 +126,8 @@ void LuaCadSyntaxHighlighter::setupHighlightingRules( )
 
     // Multi-line comment highlighting
     multiLineCommentFormat.setForeground( multiLineCommentColor );
-    commentStartExpression = QRegularExpression( "/\\*" );
-    commentEndExpression   = QRegularExpression( "\\*/" );
+    commentStartExpression = QRegularExpression( "--\\[\\[" );
+    commentEndExpression   = QRegularExpression( "\\]\\]" );
 }
 
 void LuaCadSyntaxHighlighter::highlightMultilineComments( const QString& text )
@@ -141,13 +141,19 @@ void LuaCadSyntaxHighlighter::highlightMultilineComments( const QString& text )
     while ( startIndex >= 0 )
     {
         QRegularExpressionMatch match = commentEndExpression.match( text, startIndex );
-        int endIndex = match.hasMatch( ) ? match.capturedStart( ) : text.length( );
-        int commentLength
-        = endIndex - startIndex + ( match.hasMatch( ) ? match.capturedLength( ) : 0 );
-        setFormat( startIndex, commentLength, multiLineCommentFormat );
-        startIndex = text.indexOf( commentStartExpression, endIndex );
-    }
+        int endIndex                  = match.capturedStart( );
+        int commentLength             = 0;
+        if ( endIndex == -1 )
+        {
+            setCurrentBlockState( 1 );
+            commentLength = text.length( ) - startIndex;
+        }
+        else
+        {
+            commentLength = endIndex - startIndex + match.capturedLength( );
+        }
 
-    if ( previousBlockState( ) == 1 || text.indexOf( commentEndExpression ) == -1 )
-        setCurrentBlockState( 1 );
+        setFormat( startIndex, commentLength, multiLineCommentFormat );
+        startIndex = text.indexOf( commentStartExpression, startIndex + commentLength );
+    }
 }

@@ -33,7 +33,7 @@ public:
     }
 
 public:
-    void highlightBlock( const QString& text ) override
+    void highlightBlock( const QString& text ) Q_DECL_OVERRIDE
     {
         for ( const HighlightingRule& rule : highlightingRules )
         {
@@ -44,7 +44,7 @@ public:
                 setFormat( match.capturedStart( ), match.capturedLength( ), rule.format );
             }
         }
-        // Support multi-line comments
+
         highlightMultilineComments( text );
     }
 
@@ -54,6 +54,7 @@ private:
         QRegularExpression pattern;
         QTextCharFormat format;
     };
+
     QVector< HighlightingRule > highlightingRules;
 
     QTextCharFormat keywordFormat;
@@ -63,7 +64,6 @@ private:
     QTextCharFormat stringFormat;
     QTextCharFormat userObjFormat;
     QTextCharFormat numberFormat;
-
     QRegularExpression commentStartExpression;
     QRegularExpression commentEndExpression;
 
@@ -136,6 +136,9 @@ public:
         p.setColor( QPalette::Active, QPalette::Base, backgroundColor );
         p.setColor( QPalette::Inactive, QPalette::Base, backgroundColor );
         this->setPalette( p );
+
+        LuaCadSyntaxHighlighter* highlighter
+        = new LuaCadSyntaxHighlighter( cur_theme, this->document() );
 
         highlightCurrentLine( );
     }
