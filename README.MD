@@ -16,7 +16,8 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
 
 <p align="center">
   <a href="https://github.com/SongZihui-sudo/lua-cad/">
-    <img src="https://lua.org/images/lua30.gif" alt="Logo" width="200" height="200">
+    <img src="https://lua.org/images/lua30.gif" alt="Logo" width="150" height="150">
+    <img src="./IMAGE/icon.ico" alt="Logo" width="150" height="150">
   </a>
 
   <h3 align="center">Lua-cad</h3>
@@ -43,6 +44,7 @@ OpenSCAD for Lua, 使用 lua 来创建三维模型。
       - [**使用基准实现准确定位**](#使用基准实现准确定位)
       - [**快速移植，复用现有代码，兼容 openscad 的模块调用语句**](#快速移植复用现有代码兼容-openscad-的模块调用语句)
       - [**面向对象**](#面向对象)
+      - [**Lua-cad 编辑器**](#lua-cad-编辑器)
     - [Example](#example)
         - [简单的离心风机外壳](#简单的离心风机外壳)
         - [复用 openscad](#复用-openscad)
@@ -82,6 +84,12 @@ local shoulder_screw1 = $shoulder_screw( "english", 1/2, length = 20 )$;
 #### **面向对象**
 
 采用面向对象的模式，高效复用代码，编码更加灵活，增加了维护性。
+
+#### **Lua-cad 编辑器**
+
+在 Lua-cad 2.0.0 中推出，基于 Qt 的编辑器与预览器让您更快，更准的创建模型。
+
+![lua-cad-editor](IMAGE/lua-cad-editor.png)
 
 ### Example
 
@@ -155,15 +163,23 @@ git clone https://github.com/SongZihui-sudo/lua-cad.git
 4. 编译源码
 ```sh
 xmake
-```
+``` 
 
 ##### **使用说明**
 
 ```sh
-lua-cad [filepath]
+Lua-cad
+Usage: lua-cad [Optionslua_file]
+
+Options:
+  -?, -h, --help  Displays help on commandline options.
+  --help-all      Displays help, including generic Qt options.
+  -g, --gui       Open the application in GUI mode
+  -v, --version   Display program version
+  file_path       Run the specified Lua file
 ```
-如果输入了参数 `filepath` 那么直接运行脚本 `filepath` 所指向的文件。否则从终端读取输入。
-![read_line](./IMAGE/image.png)
+
+![终端](IMAGE/terminal.png)
 
 ### 架构图
 

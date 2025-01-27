@@ -11,12 +11,41 @@ add_includedirs("./src/d2object")
 add_includedirs("./src/user_object")
 add_includedirs("./port/openscad")
 
+gui = true
+
+target("lua")
+    set_kind("static")
+    add_files("lua/*.c|onelua.c|lua.c")
+target_end()
+
 -- Compilation settings
 target("lua-cad")
+    if is_plat("windows") then
+        add_deps("lua")
+    end
+    if gui then
+        add_cxxflags("-DQT")
+        add_rules("qt.widgetapp")
+        add_files("src/lua-cad-desktop/mainwindow.ui")
+        add_files("src/lua-cad-desktop/*.h")
+        add_files("src/lua-cad-desktop/*.cpp|main.cpp")
+        add_files("src/*.cpp")
+        add_files("port/qt/*.cpp")
+        add_ldflags("/SUBSYSTEM:CONSOLE")
+        add_frameworks("widgets", "openglwidgets")
+        add_includedirs("./assimp/include/")
+        add_includedirs("./src/lua-cad-desktop")
+        add_includedirs("./port/qt")
+        add_linkdirs("./assimp/lib/x64/")
+        add_links("assimp-vc143-mt")
+        add_links("Qt6OpenGLWidgets")
+    else
+        add_files("src/main.c")
+    end
     set_kind("binary")
     add_files("port/openscad/*.c")
     add_files("lua/*.c|onelua.c|lua.c")
-    add_files("src/*.c|lua-cad.c")
+    add_files("src/*.c|lua-cad.c|main.c")
     add_files("src/d3object/*.c")
     add_files("src/d2object/*.c")
     add_files("src/user_object/*.c")
@@ -24,7 +53,7 @@ target_end()
 
 -- Generate an installation package
 xpack("lua-cad")
-    set_version("1.1.2")
+    set_version("2.0.0")
     set_formats("zip", "targz")
     set_title("Lua-cad($(arch)-$(host))")
     set_basename("Lua-cad-v$(version)-$(arch)-$(host)")
@@ -33,9 +62,12 @@ xpack("lua-cad")
     set_maintainer("1751122876@qq.com")
     set_copyright("Copyright (C) 2024 lua-cad SongZihui-sudo")
     set_license("Gplv3")
+    set_bindir("./")
     set_licensefile("./LICENSE.txt")
     add_installfiles ("src/user_object/user_obj.lua")
     add_installfiles ("src/chunk.lua")
+    add_installfiles("./assimp/lib/x64/assimp-vc143-mt.dll")
+    add_installfiles("./IMAGE/icon.ico")
     add_targets("lua-cad")
 
 -- Unit tests
