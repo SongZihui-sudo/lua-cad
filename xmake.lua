@@ -53,7 +53,7 @@ target_end()
 
 -- Generate an installation package
 xpack("lua-cad")
-    set_version("1.1.2")
+    set_version("2.0.0")
     set_formats("zip", "targz")
     set_title("Lua-cad($(arch)-$(host))")
     set_basename("Lua-cad-v$(version)-$(arch)-$(host)")
@@ -62,9 +62,12 @@ xpack("lua-cad")
     set_maintainer("1751122876@qq.com")
     set_copyright("Copyright (C) 2024 lua-cad SongZihui-sudo")
     set_license("Gplv3")
+    set_bindir("./")
     set_licensefile("./LICENSE.txt")
     add_installfiles ("src/user_object/user_obj.lua")
     add_installfiles ("src/chunk.lua")
+    add_installfiles("./assimp/lib/x64/assimp-vc143-mt.dll")
+    add_installfiles("./IMAGE/icon.ico")
     add_targets("lua-cad")
 
 -- Unit tests

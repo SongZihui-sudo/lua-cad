@@ -14,8 +14,8 @@
 #include <lauxlib.h>
 #include <user_define_obj.h>
 
-#define LUA_CAD_VERSION_MAJOR "1"
-#define LUA_CAD_VERSION_MINOR "2"
+#define LUA_CAD_VERSION_MAJOR "2"
+#define LUA_CAD_VERSION_MINOR "0"
 #define LUA_CAD_VERSION_RELEASE "0"
 
 #define LUA_CAD_NUM 4

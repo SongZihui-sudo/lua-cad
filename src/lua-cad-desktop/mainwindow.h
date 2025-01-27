@@ -168,6 +168,7 @@ private:
     void openStlRender( QString path )
     {
         QWidget* window     = new QWidget(  );
+        window->setWindowIcon( QIcon("./icon.ico") );
         QVBoxLayout* layout = new QVBoxLayout( window );
 
         stlRender* viewer = new stlRender;

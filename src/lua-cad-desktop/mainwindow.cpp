@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QToolBar>
+#include <QIcon>
 #include <QInputDialog>
 #include <stlRender.h>
 
@@ -39,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 , replaceDialog( nullptr ) 
     , ui(new Ui::MainWindow)
 {
+    this->setWindowIcon( QIcon( "./icon.ico" ) );
     QWidget* editorContiner = new QWidget( parent );
     ui->setupUi(this);
 
