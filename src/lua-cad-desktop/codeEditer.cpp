@@ -1,4 +1,6 @@
 #include "codeEditer.h"
+#include <QAbstractItemView>
+#include <QScrollBar>
 
 QSize LineNumberArea::sizeHint( ) { return QSize( codeEditor->lineNumberAreaWidth( ), 0 ); }
 
@@ -156,4 +158,63 @@ void LuaCadSyntaxHighlighter::highlightMultilineComments( const QString& text )
         setFormat( startIndex, commentLength, multiLineCommentFormat );
         startIndex = text.indexOf( commentStartExpression, startIndex + commentLength );
     }
+}
+
+void CodeEditor::keyPressEvent( QKeyEvent* e )
+{
+    if ( completer && completer->popup( )->isVisible( ) )
+    {
+        // 如果补全器弹出框显示，处理 Tab 键
+        switch ( e->key( ) )
+        {
+            case Qt::Key_Tab:   // Tab 键插入选中的补全文本
+            case Qt::Key_Enter: // 回车键插入补全文本
+            case Qt::Key_Return:
+                completer->popup( )->hide( );
+                insertCompletion( completer->currentCompletion( ) );
+                return;
+            case Qt::Key_Escape: // Esc 关闭补全弹出框
+                completer->popup( )->hide( );
+                return;
+            default:
+                break;
+        }
+    }
+
+    QChar key = e->text( ).isEmpty( ) ? QChar( ) : e->text( )[0];
+    // 判断是否是符号
+    if ( isOpeningSymbol( key ) )
+    {
+        handleOpeningSymbol( key );
+        return; // 拦截事件，不传递给父类
+    }
+    else if ( isClosingSymbol( key ) )
+    {
+        if ( handleClosingSymbol( key ) )
+        {
+            return; // 如果处理了右符号，直接返回
+        }
+    }
+
+    // 默认处理按键事件
+    QPlainTextEdit::keyPressEvent( e );
+
+    // 获取光标前的文本
+    QTextCursor cursor = textCursor( );
+    cursor.select( QTextCursor::WordUnderCursor );
+    QString currentWord = cursor.selectedText( );
+
+    // 如果当前单词不足以触发补全，隐藏补全器
+    if ( currentWord.isEmpty( ) || currentWord.length( ) < 2 )
+    {
+        completer->popup( )->hide( );
+        return;
+    }
+
+    // 显示补全器
+    completer->setCompletionPrefix( currentWord );
+    QRect rect = cursorRect( cursor );
+    rect.setWidth( completer->popup( )->sizeHintForColumn( 0 )
+                   + completer->popup( )->verticalScrollBar( )->sizeHint( ).width( ) );
+    completer->complete( rect );
 }

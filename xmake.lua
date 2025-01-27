@@ -24,13 +24,21 @@ target("lua-cad")
         add_deps("lua")
     end
     if gui then
+        add_cxxflags("-DQT")
         add_rules("qt.widgetapp")
         add_files("src/lua-cad-desktop/mainwindow.ui")
         add_files("src/lua-cad-desktop/*.h")
         add_files("src/lua-cad-desktop/*.cpp|main.cpp")
         add_files("src/*.cpp")
+        add_files("port/qt/*.cpp")
         add_ldflags("/SUBSYSTEM:CONSOLE")
-        add_frameworks("widgets")
+        add_frameworks("widgets", "openglwidgets")
+        add_includedirs("./assimp/include/")
+        add_includedirs("./src/lua-cad-desktop")
+        add_includedirs("./port/qt")
+        add_linkdirs("./assimp/lib/x64/")
+        add_links("assimp-vc143-mt")
+        add_links("Qt6OpenGLWidgets")
     else
         add_files("src/main.c")
     end

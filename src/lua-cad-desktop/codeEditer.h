@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QPainter>
 #include <QMap>
+#include <QCompleter>
+#include <QStringListModel>
 
 #include "theme.h"
 
@@ -109,7 +111,7 @@ class CodeEditor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    explicit CodeEditor( theme* cur_theme, QWidget* parent = nullptr )
+    explicit CodeEditor( theme* cur_theme, QStringList keywords, QWidget* parent = nullptr )
     : QPlainTextEdit( parent )
     {
         backgroundColor         = cur_theme->backgroundColor;
@@ -141,6 +143,14 @@ public:
         = new LuaCadSyntaxHighlighter( cur_theme, this->document() );
 
         highlightCurrentLine( );
+
+        completer = new QCompleter( keywords, this );
+        completer->setCaseSensitivity( Qt::CaseInsensitive ); // 忽略大小写
+        completer->setWidget( this );
+
+        connect( completer,
+                 QOverload< const QString& >::of( &QCompleter::activated ),
+                 this, &CodeEditor::insertCompletion );
     }
 
     int lineNumberAreaWidth( );
@@ -153,6 +163,8 @@ private:
     QWidget* lineNumber;
     QColor lineNumberAreaTextColor;
     qint16 tabSize;
+    QStringList keywords;
+    QCompleter* completer;
 
     void resizeEvent( QResizeEvent* e )
     {
@@ -181,6 +193,82 @@ private slots:
             updateLineNumberAreaWidth( 0 );
     }
 
+    void insertCompletion( const QString& completion )
+    {
+        if ( completer->widget( ) != this )
+        {
+            return;
+        }
+
+        QTextCursor cursor = textCursor( );
+        cursor.select( QTextCursor::WordUnderCursor );
+        cursor.insertText( completion ); // 插入补全文本
+        setTextCursor( cursor );
+    }
+
 public:
     void lineNumberAreaPaintEvent( QPaintEvent* event );
+
+protected:
+    void keyPressEvent( QKeyEvent* e ) override;
+
+     // 检查是否是开符号
+    bool isOpeningSymbol( QChar symbol ) const
+    {
+        return symbol == '(' || symbol == '[' || symbol == '{' || symbol == '"' || symbol == '\'';
+    }
+
+    // 检查是否是闭符号
+    bool isClosingSymbol( QChar symbol ) const
+    {
+        return symbol == ')' || symbol == ']' || symbol == '}' || symbol == '"' || symbol == '\'';
+    }
+
+    // 获取对应的闭符号
+    QChar matchingClosingSymbol( QChar opening ) const
+    {
+        switch ( opening.unicode( ) )
+        {
+            case '(':
+                return ')';
+            case '[':
+                return ']';
+            case '{':
+                return '}';
+            case '"':
+                return '"';
+            case '\'':
+                return '\'';
+            default:
+                return QChar( );
+        }
+    }
+
+    // 处理开符号
+    void handleOpeningSymbol( QChar opening )
+    {
+        QTextCursor cursor = textCursor( );
+
+        // 插入符号对
+        QChar closing = matchingClosingSymbol( opening );
+        cursor.insertText( QString( opening ) + QString( closing ) );
+
+        // 将光标移动到符号中间
+        cursor.movePosition( QTextCursor::Left );
+        setTextCursor( cursor );
+    }
+
+    // 处理闭符号
+    bool handleClosingSymbol( QChar closing )
+    {
+        QTextCursor cursor = textCursor( );
+        if ( !cursor.atEnd( ) && cursor.document( )->characterAt( cursor.position( ) ) == closing )
+        {
+            // 如果下一个字符已经是闭符号，光标跳过
+            cursor.movePosition( QTextCursor::Right );
+            setTextCursor( cursor );
+            return true;
+        }
+        return false;
+    }
 };

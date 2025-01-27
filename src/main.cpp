@@ -22,7 +22,8 @@ extern "C" {
 #include <QCoreApplication>
 #include <QApplication>
 
-#include "lua-cad-desktop/mainwindow.h"
+#include <stlRender.h>
+#include <mainwindow.h>
 
 #pragma comment( lib, "lua.lib" )
 
@@ -31,7 +32,6 @@ extern "C" {
 #endif
 
 static const char* progname = LUA_PROGNAME;
-
 /**
  * @description: load lua file
  * @param {lua_State*} luaEnv
@@ -132,8 +132,8 @@ int main( int argc, char** argv )
     parser.process(a);
 
     if (parser.isSet(guiOption)) {
-        MainWindow w;
-        w.show();
+        MainWindow* w = new MainWindow();
+        w->show();
         return a.exec();
     }
     else if(parser.isSet(versionOption))

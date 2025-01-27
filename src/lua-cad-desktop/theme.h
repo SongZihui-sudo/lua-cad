@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QColor>
+#include <Qmap>
 
 class theme
 {
@@ -43,6 +44,7 @@ public:
     QColor lineNumberAreaColor;
     QColor lineNumberAreaTextColor;
     qint16 tabSize;
+
 };
 
 #endif
