@@ -162,6 +162,8 @@ void LuaCadSyntaxHighlighter::highlightMultilineComments( const QString& text )
 
 void CodeEditor::keyPressEvent( QKeyEvent* e )
 {
+    QString beforeText = this->toPlainText( );
+
     if ( completer && completer->popup( )->isVisible( ) )
     {
         // 如果补全器弹出框显示，处理 Tab 键
@@ -198,6 +200,12 @@ void CodeEditor::keyPressEvent( QKeyEvent* e )
 
     // 默认处理按键事件
     QPlainTextEdit::keyPressEvent( e );
+
+    QString afterText = toPlainText( );
+    if (beforeText != afterText)
+    {
+        changeFlag = true;
+    }
 
     // 获取光标前的文本
     QTextCursor cursor = textCursor( );

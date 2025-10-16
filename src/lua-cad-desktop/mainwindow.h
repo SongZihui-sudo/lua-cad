@@ -158,6 +158,8 @@ private:
     SearchDialog* searchDialog;
     ReplaceDialog* replaceDialog;
 
+    QString currentFile;
+
 private:
     void createMenus( );
     void createToolBars( );

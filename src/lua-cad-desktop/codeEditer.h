@@ -151,6 +151,8 @@ public:
         connect( completer,
                  QOverload< const QString& >::of( &QCompleter::activated ),
                  this, &CodeEditor::insertCompletion );
+
+        changeFlag = false;
     }
 
     int lineNumberAreaWidth( );
@@ -165,6 +167,7 @@ private:
     qint16 tabSize;
     QStringList keywords;
     QCompleter* completer;
+    bool changeFlag;
 
     void resizeEvent( QResizeEvent* e )
     {
@@ -208,6 +211,13 @@ private slots:
 
 public:
     void lineNumberAreaPaintEvent( QPaintEvent* event );
+
+    bool isChange()
+    {
+        bool ret = changeFlag;
+        changeFlag = !changeFlag;
+        return ret;
+    }
 
 protected:
     void keyPressEvent( QKeyEvent* e ) override;

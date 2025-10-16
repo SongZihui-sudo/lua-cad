@@ -948,8 +948,9 @@ static void constructor (LexState *ls, expdesc *t) {
     char setmetatablecode[64];
     const char* temp_metatable_code = "setmetatable(%s, user_obj_metatable);\n";
     sprintf(setmetatablecode, temp_metatable_code, ls->buff->buffer);
-    char temp[128]; temp[0] = ls->current;
-     /* 获取这行代码的内容给保存下来 */
+    char temp[128];
+    temp[0] = ls->current;
+    /* 获取这行代码的内容给保存下来 */
     int i = 0;
     while ( ls->z->p[i] != '$') {
       temp[i + 1] = ls->z->p[i];

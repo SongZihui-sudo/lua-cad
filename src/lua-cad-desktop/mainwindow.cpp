@@ -92,6 +92,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle( "Lua-cad, lua for 3D" );
     resize( 800, 600 );
+
+    currentFile = "";
+
 }
 
 MainWindow::~MainWindow()
@@ -113,6 +116,7 @@ QString MainWindow::openFile( )
             QTextStream in( &file );
             editor->setPlainText( in.readAll( ) );
             file.close( );
+            currentFile = fileName;
         }
         else
         {
@@ -124,12 +128,21 @@ QString MainWindow::openFile( )
 }
 
 
-QString MainWindow::saveFile( )
+QString MainWindow::saveFile()
 {
-    QString fileName = QFileDialog::getSaveFileName( this,
-                                                     "Save File",
-                                                     "",
-                                                     "Text Files (*.lua);;All Files (*)" );
+    QString fileName = "";
+    if ( currentFile == "" )
+    {
+        fileName = QFileDialog::getSaveFileName( this,
+                                                 "Save File",
+                                                 "",
+                                                 "Text Files (*.lua);;All Files (*)" );
+    }
+    else
+    {
+        fileName = currentFile;
+    }
+     
     if ( !fileName.isEmpty( ) )
     {
         QFile file( fileName );
@@ -138,6 +151,7 @@ QString MainWindow::saveFile( )
             QTextStream out( &file );
             out << editor->toPlainText( );
             file.close( );
+            currentFile = fileName;
         }
         else
         {
@@ -159,17 +173,23 @@ void MainWindow::run( )
 {
     lua_State* L = luaL_newstate( );
     luaL_openlibs( L );
+    QString fileName = "";
 
-    QString fileName = saveFile( );
-    bool flag = loadLuaFile( L, fileName.toStdString().c_str() );
+    if (currentFile == "" || editor->isChange())
+    {
+        fileName = saveFile( );
+        currentFile = fileName;
+    }
+
+    bool flag = loadLuaFile( L, currentFile.toStdString().c_str() );
     qDebug( ) << flag;
     if ( flag )
     {
-        QMessageBox::warning( this, "Run Error!", report(L, flag) );
+        statusBar( )->showMessage( "Runing Error: " + report( L, flag ) );
     }
     else
     {
-        QMessageBox::information( this, "Run OK!", fileName + " Run successfully!" );
+        statusBar( )->showMessage( currentFile + "Run successfully!" );
     }
 
     lua_close( L );

@@ -1,5 +1,3 @@
-user_obj = require("user_obj")
-
 circle1 = d2object.circle({
     d = 10
 }, true);
@@ -80,7 +78,7 @@ print(code(cube1));
 transform.color(cube1, "xxx", {1,2,3});
 print(code(cube1));
 
-test1 = $shoulder_screw( "english", 1/2, length = 20 )$;
+test1 = $shoulder_screw("english",1/2,length = 20)$;
 
 test1.postion(test1, {10, 10, 10});
 
