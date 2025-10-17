@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CODEEDITER
+#define CODEEDITER
 
 #include <QPlainTextEdit>
 #include <QSyntaxHighlighter>
@@ -9,6 +10,7 @@
 #include <QMap>
 #include <QCompleter>
 #include <QStringListModel>
+#include <QTimer>
 
 #include "theme.h"
 
@@ -20,16 +22,18 @@ class LuaCadSyntaxHighlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    explicit LuaCadSyntaxHighlighter( theme* cur_theme, QTextDocument* parent = nullptr )
+    explicit LuaCadSyntaxHighlighter( theme* cur_theme, QStringList currentKeywords, QTextDocument* parent = nullptr )
     : QSyntaxHighlighter( parent )
     {
-        keywordColor = cur_theme->keywordColor;
-        classColor   = cur_theme->classColor;
-        commentColor = cur_theme->commentColor;
-        stringColor = cur_theme->stringColor;
-        userobjColor = cur_theme->userobjColor;
-        numberColor = cur_theme->numberColor;
-        multiLineCommentColor = cur_theme->multiLineCommentColor;
+        keywordColor          = cur_theme->map["keywordColor"].getColor();
+        classColor            = cur_theme->map["classColor"].getColor( );
+        commentColor          = cur_theme->map["commentColor"].getColor( );
+        stringColor           = cur_theme->map["stringColor"].getColor( );
+        userobjColor          = cur_theme->map["userobjColor"].getColor( );
+        numberColor           = cur_theme->map["numberColor"].getColor( );
+        multiLineCommentColor = cur_theme->map["multiLineCommentColor"].getColor( );
+
+        keywords = currentKeywords;
 
         setupHighlightingRules( );
     }
@@ -77,6 +81,8 @@ private:
     QColor numberColor;
     QColor multiLineCommentColor;
 
+    QStringList keywords;
+
 private:
     void highlightMultilineComments( const QString& text );
 
@@ -90,8 +96,8 @@ public:
     LineNumberArea( QWidget* parent, QColor lineNumberAreaColor, QColor lineNumberAreaTextColor, CodeEditor* editor = nullptr )
     : QWidget(  parent ) , codeEditor( editor )
     {
-        lineNumberAreaTextColor = lineNumberAreaTextColor;
-        lineNumberAreaColor = lineNumberAreaColor;
+        curlineNumberAreaTextColor = lineNumberAreaTextColor;
+        curlineNumberAreaColor  = lineNumberAreaColor;
     }
 
 protected:
@@ -101,8 +107,8 @@ protected:
 
 private:
     CodeEditor* codeEditor;
-    QColor lineNumberAreaColor;
-    QColor lineNumberAreaTextColor;
+    QColor curlineNumberAreaColor;
+    QColor curlineNumberAreaTextColor;
 };
 
 // code editor
@@ -114,12 +120,18 @@ public:
     explicit CodeEditor( theme* cur_theme, QStringList keywords, QWidget* parent = nullptr )
     : QPlainTextEdit( parent )
     {
-        backgroundColor         = cur_theme->backgroundColor;
-        lineNumberAreaTextColor = cur_theme->lineNumberAreaTextColor;
-        lineNumberAreaColor     = cur_theme->lineNumberAreaColor;
-        currentColor            = cur_theme->currentColor;
-        fontSize                = cur_theme->fontSize;
-        tabSize                 = cur_theme->tabSize;
+        backgroundColor         = cur_theme->map["backgroundColor"].getColor();
+        lineNumberAreaTextColor = cur_theme->map["lineNumberAreaTextColor"].getColor( );
+        lineNumberAreaColor     = cur_theme->map["lineNumberAreaColor"].getColor( );
+        currentColor            = cur_theme->map["currentColor"].getColor( );
+        fontSize                = cur_theme->map["fontSize"].getSize();
+        tabSize                 = cur_theme->map["tabSize"].getSize( );
+        currentFont             = cur_theme->map["line_number_font"].getStr();
+        font_is_bold            = cur_theme->map["line_number_font_is_bold"].getFlag();
+        textColor               = cur_theme->map["textColor"].getColor( );
+        cursorColor             = cur_theme->map["cursorColor"].getColor( );
+        cursorWidth             = cur_theme->map["cursorWidth"].getSize( );
+        cursorHeight            = cur_theme->map["cursorHeight"].getSize( );
 
         lineNumber = new LineNumberArea( parent, lineNumberAreaColor, lineNumberAreaTextColor, this );
 
@@ -129,7 +141,7 @@ public:
 
         updateLineNumberAreaWidth( 0 );
 
-        setFont( QFont( "Courier", fontSize ) );
+        setFont( QFont( cur_theme->map["font"].getStr( ), fontSize ) );
         setTabStopDistance( tabSize * fontMetrics( ).horizontalAdvance( ' ' ) );
         
         connect( this, &QPlainTextEdit::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine );
@@ -137,10 +149,10 @@ public:
         QPalette p = this->palette( );
         p.setColor( QPalette::Active, QPalette::Base, backgroundColor );
         p.setColor( QPalette::Inactive, QPalette::Base, backgroundColor );
+        p.setColor( QPalette::Text, textColor);
         this->setPalette( p );
 
-        LuaCadSyntaxHighlighter* highlighter
-        = new LuaCadSyntaxHighlighter( cur_theme, this->document() );
+        LuaCadSyntaxHighlighter* highlighter = new LuaCadSyntaxHighlighter( cur_theme, keywords, this->document() );
 
         highlightCurrentLine( );
 
@@ -151,11 +163,34 @@ public:
         connect( completer,
                  QOverload< const QString& >::of( &QCompleter::activated ),
                  this, &CodeEditor::insertCompletion );
+
+        changeFlag = false;
+
+        // 设置光标
+        setCursorWidth( 0 );
+        cursorVisible = true;
+        cursorTimer   = new QTimer( this );
+        cursorTimer->setInterval( cur_theme->map["cursorTime"].getNumber( ) );
+        connect( cursorTimer,
+                 &QTimer::timeout,
+                 this,
+                 [this]( )
+                 {
+                     cursorVisible = !cursorVisible;
+                     viewport( )->update( ); // 触发重绘
+                 } );
+        cursorTimer->start( );
     }
 
     int lineNumberAreaWidth( );
 
 private:
+    qint16 cursorHeight;
+    qint16 cursorWidth;
+    bool cursorVisible;
+    QTimer* cursorTimer;
+    QColor cursorColor;
+    QColor textColor;
     QColor backgroundColor;
     QColor currentColor;
     qint16 fontSize;
@@ -163,8 +198,10 @@ private:
     QWidget* lineNumber;
     QColor lineNumberAreaTextColor;
     qint16 tabSize;
-    QStringList keywords;
     QCompleter* completer;
+    bool changeFlag;
+    QString currentFont;
+    bool font_is_bold;
 
     void resizeEvent( QResizeEvent* e )
     {
@@ -173,6 +210,10 @@ private:
         QRect cr = contentsRect( );
         lineNumber->setGeometry( QRect( cr.left( ), cr.top( ), lineNumberAreaWidth( ), cr.height( ) ) );
     }
+
+    void paintEvent( QPaintEvent* event );
+    void focusInEvent( QFocusEvent* e );
+    void focusOutEvent( QFocusEvent* e );
 
 private slots:
     void highlightCurrentLine( );
@@ -208,6 +249,13 @@ private slots:
 
 public:
     void lineNumberAreaPaintEvent( QPaintEvent* event );
+
+    bool isChange()
+    {
+        bool ret = changeFlag;
+        changeFlag = !changeFlag;
+        return ret;
+    }
 
 protected:
     void keyPressEvent( QKeyEvent* e ) override;
@@ -272,3 +320,5 @@ protected:
         return false;
     }
 };
+
+#endif

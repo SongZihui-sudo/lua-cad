@@ -1,10 +1,11 @@
-
 chunk = require("chunk")
 user_obj = require("user_obj");
 
 shoulder_screw_include = include("shoulder_screw");
 
-test1 = $shoulder_screw( "english", 1/2, length = 20 )$;
+test1 = $shoulder_screw("english",1/2,length = 20)$;
+print(code(test1));
+
 test1.postion(test1, {10, 11, 12});
 test1.scale(test1, {10, 10, 10});
 test1.rotate(test1, 2.5, {10, 10, 10})

@@ -10,9 +10,8 @@
 #include <QLineEdit>
 
 #include "codeEditer.h"
-#include "theme.h"
-#include "keyMap.h"
-#include <stlRender.h>
+#include "stlRender.h"
+#include "config.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,45 +32,45 @@ public:
 
         QVBoxLayout* mainLayout = new QVBoxLayout( this );
 
-        // 查找部分
         QLabel* findLabel = new QLabel( "Find:", this );
         mainLayout->addWidget( findLabel );
 
         findInput = new QLineEdit( this );
         mainLayout->addWidget( findInput );
 
-        // 替换部分
         QLabel* replaceLabel = new QLabel( "Replace with:", this );
         mainLayout->addWidget( replaceLabel );
 
         replaceInput = new QLineEdit( this );
         mainLayout->addWidget( replaceInput );
 
-        // 按钮
         QHBoxLayout* buttonLayout     = new QHBoxLayout( );
+        QPushButton* prevButton       = new QPushButton( "Find Prev", this );
         QPushButton* nextButton       = new QPushButton( "Find Next", this );
         QPushButton* replaceButton    = new QPushButton( "Replace", this );
         QPushButton* replaceAllButton = new QPushButton( "Replace All", this );
 
-        // 连接按钮信号
+        connect( prevButton, &QPushButton::clicked, this, &ReplaceDialog::findPrevious );
         connect( nextButton, &QPushButton::clicked, this, &ReplaceDialog::findNext );
         connect( replaceButton, &QPushButton::clicked, this, &ReplaceDialog::replace );
         connect( replaceAllButton, &QPushButton::clicked, this, &ReplaceDialog::replaceAll );
 
+        buttonLayout->addWidget( prevButton );
         buttonLayout->addWidget( nextButton );
         buttonLayout->addWidget( replaceButton );
         buttonLayout->addWidget( replaceAllButton );
         mainLayout->addLayout( buttonLayout );
     }
 
-    QString getFindText( ) const { return findInput->text( ); }
+    QString getSearchText( ) const { return findInput->text( ); }
 
     QString getReplaceText( ) const { return replaceInput->text( ); }
 
 signals:
-    void findNext( );   // 查找下一个
-    void replace( );    // 替换当前
-    void replaceAll( ); // 替换全部
+    void findNext( );
+    void findPrevious( );
+    void replace( ); 
+    void replaceAll( );
 
 private:
     QLineEdit* findInput;
@@ -89,17 +88,13 @@ public:
         setWindowTitle( "Search" );
         setFixedSize( 300, 150 );
 
-        // 创建布局
         QVBoxLayout* mainLayout = new QVBoxLayout( this );
 
-        // 输入框和标签
         QLabel* label = new QLabel( "Enter text to find:", this );
         mainLayout->addWidget( label );
 
         searchInput = new QLineEdit( this );
         mainLayout->addWidget( searchInput );
-
-        // 按钮布局
         QHBoxLayout* buttonLayout = new QHBoxLayout( );
         QPushButton* nextButton   = new QPushButton( "Next", this );
         QPushButton* prevButton   = new QPushButton( "Previous", this );
@@ -158,10 +153,12 @@ private:
     SearchDialog* searchDialog;
     ReplaceDialog* replaceDialog;
 
+    QString currentFile;
+    Config* currentConfig;
+
 private:
     void createMenus( );
     void createToolBars( );
-    void clearHighlights( );
     void findPrevious( );
     void findNext( );
     void highlightCurrentMatch( );
@@ -192,32 +189,7 @@ private slots:
     void replaceAll( );
     void replace( );
     QString openStlFile( );
-
-private:
-    class Config
-    {
-    public:
-        Config( QString path ) 
-        { 
-            configPath    = path;
-            currentKeyMap = new keyMap( "./" );
-            currentTheme  = new theme( "./" );
-            is_linenumber = true;
-            keywords
-            = { "and", "break", "do", "else", "elseif", "end",
-                "false", "for", "function", "if", "in", "local",
-                "nil", "not", "or", "repeat", "return", "then",
-                "true", "until", "while" 
-            };
-        };
-
-     public:
-        theme* currentTheme;
-        keyMap* currentKeyMap;
-        bool is_linenumber;
-        QString configPath;
-        QStringList keywords;
-    };
+    void clearHighlights( );
 };
 
 #endif // MAINWINDOW_H
