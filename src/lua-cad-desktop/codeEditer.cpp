@@ -1,6 +1,45 @@
 #include "codeEditer.h"
+
 #include <QAbstractItemView>
 #include <QScrollBar>
+
+void CodeEditor::paintEvent( QPaintEvent* event )
+{
+    QPlainTextEdit::paintEvent( event );
+    if ( !cursorVisible )
+        return;
+
+    QTextCursor cursor = textCursor( );
+    if ( cursor.hasSelection( ) )
+        return;
+
+    QRect rect = cursorRect( cursor );
+    rect.setWidth( cursorWidth + 1 );
+    if ( cursorHeight != -1 )
+    {
+        rect.setHeight( cursorHeight + 1 );
+    }
+
+    QPainter painter( viewport( ) );
+    painter.fillRect( rect, cursorColor );
+}
+
+void CodeEditor::focusInEvent( QFocusEvent* e )
+{
+    QPlainTextEdit::focusInEvent( e );
+
+    cursorVisible = true;
+    viewport( )->update( );                         // 立刻绘制光标
+    cursorTimer->start( cursorTimer->interval( ) ); // 重置闪烁周期
+}
+
+void CodeEditor::focusOutEvent( QFocusEvent* e )
+{
+    QPlainTextEdit::focusOutEvent( e );
+    cursorTimer->stop( );
+    cursorVisible = false;
+    viewport( )->update( ); // 立即清除光标
+}
 
 QSize LineNumberArea::sizeHint( ) { return QSize( codeEditor->lineNumberAreaWidth( ), 0 ); }
 
@@ -10,8 +49,8 @@ void CodeEditor::lineNumberAreaPaintEvent( QPaintEvent* event )
 {
     QPainter painter( lineNumber );
     painter.fillRect( event->rect( ), lineNumberAreaColor );
-    QFont font( "Courier", fontSize );
-    font.setBold( true );        // bold
+    QFont font( currentFont, fontSize );
+    font.setBold( font_is_bold ); // bold
     painter.setFont( font );
 
     QTextBlock block = firstVisibleBlock( );
@@ -24,7 +63,7 @@ void CodeEditor::lineNumberAreaPaintEvent( QPaintEvent* event )
         if ( block.isVisible( ) && bottom >= event->rect( ).top( ) )
         {
             QString number = QString::number( blockNumber + 1 );
-            painter.setPen( Qt::white );
+            painter.setPen( lineNumberAreaTextColor );
             painter.drawText( 0, top, lineNumber->width( ), fontMetrics( ).height( ), Qt::AlignRight, number );
         }
 
@@ -76,12 +115,11 @@ void LuaCadSyntaxHighlighter::setupHighlightingRules( )
     // Keyword highlighting
     keywordFormat.setForeground( keywordColor );
     keywordFormat.setFontWeight( QFont::Bold );
-    QStringList keywordPatterns
-    = { "\\band\\b",  "\\bbreak\\b",  "\\bdo\\b", "\\belse\\b",  "\\belseif\\b",
-        "\\bfunction\\b", "\\bfor\\b", "\\bfalse\\b",  "\\bend\\b", "\\bif\\b", 
-        "\\bin\\b", "\\blocal\\b", "\\bnil\\b", "\\bnot\\b", "\\bor\\b", "\\brepeat\\b",  
-        "\\breturn\\b", "\\bthen\\b", "\\btrue\\b", "\\buntl\\b", "\\bwhile\\b" 
-    };
+    QStringList keywordPatterns;
+    for ( const QString& keyword : keywords )
+    {
+        keywordPatterns.append( QString( "\\b%1\\b" ).arg( keyword ) );
+    }
     for ( const QString& pattern : keywordPatterns )
     {
         HighlightingRule rule;

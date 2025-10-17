@@ -6,8 +6,8 @@
 #include <QToolBar>
 #include <QIcon>
 #include <QInputDialog>
-#include <stlRender.h>
 
+#include "stlRender.h"
 
 extern "C" {
     #include <lua.h>
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget* editorContiner = new QWidget( parent );
     ui->setupUi(this);
 
-    Config* currentConfig = new Config( "./" );
+    currentConfig = new Config( "./lua-cad-desktop-config.json" );
    
     editor = new CodeEditor( currentConfig->currentTheme, currentConfig->keywords, editorContiner );
 
@@ -225,7 +225,16 @@ void MainWindow::createToolBars( )
 
   void MainWindow::findNext( )
 {
-      QString searchText = searchDialog->getSearchText( );
+      QString searchText;
+      if (searchDialog)
+      {
+          searchText = searchDialog->getSearchText( );
+      }
+      else
+      {
+          searchText = replaceDialog->getSearchText( );
+      }
+
       if ( searchText.isEmpty( ) )
       {
           return;
@@ -247,7 +256,16 @@ void MainWindow::createToolBars( )
 
 void MainWindow::findPrevious( )
 {
-    QString searchText = searchDialog->getSearchText( );
+    QString searchText;
+    if ( searchDialog )
+    {
+        searchText = searchDialog->getSearchText( );
+    }
+    else
+    {
+        searchText = replaceDialog->getSearchText( );
+    }
+     
     if ( searchText.isEmpty( ) )
     {
         return;
@@ -281,7 +299,7 @@ void MainWindow::highlightCurrentMatch( )
 
     // 设置高亮格式
     QTextCharFormat highlightFormat;
-    highlightFormat.setBackground( Qt::yellow );
+    highlightFormat.setBackground( currentConfig->currentTheme->map["searchMatchColor"].getColor() );
 
     // 保存高亮信息
     QTextEdit::ExtraSelection highlight;
@@ -301,6 +319,7 @@ void MainWindow::openSearchDialog( )
         // 连接信号到槽
         connect( searchDialog, &SearchDialog::findNext, this, &MainWindow::findNext );
         connect( searchDialog, &SearchDialog::findPrevious, this, &MainWindow::findPrevious );
+        connect( searchDialog, &SearchDialog::finished, this, &MainWindow::clearHighlights );
     }
 
     searchDialog->show( );
@@ -315,9 +334,11 @@ void MainWindow::openReplaceDialog( )
         replaceDialog = new ReplaceDialog( this );
 
         // 连接 ReplaceDialog 的信号到 MainWindow 的槽函数
+        connect( replaceDialog, &ReplaceDialog::findPrevious, this, &MainWindow::findPrevious );
         connect( replaceDialog, &ReplaceDialog::findNext, this, &MainWindow::findNext );
         connect( replaceDialog, &ReplaceDialog::replace, this, &MainWindow::replace );
         connect( replaceDialog, &ReplaceDialog::replaceAll, this, &MainWindow::replaceAll );
+        connect( replaceDialog, &ReplaceDialog::finished, this, &MainWindow::clearHighlights );
     }
     replaceDialog->show( );
     replaceDialog->raise( );
@@ -326,7 +347,7 @@ void MainWindow::openReplaceDialog( )
 
 void MainWindow::replaceAll( )
 {
-    QString searchText  = replaceDialog->getFindText( );
+    QString searchText  = replaceDialog->getSearchText( );
     QString replaceText = replaceDialog->getReplaceText( );
     QTextCursor cursor  = editor->document( )->find( searchText );
 
@@ -340,7 +361,7 @@ void MainWindow::replaceAll( )
 
 void MainWindow::replace( )
 {
-    QString searchText  = replaceDialog->getFindText( );
+    QString searchText  = replaceDialog->getSearchText( );
     QString replaceText = replaceDialog->getReplaceText( );
     if ( searchCursor.hasSelection( ) && searchCursor.selectedText( ) == searchText )
     {

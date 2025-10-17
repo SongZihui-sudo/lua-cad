@@ -4,38 +4,47 @@
 #include <QString>
 #include <QAction>
 #include <QMap>
+#include <QJsonObject>
+#include <QJsonValue>
 
 class keyMap
 {
 public:
-    keyMap(QString path) 
+    keyMap(QJsonObject keyMapConfig) 
     { 
-        cutKey    = "Ctrl+X";
-        cpyKey = "Ctrl+C";
-        pasteKey = "Ctrl+V";
-        reDoKey  = "Ctrl+Y";
-        unDoKey  = "Ctrl+Z";
-        searchKey = "Ctrl+F";
-        replaceKey = "Ctrl+H";
+        // 默认配置
+        keymap["cut"]   = "Ctrl+X";
+        keymap["copy"]   = "Ctrl+C";
+        keymap["paste"] = "Ctrl+V";
+        keymap["redo"]  = "Ctrl+Y";
+        keymap["undo"]  = "Ctrl+Z";
+        keymap["search"] = "Ctrl+F";
+        keymap["replace"] = "Ctrl+H";
+        
+        // 加载自定义配置
+        for (QString key : keymap.keys())
+        {
+            if ( keyMapConfig.contains(key) )
+            {
+                QJsonValue curentValue = keyMapConfig.value( key );
+                if ( curentValue.isString() )
+                {
+                    keymap[key] = curentValue.toString( );
+                }
+                else
+                {
+                    throw std::runtime_error( "The shortcut key configuration type is incorrect and should be a string." );
+                }
+            }
+        }
     }
     ~keyMap( ) = default;
 
 public:
     bool setKey( QAction*& act, QString keyName );
 
-private:
-    QString replaceKey;
-    QString cutKey;
-    QString cpyKey;
-    QString pasteKey;
-    QString unDoKey;
-    QString reDoKey;
-    QString searchKey;
-    
-    QMap< QString, QString > keymap
-    = { { "copy", cpyKey },  { "cut", cutKey },   { "paste", pasteKey },
-        { "undo", unDoKey }, { "redo", reDoKey }, { "search", searchKey },
-                                        { "replace", replaceKey } };
+public:   
+    QMap< QString, QString > keymap;
 };
 
 #endif // !KEYMAP_H
