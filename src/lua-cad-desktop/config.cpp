@@ -49,13 +49,25 @@ void Config::save_current_config( QString path )
 
     for ( auto it = currentTheme->map.begin( ); it != currentTheme->map.end( ); ++it )
     {
-        if ( it.key( ).contains( "Color" ) )
+        if ( it.value( ).getType( ) == themeItem::Type::Color )
         {
             themeObj[it.key( )] = QJsonValue::fromVariant( it.value( ).getColor() );
         }
+        else if ( it.value( ).getType( ) == themeItem::Type::Int )
+        {
+            themeObj[it.key( )] = QJsonValue::fromVariant( it.value( ).getInt( ) );
+        }
+        else if ( it.value( ).getType( ) == themeItem::Type::Bool )
+        {
+            themeObj[it.key( )] = QJsonValue::fromVariant( it.value( ).getBool( ) );
+        }
+        else if ( it.value( ).getType( ) == themeItem::Type::Str )
+        {
+            themeObj[it.key( )] = QJsonValue::fromVariant( it.value( ).getStr( ) );
+        }
         else
         {
-            themeObj[it.key( )] = QJsonValue::fromVariant( it.value( ).getSize() );
+            themeObj[it.key( )] = QJsonValue::fromVariant( it.value( ).getNumber( ) );
         }
     }
 

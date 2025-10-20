@@ -124,14 +124,14 @@ public:
         lineNumberAreaTextColor = cur_theme->map["lineNumberAreaTextColor"].getColor( );
         lineNumberAreaColor     = cur_theme->map["lineNumberAreaColor"].getColor( );
         currentColor            = cur_theme->map["currentColor"].getColor( );
-        fontSize                = cur_theme->map["fontSize"].getSize();
-        tabSize                 = cur_theme->map["tabSize"].getSize( );
+        fontSize                = cur_theme->map["fontSize"].getInt();
+        tabSize                 = cur_theme->map["tabSize"].getInt( );
         currentFont             = cur_theme->map["line_number_font"].getStr();
-        font_is_bold            = cur_theme->map["line_number_font_is_bold"].getFlag();
+        font_is_bold            = cur_theme->map["line_number_font_is_bold"].getBool();
         textColor               = cur_theme->map["textColor"].getColor( );
         cursorColor             = cur_theme->map["cursorColor"].getColor( );
-        cursorWidth             = cur_theme->map["cursorWidth"].getSize( );
-        cursorHeight            = cur_theme->map["cursorHeight"].getSize( );
+        cursorWidth             = cur_theme->map["cursorWidth"].getInt( );
+        cursorHeight            = cur_theme->map["cursorHeight"].getInt( );
 
         lineNumber = new LineNumberArea( parent, lineNumberAreaColor, lineNumberAreaTextColor, this );
 

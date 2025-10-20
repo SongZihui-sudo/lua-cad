@@ -14,14 +14,14 @@ class themeItem
     enum Type
     {
         Color,
-        Size,
-        Font,
-        Flag,
+        Int,
+        Str,
+        Bool,
         Double
     };
 
     themeItem( )
-    : type( Flag )
+    : type( Bool )
     , boolValue( false )
     {
     }
@@ -31,23 +31,23 @@ class themeItem
         new ( &colorValue ) QColor( color );
     }
     themeItem( qint16 size )
-    : type( Size )
+    : type( Int )
     , intValue( size )
     {
     }
     themeItem( const QString& font )
-    : type( Font )
+    : type( Str )
     {
         new ( &stringValue ) QString( font );
     }
     themeItem( bool flag )
-    : type( Flag )
+    : type( Bool )
     , boolValue( flag )
     {
     }
     themeItem( double number )
     : type( Double )
-    , boolValue( number )
+    , doubleValue( number )
     {
     }
 
@@ -55,7 +55,7 @@ class themeItem
     {
         if ( type == Color )
             colorValue.~QColor( );
-        else if ( type == Font )
+        else if ( type == Str )
             stringValue.~QString( );
     }
 
@@ -68,13 +68,13 @@ class themeItem
             case Color:
                 new ( &colorValue ) QColor( other.colorValue );
                 break;
-            case Size:
+            case Int:
                 intValue = other.intValue;
                 break;
-            case Font:
+            case Str:
                 new ( &stringValue ) QString( other.stringValue );
                 break;
-            case Flag:
+            case Bool:
                 boolValue = other.boolValue;
                 break;
             case Double:
@@ -96,9 +96,9 @@ class themeItem
     Type getType( ) const { return type; }
 
     QColor getColor( ) const { return type == Color ? colorValue : QColor( ); }
-    qint16 getSize( ) const { return type == Size ? intValue : 0; }
-    QString getStr( ) const { return type == Font ? stringValue : QString( ); }
-    bool getFlag( ) const { return type == Flag ? boolValue : false; }
+    qint16 getInt( ) const { return type == Int ? intValue : 0; }
+    QString getStr( ) const { return type == Str ? stringValue : QString( ); }
+    bool getBool( ) const { return type == Bool ? boolValue : false; }
     double getNumber( ) const { return type == Double ? doubleValue : 0.0; }
 
     private:
@@ -139,10 +139,10 @@ public:
         map["line_number_font_is_bold"]   = themeItem( true );
         map["font"]                       = themeItem( "Courier" );
         map["cursorWidth"]                = themeItem( qint16( 2 ) );
-        map["cursorHeight"]                = themeItem( qint16( -1 ) );
+        map["cursorHeight"]               = themeItem( qint16( -1 ) );
         map["cursorColor"]                = themeItem( QColor( Qt::black ) );
         map["textColor"]                  = themeItem( QColor( Qt::black ) );
-        map["cursorTime"]                 = themeItem( 50.0 );
+        map["cursorTime"]                 = themeItem( double(50.0) );
     
         // 加载自定义配置
         for (QString key : map.keys())
