@@ -8,6 +8,7 @@
 #include <QInputDialog>
 
 #include "stlRender.h"
+#include "luaRunner.h"
 
 extern "C" {
     #include <lua.h>
@@ -94,7 +95,6 @@ MainWindow::MainWindow(QWidget *parent)
     resize( 800, 600 );
 
     currentFile = "";
-
 }
 
 MainWindow::~MainWindow()
@@ -169,30 +169,53 @@ void MainWindow::showVersion( )
     QMessageBox::information( this, "Lua-cad Version", content );
 }
 
-void MainWindow::run( ) 
+void MainWindow::run( )
 {
-    lua_State* L = luaL_newstate( );
-    luaL_openlibs( L );
-    QString fileName = "";
-
-    if (currentFile == "" || editor->isChange())
+    QString fileName;
+    if ( currentFile.isEmpty( ) || editor->isChange( ) )
     {
         fileName = saveFile( );
+        if ( fileName.isEmpty( ) )
+        {
+            statusBar( )->showMessage( "Run cancelled: File not saved." );
+            return;
+        }
         currentFile = fileName;
     }
 
-    bool flag = loadLuaFile( L, currentFile.toStdString().c_str() );
-    qDebug( ) << flag;
-    if ( flag )
-    {
-        statusBar( )->showMessage( "Runing Error: " + report( L, flag ) );
-    }
-    else
-    {
-        statusBar( )->showMessage( currentFile + "Run successfully!" );
-    }
+    QThread* thread          = new QThread( );
+    LuaRunner* cur_luaRunner = new LuaRunner( );
+    cur_luaRunner->setLuaFile( currentFile );
+    cur_luaRunner->moveToThread( thread );
 
-    lua_close( L );
+    connect( cur_luaRunner,
+             &LuaRunner::luaOutput,
+             this,
+             [this]( const QString& txt )
+             {
+                 qDebug( ).noquote( ) << "[Lua] " << txt.trimmed( );
+             } );
+
+    connect( cur_luaRunner,
+             &LuaRunner::runStatus,
+             this,
+             [this]( const QString& msg ) { this->statusBar( )->showMessage( msg ); } );
+
+    connect( cur_luaRunner,
+             &LuaRunner::logFilePath,
+             this,
+             [this]( const QString& path )
+             { 
+                 qDebug( ).noquote( ) << QString( "Output saved to log file: %1" ).arg( path );
+             } );
+
+    connect( thread, &QThread::started, cur_luaRunner, &LuaRunner::run );
+
+    thread->start( );
+
+    connect( cur_luaRunner, &LuaRunner::finished, thread, &QThread::quit );
+    connect( thread, &QThread::finished, thread, &QThread::deleteLater );
+    connect( thread, &QThread::finished, cur_luaRunner, &LuaRunner::deleteLater );
 }
 
 void MainWindow::createMenus( )
