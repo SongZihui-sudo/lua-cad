@@ -8,14 +8,9 @@
  * Copyright (c) 2025 by SongZihui-sudo 1751122876@qq.com, All Rights Reserved.
  */
 
-#include "luarunner.h"
 #include "mainwindow.h"
 
 #include <QApplication>
-#include <QCommandLineParser>
-#include <QCoreApplication>
-#include <QDebug>
-#include <QThread>
 
 int main( int argc, char** argv )
 {
@@ -23,13 +18,6 @@ int main( int argc, char** argv )
     
     MainWindow w;
     w.show( );
-
-    auto* luaThread = new LuaRunner( &w );
-    QObject::connect( luaThread,
-                      &LuaRunner::outputReady,
-                      [&]( const QString& msg ) { qInfo( ).noquote( ) << msg.trimmed( ); } );
-    QObject::connect( luaThread, &QThread::finished, luaThread, &QObject::deleteLater );
-    luaThread->start( );
 
     return app.exec( );
 }
